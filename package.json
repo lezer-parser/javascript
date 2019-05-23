@@ -17,7 +17,7 @@
     "lezer": "^0.0.1"
   },
   "scripts": {
-    "build": "lezer src/javascript.grammar -o src/parser && rollup -c",
+    "build": "lezer src/javascript.grammar -o src/parser --names && rollup -c",
     "prepare": "npm run build",
     "test": "mocha test/test-*.js"
   }
