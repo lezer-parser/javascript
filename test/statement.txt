@@ -142,13 +142,13 @@ ForStatement(Keyword,
              UnaryExpression(Variable, Operator),
              Block),
 ForStatement(Keyword, LoopDeclaration(Keyword, Definition, Keyword, Variable), Block),
-ForStatement(Keyword, LoopDeclaration(Keyword, Definition, Keyword, Variable), Block),
-ForStatement(Keyword, LoopDeclaration(Variable, Keyword, Variable), Block),
+ForStatement(Keyword, LoopDeclaration(Keyword, Definition, OperatorKeyword, Variable), Block),
+ForStatement(Keyword, LoopDeclaration(Variable, OperatorKeyword, Variable), Block),
 ForStatement(Keyword, VariableDeclaration(Keyword, Definition, Definition), Variable, Variable, ContinueStatement(Keyword)),
 ForStatement(Keyword, SequenceExpression(AssignmentExpression(Variable, Operator, Number), CallExpression(Variable, ArgList)),
              BinaryExpression(Variable, Operator, Number), UnaryExpression(Variable, Operator), Block),
 ForStatement(Keyword, Block),
-ForStatement(Keyword, LoopDeclaration(Keyword, ObjectPattern(Property(PropertyName)), Keyword, Variable), Variable),
+ForStatement(Keyword, LoopDeclaration(Keyword, ObjectPattern(Property(PropertyName)), OperatorKeyword, Variable), Variable),
 ForStatement(Keyword, Keyword, LoopDeclaration(Keyword, Definition, Keyword, Variable), Block)
 
 # Labeled statements
@@ -254,12 +254,12 @@ y // comment
 
 ==>
 
-Comment,
+BlockComment,
 Variable,
-Comment,
+BlockComment,
 Variable,
-Comment,
+BlockComment,
 Variable,
-Comment,
+BlockComment,
 Variable,
-BinaryExpression(Variable, Comment, Operator, Variable)
+BinaryExpression(Variable, LineComment, Operator, Variable)

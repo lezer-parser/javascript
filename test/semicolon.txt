@@ -69,4 +69,4 @@ return // foo
 
 ==>
 
-Block(ReturnStatement(Keyword)), ReturnStatement(Keyword, Comment)
+Block(ReturnStatement(Keyword)), ReturnStatement(Keyword, LineComment)

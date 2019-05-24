@@ -17,6 +17,15 @@ function compressAST(ast, file) {
   return result
 }
 
+function dropQuoted(ast) {
+  ast = ast.replace(/"([^"\\]|\\.)*?"/g, "")
+  for (;;) {
+    let len = ast.length
+    ast = ast.replace(/,(?=[\),]|$)|^,|\(\)/, "").replace(/\(,/, "(")
+    if (len == ast.length) return ast
+  }
+}
+
 for (let file of fs.readdirSync(caseDir)) {
   if (!/\.txt$/.test(file)) continue
   let name = /^[^\.]*/.exec(file)[0]
@@ -31,6 +40,7 @@ for (let file of fs.readdirSync(caseDir)) {
         let strict = expected.indexOf("⚠") < 0
         let result = parser.parse(new StringStream(text.trim()), {strict})
         let parsed = result.toString(parser)
+        if (!/"/.test(expected)) parsed = dropQuoted(parsed)
         if (parsed != expected) {
           if (parsed.length > 76) {
             let mis = 0

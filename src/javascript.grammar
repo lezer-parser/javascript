@@ -77,7 +77,7 @@ forSpec {
   (VariableDeclaration | expression ";") expression? ";" expression? |
   tag.LoopDeclaration<
     ((kw<"let"> | kw<"var"> | kw<"const">) pattern | Variable | MemberExpression | ArrayPattern | ObjectPattern)
-    !loop (kw<"in"> | kw<"of">) expression
+    !loop (kwOp<"in"> | kw<"of">) expression
   > |
   ";" expression? ";" expression?
 }
@@ -161,7 +161,7 @@ expressionNoComma {
   tag.ObjectExpression<"{" commaSep<Property> ~destructure "}"> |
   NewExpression |
   UnaryExpression |
-  "(" expression ")" |
+  tag.ParenthesizedExpression<"(" expression ")"> |
   ClassExpression |
   FunctionExpression |
   ArrowFunction |
@@ -204,7 +204,7 @@ NewExpression {
 }
 
 UnaryExpression {
-  !prefix (ckw<"await"> | ckw<"yield"> | kw<"void"> | kw<"typeof"> | kw<"delete"> | op<"!"> | op<"~"> | op<"++" | "--"> | op<"+" | "-">)
+  !prefix (ckw<"await"> | ckw<"yield"> | kwOp<"void"> | kwOp<"typeof"> | kwOp<"delete"> | op<"!"> | op<"~"> | op<"++" | "--"> | op<"+" | "-">)
   expressionNoComma
 }
 
@@ -213,7 +213,7 @@ BinaryExpression {
   expressionNoComma !times (divide | op<"%"> | tag.Operator<"*">) expressionNoComma |
   expressionNoComma !plus op<"+" | "-"> expressionNoComma |
   expressionNoComma !shift op<">>" ">"? | "<<"> expressionNoComma |
-  expressionNoComma !rel (op<"<" "="? | ">" "="?> | kw<"in"> | kw<"instanceof">) expressionNoComma |
+  expressionNoComma !rel (op<"<" "="? | ">" "="?> | kwOp<"in"> | kwOp<"instanceof">) expressionNoComma |
   expressionNoComma !equal op<"==" "="? | "!=" "="?> expressionNoComma |
   expressionNoComma !bitOr op<"|"> expressionNoComma |
   expressionNoComma !bitXor op<"^"> expressionNoComma |
@@ -257,6 +257,8 @@ commaSep1<content> {
 
 kw<term> { specialize<identifier, term, Keyword> }
 
+kwOp<term> { specialize<identifier, term, OperatorKeyword> }
+
 // Contextual keywords
 ckw<term> { extend<identifier, term, Keyword> }
 
@@ -292,9 +294,9 @@ external tokens postfix from "./tokens" { postfixOp=Operator }
 tokens {
   whitespace { std.whitespace+ }
 
-  LineComment=Comment { "//" [^\n]* }
+  LineComment { "//" [^\n]* }
 
-  BlockComment=Comment { "/*" blockCommentRest }
+  BlockComment { "/*" blockCommentRest }
 
   blockCommentRest { [^*] blockCommentRest | "*" blockCommentAfterStar }
 

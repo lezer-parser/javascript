@@ -110,10 +110,11 @@ ArrowFunction(Keyword, ParamList, Number)
 
 ==>
 
-SequenceExpression(
-  AssignmentExpression(Variable, Operator, ArrayExpression(Variable, Variable)),
-  AssignmentExpression(Variable, Operator, MemberExpression(Variable, Number)),
-  AssignmentExpression(Variable, Operator, MemberExpression(Variable, Number)))
+ParenthesizedExpression(
+  SequenceExpression(
+    AssignmentExpression(Variable, Operator, ArrayExpression(Variable, Variable)),
+    AssignmentExpression(Variable, Operator, MemberExpression(Variable, Number)),
+    AssignmentExpression(Variable, Operator, MemberExpression(Variable, Number))))
 
 # Ternary operator
 
@@ -138,8 +139,8 @@ x instanceof String;
 
 ==>
 
-UnaryExpression(Keyword, Variable),
-BinaryExpression(Variable, Keyword, Variable)
+UnaryExpression(OperatorKeyword, Variable),
+BinaryExpression(Variable, OperatorKeyword, Variable)
 
 # Delete
 
@@ -148,14 +149,14 @@ true ? delete thing.prop : null;
 
 ==>
 
-UnaryExpression(Keyword, MemberExpression(Variable, String)),
-ConditionalExpression(Boolean, Operator, UnaryExpression(Keyword, MemberExpression(Variable, PropertyName)), Operator, Null)
+UnaryExpression(OperatorKeyword, MemberExpression(Variable, String)),
+ConditionalExpression(Boolean, Operator, UnaryExpression(OperatorKeyword, MemberExpression(Variable, PropertyName)), Operator, Null)
 
 # Void
 
 a = void b();
 
-==> AssignmentExpression(Variable, Operator, UnaryExpression(Keyword, CallExpression(Variable, ArgList)))
+==> AssignmentExpression(Variable, Operator, UnaryExpression(OperatorKeyword, CallExpression(Variable, ArgList)))
 
 # Augmented assignment
 
@@ -195,7 +196,8 @@ BinaryExpression(BinaryExpression(Variable, Operator, Variable), Operator, Binar
 AssignmentExpression(MemberExpression(Variable, PropertyName), Operator, ConditionalExpression(Variable, Operator, Variable, Operator, Variable)),
 BinaryExpression(BinaryExpression(Variable, Operator, CallExpression(Variable, ArgList(Variable))), Operator, Variable),
 BinaryExpression(BinaryExpression(Variable, Operator, NewExpression(Keyword, Variable, ArgList(Variable))), Operator, Variable),
-BinaryExpression(BinaryExpression(UnaryExpression(Keyword, Variable), Operator, Variable), Operator, BinaryExpression(Variable, Keyword, Variable))
+BinaryExpression(BinaryExpression(UnaryExpression(OperatorKeyword, Variable), Operator, Variable), Operator,
+  BinaryExpression(Variable, OperatorKeyword, Variable))
 
 # Rest args
 
@@ -213,12 +215,13 @@ if (foo - bar) /baz/;
 
 ==>
 
-BinaryExpression(BinaryExpression(Variable, Operator, Variable), Operator, Variable),
+BinaryExpression(ParenthesizedExpression(BinaryExpression(Variable, Operator, Variable)), Operator, Variable),
 IfStatement(Keyword, BinaryExpression(Variable, Operator, Variable), RegExp),
 BinaryExpression(
-  BinaryExpression(BinaryExpression(CallExpression(MemberExpression(This, PropertyName), ArgList), Operator,
-                                    CallExpression(MemberExpression(This, PropertyName), ArgList)),
-                   Operator, Number),
+  ParenthesizedExpression(
+    BinaryExpression(BinaryExpression(CallExpression(MemberExpression(This, PropertyName), ArgList), Operator,
+                                      CallExpression(MemberExpression(This, PropertyName), ArgList)),
+                     Operator, Number)),
   Operator, Number)
 
 # Yield expressions
@@ -313,13 +316,14 @@ CallExpression(Variable, ArgList(
 
 ==>
 
-ObjectExpression(
-  Property(PropertyName, Boolean),
-  Property(PropertyName, ParamList(Definition, Definition), Block(ReturnStatement(Keyword, BinaryExpression(Variable, Operator, Variable)))),
-  Property(Keyword, PropertyName, ParamList, Block(ReturnStatement(Keyword, Variable))),
-  Property(Keyword, PropertyName, ParamList(Definition), Block(AssignmentExpression(Variable, Operator, Variable))),
-  Property(Star, PropertyName, ParamList, Block(UnaryExpression(Keyword, Variable))),
-  Property(PropertyName, ParamList, Block(ReturnStatement(Keyword, Number))))
+ParenthesizedExpression(
+  ObjectExpression(
+    Property(PropertyName, Boolean),
+    Property(PropertyName, ParamList(Definition, Definition), Block(ReturnStatement(Keyword, BinaryExpression(Variable, Operator, Variable)))),
+    Property(Keyword, PropertyName, ParamList, Block(ReturnStatement(Keyword, Variable))),
+    Property(Keyword, PropertyName, ParamList(Definition), Block(AssignmentExpression(Variable, Operator, Variable))),
+    Property(Star, PropertyName, ParamList, Block(UnaryExpression(Keyword, Variable))),
+    Property(PropertyName, ParamList, Block(ReturnStatement(Keyword, Number)))))
 
 # Keyword property names
 
@@ -334,13 +338,13 @@ ObjectExpression(
 
 ==>
 
-ObjectExpression(
+ParenthesizedExpression(ObjectExpression(
   Property(PropertyName, ParamList, Block),
   Property(PropertyName, ParamList, Block),
   Property(PropertyName, FunctionExpression(Keyword, ParamList, Block)),
   Property(PropertyName, ParamList, Block),
   Property(PropertyName, Boolean),
-  Property(PropertyName, Boolean))
+  Property(PropertyName, Boolean)))
 
 # Generator functions
 
@@ -394,7 +398,7 @@ ReturnStatement(Keyword, CallExpression(
   MemberExpression(CallExpression(
     MemberExpression(This, PropertyName), ArgList(FunctionExpression(Keyword, ParamList(Definition), Block(
       ReturnStatement(Keyword, MemberExpression(Variable, PropertyName)))))),
-    Comment,
+    LineComment,
     PropertyName),
   ArgList(FunctionExpression(Keyword, ParamList(Definition), Block(ReturnStatement(Keyword, Number))))))
 
@@ -409,7 +413,7 @@ f(new foo.bar(1), 2);
 ==> 
 
 CallExpression(MemberExpression(Variable, PropertyName), ArgList(Variable, String)),
-CallExpression(FunctionExpression(Keyword, ParamList(Definition, Definition), Block), ArgList(Variable, Variable)),
+ParenthesizedExpression(CallExpression(FunctionExpression(Keyword, ParamList(Definition, Definition), Block), ArgList(Variable, Variable))),
 CallExpression(Variable, ArgList(NewExpression(Keyword, MemberExpression(Variable, PropertyName), ArgList(Number)), Number))
 
 # Constructor calls
@@ -520,9 +524,9 @@ x instanceof y;
 
 ==>
 
-BinaryExpression(Variable, Keyword, Variable),
-BinaryExpression(Variable, Keyword, Variable),
-BinaryExpression(UnaryExpression(Operator, Variable), Keyword, Variable)
+BinaryExpression(Variable, OperatorKeyword, Variable),
+BinaryExpression(Variable, OperatorKeyword, Variable),
+BinaryExpression(UnaryExpression(Operator, Variable), OperatorKeyword, Variable)
 
 # Assignments
 
@@ -540,7 +544,8 @@ AssignmentExpression(MemberExpression(Variable, PropertyName), Operator, Number)
 AssignmentExpression(MemberExpression(Variable, String), Operator, Number),
 AssignmentExpression(Variable, Operator, Number),
 AssignmentExpression(ArrayPattern(Definition, Definition, Operator, Number), Operator, Variable),
-AssignmentExpression(ObjectPattern(Property(PropertyName), Property(PropertyName), Property(Definition)), Operator, Variable)
+ParenthesizedExpression(
+  AssignmentExpression(ObjectPattern(Property(PropertyName), Property(PropertyName), Property(Definition)), Operator, Variable))
 
 # Comma operator
 
@@ -551,4 +556,10 @@ c = {d: (3, 4 + 5)};
 
 SequenceExpression(AssignmentExpression(Variable, Operator, Number), AssignmentExpression(Variable, Operator, Number)),
 AssignmentExpression(Variable, Operator, ObjectExpression(
-  Property(PropertyName, SequenceExpression(Number, BinaryExpression(Number, Operator, Number)))))
+  Property(PropertyName, ParenthesizedExpression(SequenceExpression(Number, BinaryExpression(Number, Operator, Number))))))
+
+# Punctuation
+
+(foo(1, 2), bar);
+
+==> ParenthesizedExpression("(", SequenceExpression(CallExpression(Variable, ArgList("(", Number, ",", Number, ")")), ",", Variable), ")"), ";"
