@@ -9,10 +9,10 @@ if (a) {
 
 ==>
 
-Variable,
+ExpressionStatement(Variable),
 IfStatement(Keyword, Variable, Block(
   VariableDeclaration(Keyword, Definition, Operator, Variable),
-  Variable), Keyword, Variable)
+  ExpressionStatement(Variable)), Keyword, ExpressionStatement(Variable))
 
 # Continued expressions on new line
 
@@ -23,8 +23,8 @@ foo
 
 ==>
 
-BinaryExpression(Variable, Operator, Number),
-CallExpression(Variable, ArgList(Variable))
+ExpressionStatement(BinaryExpression(Variable, Operator, Number)),
+ExpressionStatement(CallExpression(Variable, ArgList(Variable)))
 
 # Doesn't parse postfix ops on a new line
 
@@ -33,8 +33,8 @@ x
 
 ==>
 
-Variable,
-UnaryExpression(Operator, Variable)
+ExpressionStatement(Variable),
+ExpressionStatement(UnaryExpression(Operator, Variable))
 
 # Eagerly cut return/break/continue
 
@@ -52,13 +52,13 @@ bar
 
 ReturnStatement(Keyword, Number),
 ReturnStatement(Keyword),
-Number,
+ExpressionStatement(Number),
 ContinueStatement(Keyword, Label),
 ContinueStatement(Keyword),
-Variable,
+ExpressionStatement(Variable),
 BreakStatement(Keyword, Label),
 BreakStatement(Keyword),
-Variable
+ExpressionStatement(Variable)
 
 # Cut return regardless of whitespace
 

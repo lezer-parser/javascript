@@ -45,7 +45,7 @@ statement {
   Block |
   LabeledStatement |
   declaration |
-  expression semi |
+  tag.ExpressionStatement<expression semi> |
   ";"
 }
 

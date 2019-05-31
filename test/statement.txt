@@ -34,7 +34,7 @@ async (a) => { return foo; };
 
 FunctionDeclaration(Keyword, Keyword, Definition, ParamList, Block),
 ClassDeclaration(Keyword, Definition, ClassBody(MethodDefinition(Keyword, PropertyName, ParamList, Block))),
-ArrowFunction(Keyword, ParamList(Definition), Block(ReturnStatement(Keyword, Variable)))
+ExpressionStatement(ArrowFunction(Keyword, ParamList(Definition), Block(ReturnStatement(Keyword, Variable))))
 
 # If statements
 
@@ -55,13 +55,13 @@ if (1) if (2) b; else c;
 
 ==>
 
-IfStatement(Keyword, Variable, CallExpression(Variable, ArgList(Variable))),
+IfStatement(Keyword, Variable, ExpressionStatement(CallExpression(Variable, ArgList(Variable)))),
 
-IfStatement(Keyword, MemberExpression(Variable, PropertyName), Block(Variable)),
+IfStatement(Keyword, MemberExpression(Variable, PropertyName), Block(ExpressionStatement(Variable))),
 
-IfStatement(Keyword, Variable, Block(Variable, Variable), Keyword, Block(Variable)),
+IfStatement(Keyword, Variable, Block(ExpressionStatement(Variable), ExpressionStatement(Variable)), Keyword, Block(ExpressionStatement(Variable))),
 
-IfStatement(Keyword, Number, IfStatement(Keyword, Number, Variable, Keyword, Variable))
+IfStatement(Keyword, Number, IfStatement(Keyword, Number, ExpressionStatement(Variable), Keyword, ExpressionStatement(Variable)))
 
 # While loop
 
@@ -74,7 +74,7 @@ while (2) {
 ==>
 
 WhileStatement(Keyword, Number, DebuggerStatement(Keyword)),
-WhileStatement(Keyword, Number, Block(Variable, Variable))
+WhileStatement(Keyword, Number, Block(ExpressionStatement(Variable), ExpressionStatement(Variable)))
 
 # Labels
 
@@ -83,7 +83,7 @@ foo: while(2) break foo;
 
 ==>
 
-LabeledStatement(Label, Number),
+LabeledStatement(Label, ExpressionStatement(Number)),
 LabeledStatement(Label, WhileStatement(Keyword, Number, BreakStatement(Keyword, Label)))
 
 # Try
@@ -94,7 +94,12 @@ try { 1; } catch (x) { 2; } finally { 3; }
 ==>
 
 TryStatement(Keyword, Block(ThrowStatement(Keyword, NewExpression(Keyword, Variable))), Keyword, Block),
-TryStatement(Keyword, Block(Number), Keyword, Definition, Block(Number), Keyword, Block(Number))
+TryStatement(Keyword,
+  Block(ExpressionStatement(Number)),
+  Keyword, Definition,
+  Block(ExpressionStatement(Number)),
+  Keyword,
+  Block(ExpressionStatement(Number)))
 
 # Switch
 
@@ -118,7 +123,7 @@ SwitchStatement(
     ReturnStatement(Keyword, Boolean),
     SwitchCase(Keyword, Number),
     SwitchCase(Keyword, BinaryExpression(Number, Operator, Number)),
-    CallExpression(MemberExpression(Variable, PropertyName), ArgList(String)),
+    ExpressionStatement(CallExpression(MemberExpression(Variable, PropertyName), ArgList(String))),
     SwitchDefault(Keyword),
     ReturnStatement(Keyword, Boolean)))
 
@@ -148,7 +153,7 @@ ForStatement(Keyword, VariableDeclaration(Keyword, Definition, Definition), Vari
 ForStatement(Keyword, SequenceExpression(AssignmentExpression(Variable, Operator, Number), CallExpression(Variable, ArgList)),
              BinaryExpression(Variable, Operator, Number), UnaryExpression(Variable, Operator), Block),
 ForStatement(Keyword, Block),
-ForStatement(Keyword, LoopDeclaration(Keyword, ObjectPattern(Property(PropertyName)), OperatorKeyword, Variable), Variable),
+ForStatement(Keyword, LoopDeclaration(Keyword, ObjectPattern(Property(PropertyName)), OperatorKeyword, Variable), ExpressionStatement(Variable)),
 ForStatement(Keyword, Keyword, LoopDeclaration(Keyword, Definition, Keyword, Variable), Block)
 
 # Labeled statements
@@ -184,8 +189,8 @@ ClassDeclaration(Keyword, Definition, ClassBody(
   MethodDefinition(PropertyName, ParamList, Block))),
 
 ClassDeclaration(Keyword, Definition, Keyword, CallExpression(Variable, ArgList(String)), ClassBody(
-  MethodDefinition(PropertyName, ParamList, Block(CallExpression(Super, ArgList))),
-  MethodDefinition(PropertyName, ParamList, Block(CallExpression(MemberExpression(Super, PropertyName), ArgList)))))
+  MethodDefinition(PropertyName, ParamList, Block(ExpressionStatement(CallExpression(Super, ArgList)))),
+  MethodDefinition(PropertyName, ParamList, Block(ExpressionStatement(CallExpression(MemberExpression(Super, PropertyName), ArgList))))))
 
 # Imports
 
@@ -255,11 +260,11 @@ y // comment
 ==>
 
 BlockComment,
-Variable,
+ExpressionStatement(Variable),
 BlockComment,
-Variable,
+ExpressionStatement(Variable),
 BlockComment,
-Variable,
+ExpressionStatement(Variable),
 BlockComment,
-Variable,
-BinaryExpression(Variable, LineComment, Operator, Variable)
+ExpressionStatement(Variable),
+ExpressionStatement(BinaryExpression(Variable, LineComment, Operator, Variable))
