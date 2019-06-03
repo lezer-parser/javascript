@@ -230,7 +230,7 @@ if (foo - bar) /baz/;
 ==>
 
 ExpressionStatement(BinaryExpression(ParenthesizedExpression(BinaryExpression(Variable, Operator, Variable)), Operator, Variable)),
-IfStatement(Keyword, BinaryExpression(Variable, Operator, Variable), ExpressionStatement(RegExp)),
+IfStatement(Keyword, ParenthesizedExpression(BinaryExpression(Variable, Operator, Variable)), ExpressionStatement(RegExp)),
 ExpressionStatement(BinaryExpression(
   ParenthesizedExpression(
     BinaryExpression(BinaryExpression(CallExpression(MemberExpression(This, PropertyName), ArgList), Operator,

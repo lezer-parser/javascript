@@ -55,13 +55,15 @@ if (1) if (2) b; else c;
 
 ==>
 
-IfStatement(Keyword, Variable, ExpressionStatement(CallExpression(Variable, ArgList(Variable)))),
+IfStatement(Keyword, ParenthesizedExpression(Variable), ExpressionStatement(CallExpression(Variable, ArgList(Variable)))),
 
-IfStatement(Keyword, MemberExpression(Variable, PropertyName), Block(ExpressionStatement(Variable))),
+IfStatement(Keyword, ParenthesizedExpression(MemberExpression(Variable, PropertyName)), Block(ExpressionStatement(Variable))),
 
-IfStatement(Keyword, Variable, Block(ExpressionStatement(Variable), ExpressionStatement(Variable)), Keyword, Block(ExpressionStatement(Variable))),
+IfStatement(Keyword, ParenthesizedExpression(Variable),
+  Block(ExpressionStatement(Variable), ExpressionStatement(Variable)), Keyword, Block(ExpressionStatement(Variable))),
 
-IfStatement(Keyword, Number, IfStatement(Keyword, Number, ExpressionStatement(Variable), Keyword, ExpressionStatement(Variable)))
+IfStatement(Keyword, ParenthesizedExpression(Number),
+  IfStatement(Keyword, ParenthesizedExpression(Number), ExpressionStatement(Variable), Keyword, ExpressionStatement(Variable)))
 
 # While loop
 
@@ -73,8 +75,8 @@ while (2) {
 
 ==>
 
-WhileStatement(Keyword, Number, DebuggerStatement(Keyword)),
-WhileStatement(Keyword, Number, Block(ExpressionStatement(Variable), ExpressionStatement(Variable)))
+WhileStatement(Keyword, ParenthesizedExpression(Number), DebuggerStatement(Keyword)),
+WhileStatement(Keyword, ParenthesizedExpression(Number), Block(ExpressionStatement(Variable), ExpressionStatement(Variable)))
 
 # Labels
 
@@ -84,7 +86,7 @@ foo: while(2) break foo;
 ==>
 
 LabeledStatement(Label, ExpressionStatement(Number)),
-LabeledStatement(Label, WhileStatement(Keyword, Number, BreakStatement(Keyword, Label)))
+LabeledStatement(Label, WhileStatement(Keyword, ParenthesizedExpression(Number), BreakStatement(Keyword, Label)))
 
 # Try
 
@@ -117,7 +119,7 @@ switch (x) {
 
 SwitchStatement(
   Keyword,
-  Variable,
+  ParenthesizedExpression(Variable),
   Block(
     SwitchCase(Keyword, Number),
     ReturnStatement(Keyword, Boolean),
@@ -142,19 +144,19 @@ for await (let x of stream) {}
 ==>
 
 ForStatement(Keyword,
-             VariableDeclaration(Keyword, Definition, Operator, Number),
-             BinaryExpression(Variable, Operator, Number),
-             UnaryExpression(Variable, Operator),
+             ForSpec(VariableDeclaration(Keyword, Definition, Operator, Number),
+                     BinaryExpression(Variable, Operator, Number),
+                     UnaryExpression(Variable, Operator)),
              Block),
-ForStatement(Keyword, LoopDeclaration(Keyword, Definition, Keyword, Variable), Block),
-ForStatement(Keyword, LoopDeclaration(Keyword, Definition, OperatorKeyword, Variable), Block),
-ForStatement(Keyword, LoopDeclaration(Variable, OperatorKeyword, Variable), Block),
-ForStatement(Keyword, VariableDeclaration(Keyword, Definition, Definition), Variable, Variable, ContinueStatement(Keyword)),
-ForStatement(Keyword, SequenceExpression(AssignmentExpression(Variable, Operator, Number), CallExpression(Variable, ArgList)),
-             BinaryExpression(Variable, Operator, Number), UnaryExpression(Variable, Operator), Block),
-ForStatement(Keyword, Block),
-ForStatement(Keyword, LoopDeclaration(Keyword, ObjectPattern(Property(PropertyName)), OperatorKeyword, Variable), ExpressionStatement(Variable)),
-ForStatement(Keyword, Keyword, LoopDeclaration(Keyword, Definition, Keyword, Variable), Block)
+ForStatement(Keyword, ForOfSpec(Keyword, Definition, Keyword, Variable), Block),
+ForStatement(Keyword, ForInSpec(Keyword, Definition, OperatorKeyword, Variable), Block),
+ForStatement(Keyword, ForInSpec(Variable, OperatorKeyword, Variable), Block),
+ForStatement(Keyword, ForSpec(VariableDeclaration(Keyword, Definition, Definition), Variable, Variable), ContinueStatement(Keyword)),
+ForStatement(Keyword, ForSpec(SequenceExpression(AssignmentExpression(Variable, Operator, Number), CallExpression(Variable, ArgList)),
+             BinaryExpression(Variable, Operator, Number), UnaryExpression(Variable, Operator)), Block),
+ForStatement(Keyword, ForSpec, Block),
+ForStatement(Keyword, ForInSpec(Keyword, ObjectPattern(Property(PropertyName)), OperatorKeyword, Variable), ExpressionStatement(Variable)),
+ForStatement(Keyword, Keyword, ForOfSpec(Keyword, Definition, Keyword, Variable), Block)
 
 # Labeled statements
 
@@ -166,7 +168,8 @@ theLoop: for (;;) {
 
 ==>
 
-LabeledStatement(Label, ForStatement(Keyword, Block(IfStatement(Keyword, Variable, Block(BreakStatement(Keyword, Label))))))
+LabeledStatement(Label, ForStatement(Keyword, ForSpec,
+  Block(IfStatement(Keyword, ParenthesizedExpression(Variable), Block(BreakStatement(Keyword, Label))))))
 
 # Classes
 
@@ -236,7 +239,7 @@ if (true) { ; };;;
 
 ==>
 
-IfStatement(Keyword, Boolean, Block)
+IfStatement(Keyword, ParenthesizedExpression(Boolean), Block)
 
 # Comments
 

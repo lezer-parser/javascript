@@ -10,7 +10,7 @@ if (a) {
 ==>
 
 ExpressionStatement(Variable),
-IfStatement(Keyword, Variable, Block(
+IfStatement(Keyword, ParenthesizedExpression(Variable), Block(
   VariableDeclaration(Keyword, Definition, Operator, Variable),
   ExpressionStatement(Variable)), Keyword, ExpressionStatement(Variable))
 

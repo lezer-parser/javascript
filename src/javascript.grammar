@@ -30,12 +30,12 @@ program { statement+ }
 statement {
   ExportDeclaration |
   ImportDeclaration |
-  tag.ForStatement<kw<"for"> ckw<"await">? "(" forSpec ")" statement> |
-  tag.WhileStatement<kw<"while"> parenExpression statement> |
-  tag.WithStatement<kw<"with"> parenExpression statement> |
-  tag.DoWhileStatement<kw<"do"> statement kw<"while"> parenExpression semi> |
-  tag.IfStatement<kw<"if"> parenExpression statement (!else kw<"else"> statement)?> |
-  tag.SwitchStatement<kw<"switch"> parenExpression tag.Block<"{" switchItem* "}">> |
+  tag.ForStatement<kw<"for"> ckw<"await">? (ForSpec | ForInSpec | ForOfSpec) statement> |
+  tag.WhileStatement<kw<"while"> ParenthesizedExpression statement> |
+  tag.WithStatement<kw<"with"> ParenthesizedExpression statement> |
+  tag.DoWhileStatement<kw<"do"> statement kw<"while"> ParenthesizedExpression semi> |
+  tag.IfStatement<kw<"if"> ParenthesizedExpression statement (!else kw<"else"> statement)?> |
+  tag.SwitchStatement<kw<"switch"> ParenthesizedExpression tag.Block<"{" switchItem* "}">> |
   tag.TryStatement<kw<"try"> Block (kw<"catch"> ("(" pattern ")")? Block)? (kw<"finally"> Block)?> |
   tag.ReturnStatement<kw<"return"> (noSemi expression)? semi> |
   tag.ThrowStatement<kw<"throw"> expression semi> |
@@ -73,14 +73,21 @@ LabeledStatement {
   Label ":" statement
 }
 
-forSpec {
-  (VariableDeclaration | expression ";") expression? ";" expression? |
-  tag.LoopDeclaration<
-    ((kw<"let"> | kw<"var"> | kw<"const">) pattern | Variable | MemberExpression | ArrayPattern | ObjectPattern)
-    !loop (kwOp<"in"> | kw<"of">) expression
-  > |
-  ";" expression? ";" expression?
+ForSpec {
+  "("
+  (VariableDeclaration | expression ";" | ";") expression? ";" expression?
+  ")"
 }
+
+forXSpec<op> {
+  "("
+  ((kw<"let"> | kw<"var"> | kw<"const">) pattern | Variable | MemberExpression | ArrayPattern | ObjectPattern)
+  !loop op expression
+  ")"
+}
+
+ForInSpec { forXSpec<kwOp<"in">> }
+ForOfSpec { forXSpec<kw<"of">> }
 
 declaration {
   FunctionDeclaration | ClassDeclaration | VariableDeclaration
@@ -125,10 +132,6 @@ ParamList {
   "(" commaSep<"..." patternAssign | patternAssign> ")"
 }
 
-parenExpression {
-  "(" expression ")"
-}
-
 Block {
   !statement "{" statement* "}"
 }
@@ -161,7 +164,7 @@ expressionNoComma {
   tag.ObjectExpression<"{" commaSep<Property> ~destructure "}"> |
   NewExpression |
   UnaryExpression |
-  tag.ParenthesizedExpression<"(" expression ")"> |
+  ParenthesizedExpression |
   ClassExpression |
   FunctionExpression |
   ArrowFunction |
@@ -173,6 +176,8 @@ expressionNoComma {
   tag.CallExpression<expressionNoComma !call ArgList> |
   tag.TaggedTemplateExpression<expressionNoComma !taggedTemplate TemplateString>
 }
+
+ParenthesizedExpression { "(" expression ")" }
 
 ArrayExpression {
   "[" commaSep1<expressionNoComma | ""> ~destructure "]"
