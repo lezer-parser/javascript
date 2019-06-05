@@ -39,7 +39,7 @@ for (let file of fs.readdirSync(caseDir)) {
         let text = m[2].trim(), expected = compressAST(m[3], file)
         let strict = expected.indexOf("⚠") < 0
         let result = parser.parse(new StringStream(text.trim()), {strict})
-        let parsed = result.toString(parser)
+        let parsed = result.toString(parser.tags)
         if (!/"/.test(expected)) parsed = dropQuoted(parsed)
         if (parsed != expected) {
           if (parsed.length > 76) {
