@@ -7,14 +7,14 @@
   "license": "MIT",
   "devDependencies": {
     "ist": "^1.1.1",
-    "lezer-generator": "^0.0.1",
+    "lezer-generator": "git://github.com/lezer-parser/lezer-generator.git",
     "lezer": "^0.0.1",
     "mocha": "^6.1.3",
     "rollup": "^1.10.0",
     "rollup-plugin-node-resolve": "^4.2.3"
   },
   "dependencies": {
-    "lezer": "^0.0.1"
+    "lezer": "git://github.com/lezer-parser/lezer.git"
   },
   "scripts": {
     "build": "lezer src/javascript.grammar -o src/parser --names && rollup -c",
