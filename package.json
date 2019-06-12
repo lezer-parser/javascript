@@ -17,7 +17,7 @@
     "lezer": "git://github.com/lezer-parser/lezer.git"
   },
   "scripts": {
-    "build": "lezer src/javascript.grammar -o src/parser --names && rollup -c",
+    "build": "lezer-generator src/javascript.grammar -o src/parser --names && rollup -c",
     "prepare": "npm run build",
     "test": "mocha test/test-*.js"
   }
