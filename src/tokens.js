@@ -13,55 +13,55 @@ const braceR = 125, braceL = 123, semicolon = 59, slash = 47, star = 42,
 // FIXME this should technically enter block comments
 function newlineBefore(input, pos) {
   for (let i = pos - 1; i >= 0; i--) {
-    let prev = input.peek(i)
+    let prev = input.get(i)
     if (newline.includes(prev)) return true
     if (!space.includes(prev)) break
   }
   return false
 }
 
-export const insertSemicolon = new ExternalTokenizer((input, stack) => {
-  let start = input.pos, next = input.next()
-  if ((next == braceR || next == -1 || newlineBefore(input, start)) && stack.canShift(insertSemi))
-    input.accept(insertSemi, start)
-})
+export const insertSemicolon = new ExternalTokenizer((input, token, stack) => {
+  let pos = token.start, next = input.get(pos)
+  if ((next == braceR || next == -1 || newlineBefore(input, pos)) && stack.canShift(insertSemi))
+    token.accept(insertSemi, token.start)
+}, {contextual: true})
 
-export const noSemicolon = new ExternalTokenizer((input, stack) => {
-  let start = input.pos, next = input.next()
+export const noSemicolon = new ExternalTokenizer((input, token, stack) => {
+  let pos = token.start, next = input.get(pos++)
   if (space.includes(next) || newline.includes(next)) return
   if (next == slash) {
-    let after = input.next()
+    let after = input.get(pos++)
     if (after == slash || after == star) return
   }
-  if (next != braceR && next != semicolon && next != -1 && !newlineBefore(input, start) &&
+  if (next != braceR && next != semicolon && next != -1 && !newlineBefore(input, token.start) &&
       stack.canShift(noSemi))
-    input.accept(noSemi, start)
-})
+    token.accept(noSemi, token.start)
+}, {contextual: true})
 
-export const postfix = new ExternalTokenizer((input, stack) => {
-  let next = input.next()
-  if ((next == plus || next == minus) && next == input.next() &&
-      !newlineBefore(input, input.pos - 2) && stack.canShift(postfixOp))
-    input.accept(postfixOp)
-})
+export const postfix = new ExternalTokenizer((input, token, stack) => {
+  let pos = token.start, next = input.get(pos++)
+  if ((next == plus || next == minus) && next == input.get(pos++) &&
+      !newlineBefore(input, token.start) && stack.canShift(postfixOp))
+    token.accept(postfixOp, pos)
+}, {contextual: true})
 
-export const template = new ExternalTokenizer(input => {
-  let start = input.pos, afterDollar = false
+export const template = new ExternalTokenizer((input, token) => {
+  let pos = token.start, afterDollar = false
   for (;;) {
-    let next = input.next()
+    let next = input.get(pos++)
     if (next < 0) {
-      if (input.pos > start) input.accept(templateContent, input.pos)
+      if (pos > token.start) token.accept(templateContent, pos)
       break
     } else if (next == backtick) {
-      if (input.pos == start + 1) input.accept(templateEnd)
-      else input.accept(templateContent, input.pos - 1)
+      if (pos == token.start + 1) token.accept(templateEnd, pos)
+      else token.accept(templateContent, pos - 1)
       break
     } else if (next == braceL && afterDollar) {
-      if (input.pos == start + 2) input.accept(templateDollarBrace)
-      else input.accept(templateContent, input.pos - 2)
+      if (pos == token.start + 2) token.accept(templateDollarBrace, pos)
+      else token.accept(templateContent, pos - 2)
       break
     } else if (next == backslash) {
-      input.next()
+      pos++
     }
     afterDollar = next == dollar
   }
