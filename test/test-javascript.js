@@ -1,4 +1,4 @@
-const parser = require("../dist/index")
+const {parser} = require("../dist/index")
 const {StringStream} = require("lezer")
 
 const ist = require("ist")
