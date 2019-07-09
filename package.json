@@ -1,20 +1,19 @@
 {
   "name": "lezer-javascript",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "lezer-based JavaScript grammar",
   "main": "dist/index.js",
   "author": "Marijn Haverbeke <marijnh@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "ist": "^1.1.1",
-    "lezer-generator": "git://github.com/lezer-parser/lezer-generator.git",
-    "lezer": "^0.0.1",
+    "lezer-generator": "^0.1.0",
     "mocha": "^6.1.3",
     "rollup": "^1.10.0",
     "rollup-plugin-node-resolve": "^4.2.3"
   },
   "dependencies": {
-    "lezer": "git://github.com/lezer-parser/lezer.git"
+    "lezer": "^0.1.0"
   },
   "scripts": {
     "build": "lezer-generator src/javascript.grammar -o src/parser --names && rollup -c",
