@@ -262,7 +262,7 @@ commaSep1<content> {
 
 kw<term> { specialize<identifier, term, :$term.keyword> }
 
-kwOp<term> { specialize<identifier, term, :operator.name> }
+kwOp<term> { specialize<identifier, term, :$term.operator.keyword> }
 
 // Contextual keywords
 ckw<term> { extend<identifier, term, :$term.keyword> }
@@ -272,7 +272,7 @@ pkw<term> { extend<word, term, :$term.keyword> }
 
 semi { ";" | insertSemi }
 
-boolean { specialize<identifier, "true", :boolean.literal.expression> | specialize<identifier, "false", :boolean.literal.expression> }
+boolean { specialize<identifier, "true" | "false", :boolean.literal.expression> }
 
 this { specialize<identifier, "this", :this.keyword.expression> }
 
@@ -340,6 +340,19 @@ tokens {
   op<expr>:operator.name { expr }
 
   regExp:regexp.literal.expression { "/" ([^/\\\n[] | "\\" [^\n] | "[" ([^\n\\\]] | "\\" [^\n])* "]")+ ("/" [gimsuy]*)? }
+
+  "(":open.paren.punctuation
+  ")":close.paren.punctuation
+  "[":open.bracket.punctuation
+  "]":close.bracket.punctuation
+  "{":open.brace.punctuation
+  "}":close.brace.punctuation
+  ",":comma.punctuation
+  ":":colon.punctuation
+  ".":dot.punctuation
+  "...":spread.punctuation
+  "=>":arrow.punctuation
+  ";":semicolon.punctuation
 }
 
 external tokens insertSemicolon from "./tokens" { insertSemi }

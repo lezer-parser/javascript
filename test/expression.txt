@@ -10,8 +10,8 @@ line';
 
 ==>
 
-ExpressionStatement(String), ExpressionStatement(String), ExpressionStatement(String),
-ExpressionStatement(String), ExpressionStatement(String)
+expression.s(string.l), expression.s(string.l), expression.s(string.l),
+expression.s(string.l), expression.s(string.l)
 
 # Numbers
 
@@ -25,8 +25,8 @@ ExpressionStatement(String), ExpressionStatement(String)
 
 ==>
 
-ExpressionStatement(Number), ExpressionStatement(Number), ExpressionStatement(Number), ExpressionStatement(Number),
-ExpressionStatement(Number), ExpressionStatement(Number), ExpressionStatement(Number)
+expression.s(number.l), expression.s(number.l), expression.s(number.l), expression.s(number.l),
+expression.s(number.l), expression.s(number.l), expression.s(number.l)
 
 # Identifiers
 
@@ -39,8 +39,8 @@ $_;
 
 ==>
 
-ExpressionStatement(Variable), ExpressionStatement(Variable), ExpressionStatement(Variable),
-ExpressionStatement(Variable), ExpressionStatement(Variable), ExpressionStatement(Variable)
+expression.s(variable.n), expression.s(variable.n), expression.s(variable.n),
+expression.s(variable.n), expression.s(variable.n), expression.s(variable.n)
 
 # RegExps
 
@@ -54,8 +54,8 @@ ExpressionStatement(Variable), ExpressionStatement(Variable), ExpressionStatemen
 
 ==>
 
-ExpressionStatement(RegExp), ExpressionStatement(RegExp), ExpressionStatement(RegExp), ExpressionStatement(RegExp),
-ExpressionStatement(RegExp), ExpressionStatement(RegExp), ExpressionStatement(RegExp)
+expression.s(regexp.l), expression.s(regexp.l), expression.s(regexp.l), expression.s(regexp.l),
+expression.s(regexp.l), expression.s(regexp.l), expression.s(regexp.l)
 
 # Arrays
 
@@ -68,12 +68,12 @@ ExpressionStatement(RegExp), ExpressionStatement(RegExp), ExpressionStatement(Re
 
 ==>
 
-ExpressionStatement(ArrayExpression),
-ExpressionStatement(ArrayExpression(String)),
-ExpressionStatement(ArrayExpression(String)),
-ExpressionStatement(ArrayExpression(String, Variable)),
-ExpressionStatement(ArrayExpression(Variable)),
-ExpressionStatement(ArrayExpression(AssignmentExpression(Variable, Operator, Number)))
+expression.s(array.e),
+expression.s(array.e(string.l)),
+expression.s(array.e(string.l)),
+expression.s(array.e(string.l, variable.n)),
+expression.s(array.e(variable.n)),
+expression.s(array.e(assignment.e(variable.n, operator.n, number.l)))
 
 # Functions
 
@@ -89,12 +89,12 @@ ExpressionStatement(ArrayExpression(AssignmentExpression(Variable, Operator, Num
 
 ==>
 
-ExpressionStatement(ArrayExpression(
-  FunctionExpression(Keyword, ParamList, Block),
-  FunctionExpression(Keyword, ParamList(Definition, Definition), Block(ExpressionStatement(Variable))),
-  FunctionExpression(Keyword, Definition, ParamList, Block),
-  FunctionExpression(Keyword, Definition, ParamList(Definition), Block),
-  FunctionExpression(Keyword, Definition, ParamList(Definition, Definition), Block)))
+expression.s(array.e(
+  function.e(function.k, parameter.l, block.s),
+  function.e(function.k, parameter.l(variable.d, variable.d), block.s(expression.s(variable.n))),
+  function.e(function.k, variable.d, parameter.l, block.s),
+  function.e(function.k, variable.d, parameter.l(variable.d), block.s),
+  function.e(function.k, variable.d, parameter.l(variable.d, variable.d), block.s)))
 
 # Arrow functions
 
@@ -108,11 +108,11 @@ async () => 4;
 
 ==>
 
-ExpressionStatement(ArrowFunction(ParamList(Definition), Number)),
-ExpressionStatement(ArrowFunction(ParamList, Number)),
-ExpressionStatement(ArrowFunction(ParamList(Definition, Definition), Number)),
-ExpressionStatement(ArrowFunction(ParamList(Definition, Definition), Block(ReturnStatement(Keyword, Variable)))),
-ExpressionStatement(ArrowFunction(Keyword, ParamList, Number))
+expression.s(arrow.f(parameter.l(variable.d), number.l)),
+expression.s(arrow.f(parameter.l, number.l)),
+expression.s(arrow.f(parameter.l(variable.d, variable.d), number.l)),
+expression.s(arrow.f(parameter.l(variable.d, variable.d), block.s(return.s(return.k, variable.n)))),
+expression.s(arrow.f(async.k, parameter.l, number.l))
 
 # Long potential arrow function
 
@@ -120,11 +120,11 @@ ExpressionStatement(ArrowFunction(Keyword, ParamList, Number))
 
 ==>
 
-ExpressionStatement(ParenthesizedExpression(
-  SequenceExpression(
-    AssignmentExpression(Variable, Operator, ArrayExpression(Variable, Variable)),
-    AssignmentExpression(Variable, Operator, MemberExpression(Variable, Number)),
-    AssignmentExpression(Variable, Operator, MemberExpression(Variable, Number)))))
+expression.s(parenthesized.e(
+  sequence.e(
+    assignment.e(variable.n, operator.n, array.e(variable.n, variable.n)),
+    assignment.e(variable.n, operator.n, member.e(variable.n, number.l)),
+    assignment.e(variable.n, operator.n, member.e(variable.n, number.l)))))
 
 # Ternary operator
 
@@ -134,13 +134,13 @@ x.y = some.condition ? 2**x : 1 - 2;
 
 ==>
 
-ExpressionStatement(ConditionalExpression(Variable, Operator, Variable, Operator, Variable)),
+expression.s(conditional.o(variable.n, operator.n, variable.n, operator.n, variable.n)),
 
-ExpressionStatement(AssignmentExpression(
-  MemberExpression(Variable, PropertyName), Operator,
-  ConditionalExpression(MemberExpression(Variable, PropertyName),
-    Operator, BinaryExpression(Number, Operator, Variable),
-    Operator, BinaryExpression(Number, Operator, Number))))
+expression.s(assignment.e(
+  member.e(variable.n, property.n), operator.n,
+  conditional.o(member.e(variable.n, property.n),
+    operator.n, binary.o(number.l, operator.n, variable.n),
+    operator.n, binary.o(number.l, operator.n, number.l))))
 
 # Type operators
 
@@ -149,8 +149,8 @@ x instanceof String;
 
 ==>
 
-ExpressionStatement(UnaryExpression(OperatorKeyword, Variable)),
-ExpressionStatement(BinaryExpression(Variable, OperatorKeyword, Variable))
+expression.s(unary.p(typeof.o, variable.n)),
+expression.s(binary.o(variable.n, instanceof.o, variable.n))
 
 # Delete
 
@@ -159,9 +159,9 @@ true ? delete thing.prop : null;
 
 ==>
 
-ExpressionStatement(UnaryExpression(OperatorKeyword, MemberExpression(Variable, String))),
-ExpressionStatement(ConditionalExpression(Boolean, Operator,
-  UnaryExpression(OperatorKeyword, MemberExpression(Variable, PropertyName)), Operator, Null))
+expression.s(unary.p(delete.o, member.e(variable.n, string.l))),
+expression.s(conditional.o(boolean.l, operator.n,
+  unary.p(delete.o, member.e(variable.n, property.n)), operator.n, null.k))
 
 # Void
 
@@ -169,7 +169,7 @@ a = void b();
 
 ==>
 
-ExpressionStatement(AssignmentExpression(Variable, Operator, UnaryExpression(OperatorKeyword, CallExpression(Variable, ArgList))))
+expression.s(assignment.e(variable.n, operator.n, unary.p(void.o, call.e(variable.n, argument.l))))
 
 # Augmented assignment
 
@@ -185,15 +185,15 @@ c <<= 1;
 
 ==>
 
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(MemberExpression(Variable, PropertyName), Operator, Number)),
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number))
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(member.e(variable.n, property.n), operator.n, number.l)),
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(variable.n, operator.n, number.l))
 
 # Operator precedence
 
@@ -205,13 +205,13 @@ typeof a == b && c instanceof d;
 
 ==>
 
-ExpressionStatement(BinaryExpression(BinaryExpression(Variable, Operator, Variable), Operator, BinaryExpression(Variable, Operator, Variable))),
-ExpressionStatement(AssignmentExpression(MemberExpression(Variable, PropertyName), Operator,
-  ConditionalExpression(Variable, Operator, Variable, Operator, Variable))),
-ExpressionStatement(BinaryExpression(BinaryExpression(Variable, Operator, CallExpression(Variable, ArgList(Variable))), Operator, Variable)),
-ExpressionStatement(BinaryExpression(BinaryExpression(Variable, Operator, NewExpression(Keyword, Variable, ArgList(Variable))), Operator, Variable)),
-ExpressionStatement(BinaryExpression(BinaryExpression(UnaryExpression(OperatorKeyword, Variable), Operator, Variable), Operator,
-  BinaryExpression(Variable, OperatorKeyword, Variable)))
+expression.s(binary.o(binary.o(variable.n, operator.n, variable.n), operator.n, binary.o(variable.n, operator.n, variable.n))),
+expression.s(assignment.e(member.e(variable.n, property.n), operator.n,
+  conditional.o(variable.n, operator.n, variable.n, operator.n, variable.n))),
+expression.s(binary.o(binary.o(variable.n, operator.n, call.e(variable.n, argument.l(variable.n))), operator.n, variable.n)),
+expression.s(binary.o(binary.o(variable.n, operator.n, new.e(new.k, variable.n, argument.l(variable.n))), operator.n, variable.n)),
+expression.s(binary.o(binary.o(unary.p(typeof.o, variable.n), operator.n, variable.n), operator.n,
+  binary.o(variable.n, instanceof.o, variable.n)))
 
 # Rest args
 
@@ -219,7 +219,7 @@ foo(...rest);
 
 ==>
 
-ExpressionStatement(CallExpression(Variable, ArgList(Variable)))
+expression.s(call.e(variable.n, argument.l(variable.n)))
 
 # Forward slashes after parenthesized expressions
 
@@ -229,14 +229,14 @@ if (foo - bar) /baz/;
 
 ==>
 
-ExpressionStatement(BinaryExpression(ParenthesizedExpression(BinaryExpression(Variable, Operator, Variable)), Operator, Variable)),
-IfStatement(Keyword, ParenthesizedExpression(BinaryExpression(Variable, Operator, Variable)), ExpressionStatement(RegExp)),
-ExpressionStatement(BinaryExpression(
-  ParenthesizedExpression(
-    BinaryExpression(BinaryExpression(CallExpression(MemberExpression(This, PropertyName), ArgList), Operator,
-                                      CallExpression(MemberExpression(This, PropertyName), ArgList)),
-                     Operator, Number)),
-  Operator, Number))
+expression.s(binary.o(parenthesized.e(binary.o(variable.n, operator.n, variable.n)), operator.n, variable.n)),
+if.c(if.k, parenthesized.e(binary.o(variable.n, operator.n, variable.n)), expression.s(regexp.l)),
+expression.s(binary.o(
+  parenthesized.e(
+    binary.o(binary.o(call.e(member.e(this.k, property.n), argument.l), operator.n,
+                                      call.e(member.e(this.k, property.n), argument.l)),
+                     operator.n, number.l)),
+  operator.n, number.l))
 
 # Yield expressions
 
@@ -244,8 +244,8 @@ yield db.users.where('[endpoint+email]');
 
 ==>
 
-ExpressionStatement(UnaryExpression(Keyword,
-  CallExpression(MemberExpression(MemberExpression(Variable, PropertyName), PropertyName), ArgList(String))))
+expression.s(unary.p(yield.k,
+  call.e(member.e(member.e(variable.n, property.n), property.n), argument.l(string.l))))
 
 # Template strings
 
@@ -271,17 +271,18 @@ f`hi${there}`;
 
 ==>
 
-ExpressionStatement(TemplateString(Template, Template, Template)),
-ExpressionStatement(TemplateString(Template, Template, Template)),
-ExpressionStatement(TemplateString(Template, Template, BinaryExpression(Number, Operator, Number),
-  Template, SequenceExpression(Number, Number), Template, Template)),
-ExpressionStatement(TemplateString(Template, Template, Template)),
-ExpressionStatement(TemplateString(Template, Template, Template)),
-ExpressionStatement(TemplateString(Template, Template, Variable, Template)),
-ExpressionStatement(TemplateString(Template, Template, Template)),
-ExpressionStatement(TemplateString(Template, Template,
-  TemplateString(Template, Template, TemplateString(Template, Template, Template), Template), Template)),
-ExpressionStatement(TaggedTemplateExpression(Variable, TemplateString(Template, Template, Variable, Template)))
+expression.s(template.s(template.string.c, template.string.c, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c, binary.o(number.l, operator.n, number.l),
+  template.string.c, sequence.e(number.l, number.l), template.string.c, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c, variable.n, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c,
+  template.s(template.string.c, template.string.c, template.s(template.string.c, template.string.c, template.string.c),
+     template.string.c), template.string.c)),
+expression.s(tagged.t(variable.n, template.s(template.string.c, template.string.c, variable.n, template.string.c)))
 
 # Atoms
 
@@ -291,7 +292,7 @@ undefined;
 true;
 false;
 
-==> ExpressionStatement(This), ExpressionStatement(Null), ExpressionStatement(Variable), ExpressionStatement(Boolean), ExpressionStatement(Boolean)
+==> expression.s(this.k), expression.s(null.k), expression.s(variable.n), expression.s(boolean.l), expression.s(boolean.l)
 
 # Objects
 
@@ -307,13 +308,13 @@ foo({},
 
 ==>
 
-ExpressionStatement(CallExpression(Variable, ArgList(
-  ObjectExpression,
-  ObjectExpression(Property(PropertyName, String)),
-  ObjectExpression(Property(PropertyName, String), Property(String, Variable), Property(Number, Number)),
-  ObjectExpression(Property(PropertyName), Property(Variable, ParamList, Block)),
-  ObjectExpression(Property(PropertyName), Property(PropertyName)),
-  ObjectExpression(Property(PropertyName)))))
+expression.s(call.e(variable.n, argument.l(
+  object.e,
+  object.e(property.d(property.n, string.l)),
+  object.e(property.d(property.n, string.l), property.d(string.l, variable.n), property.d(number.l, number.l)),
+  object.e(property.d(property.n), property.d(variable.n, parameter.l, block.s)),
+  object.e(property.d(property.n), property.d(property.n)),
+  object.e(property.d(property.n)))))
 
 # Method definitions
 
@@ -335,14 +336,14 @@ ExpressionStatement(CallExpression(Variable, ArgList(
 
 ==>
 
-ExpressionStatement(ParenthesizedExpression(
-  ObjectExpression(
-    Property(PropertyName, Boolean),
-    Property(PropertyName, ParamList(Definition, Definition), Block(ReturnStatement(Keyword, BinaryExpression(Variable, Operator, Variable)))),
-    Property(Keyword, PropertyName, ParamList, Block(ReturnStatement(Keyword, Variable))),
-    Property(Keyword, PropertyName, ParamList(Definition), Block(ExpressionStatement(AssignmentExpression(Variable, Operator, Variable)))),
-    Property(Star, PropertyName, ParamList, Block(ExpressionStatement(UnaryExpression(Keyword, Variable)))),
-    Property(PropertyName, ParamList, Block(ReturnStatement(Keyword, Number))))))
+expression.s(parenthesized.e(
+  object.e(
+    property.d(property.n, boolean.l),
+    property.d(property.n, parameter.l(variable.d, variable.d), block.s(return.s(return.k, binary.o(variable.n, operator.n, variable.n)))),
+    property.d(get.k, property.n, parameter.l, block.s(return.s(return.k, variable.n))),
+    property.d(set.k, property.n, parameter.l(variable.d), block.s(expression.s(assignment.e(variable.n, operator.n, variable.n)))),
+    property.d(star.p, property.n, parameter.l, block.s(expression.s(unary.p(yield.k, variable.n)))),
+    property.d(property.n, parameter.l, block.s(return.s(return.k, number.l))))))
 
 # Keyword property names
 
@@ -357,13 +358,13 @@ ExpressionStatement(ParenthesizedExpression(
 
 ==>
 
-ExpressionStatement(ParenthesizedExpression(ObjectExpression(
-  Property(PropertyName, ParamList, Block),
-  Property(PropertyName, ParamList, Block),
-  Property(PropertyName, FunctionExpression(Keyword, ParamList, Block)),
-  Property(PropertyName, ParamList, Block),
-  Property(PropertyName, Boolean),
-  Property(PropertyName, Boolean))))
+expression.s(parenthesized.e(object.e(
+  property.d(property.n, parameter.l, block.s),
+  property.d(property.n, parameter.l, block.s),
+  property.d(property.n, function.e(function.k, parameter.l, block.s)),
+  property.d(property.n, parameter.l, block.s),
+  property.d(property.n, boolean.l),
+  property.d(property.n, boolean.l))))
 
 # Generator functions
 
@@ -377,11 +378,11 @@ ExpressionStatement(ParenthesizedExpression(ObjectExpression(
 
 ==>
 
-ExpressionStatement(ArrayExpression(
-  FunctionExpression(Keyword, Star, ParamList, Block),
-  FunctionExpression(Keyword, Star, Definition, ParamList(Definition, Definition), Block(
-    ExpressionStatement(Variable),
-    ExpressionStatement(UnaryExpression(Keyword, Variable))))))
+expression.s(array.e(
+  function.e(function.k, star.p, parameter.l, block.s),
+  function.e(function.k, star.p, variable.d, parameter.l(variable.d, variable.d), block.s(
+    expression.s(variable.n),
+    expression.s(unary.p(yield.k, variable.n))))))
 
 # Member expressions
 
@@ -392,14 +393,14 @@ return returned.promise().done(a).fail(b);
 
 ==>
 
-ExpressionStatement(MemberExpression(Variable, PropertyName)),
-ExpressionStatement(MemberExpression(Variable, Variable)),
-ExpressionStatement(MemberExpression(CallExpression(Variable, ArgList), String)),
+expression.s(member.e(variable.n, property.n)),
+expression.s(member.e(variable.n, variable.n)),
+expression.s(member.e(call.e(variable.n, argument.l), string.l)),
 
-ReturnStatement(Keyword, CallExpression(
-  MemberExpression(CallExpression(
-    MemberExpression(CallExpression(
-      MemberExpression(Variable, PropertyName), ArgList), PropertyName), ArgList(Variable)), PropertyName), ArgList(Variable)))
+return.s(return.k, call.e(
+  member.e(call.e(
+    member.e(call.e(
+      member.e(variable.n, property.n), argument.l), property.n), argument.l(variable.n)), property.n), argument.l(variable.n)))
 
 # Callback chain
 
@@ -415,13 +416,13 @@ return this.map(function (a) {
 
 ==>
 
-ReturnStatement(Keyword, CallExpression(
-  MemberExpression(CallExpression(
-    MemberExpression(This, PropertyName), ArgList(FunctionExpression(Keyword, ParamList(Definition), Block(
-      ReturnStatement(Keyword, MemberExpression(Variable, PropertyName)))))),
-    LineComment,
-    PropertyName),
-  ArgList(FunctionExpression(Keyword, ParamList(Definition), Block(ReturnStatement(Keyword, Number))))))
+return.s(return.k, call.e(
+  member.e(call.e(
+    member.e(this.k, property.n), argument.l(function.e(function.k, parameter.l(variable.d), block.s(
+      return.s(return.k, member.e(variable.n, property.n)))))),
+    line.c,
+    property.n),
+  argument.l(function.e(function.k, parameter.l(variable.d), block.s(return.s(return.k, number.l))))))
 
 # Function calls
 
@@ -433,10 +434,10 @@ f(new foo.bar(1), 2);
 
 ==> 
 
-ExpressionStatement(CallExpression(MemberExpression(Variable, PropertyName), ArgList(Variable, String))),
-ExpressionStatement(ParenthesizedExpression(CallExpression(FunctionExpression(Keyword, ParamList(Definition, Definition), Block),
-  ArgList(Variable, Variable)))),
-ExpressionStatement(CallExpression(Variable, ArgList(NewExpression(Keyword, MemberExpression(Variable, PropertyName), ArgList(Number)), Number)))
+expression.s(call.e(member.e(variable.n, property.n), argument.l(variable.n, string.l))),
+expression.s(parenthesized.e(call.e(function.e(function.k, parameter.l(variable.d, variable.d), block.s),
+  argument.l(variable.n, variable.n)))),
+expression.s(call.e(variable.n, argument.l(new.e(new.k, member.e(variable.n, property.n), argument.l(number.l)), number.l)))
 
 # Constructor calls
 
@@ -446,9 +447,9 @@ new Thing;
 
 ==>
 
-ExpressionStatement(NewExpression(Keyword, Variable, ArgList(Number))),
-ExpressionStatement(NewExpression(Keyword, MemberExpression(Variable, PropertyName), ArgList(Number, String))),
-ExpressionStatement(NewExpression(Keyword, Variable))
+expression.s(new.e(new.k, variable.n, argument.l(number.l))),
+expression.s(new.e(new.k, member.e(variable.n, property.n), argument.l(number.l, string.l))),
+expression.s(new.e(new.k, variable.n))
 
 # Await Expressions
 
@@ -457,8 +458,8 @@ await asyncPromise;
 
 ==>
 
-ExpressionStatement(UnaryExpression(Keyword, CallExpression(Variable, ArgList))),
-ExpressionStatement(UnaryExpression(Keyword, Variable))
+expression.s(unary.p(await.k, call.e(variable.n, argument.l))),
+expression.s(unary.p(await.k, variable.n))
 
 # Numeric operators
 
@@ -472,16 +473,16 @@ i + j * 3 - j % 5;
 
 ==>
 
-ExpressionStatement(UnaryExpression(Variable, Operator)),
-ExpressionStatement(UnaryExpression(Variable, Operator)),
-ExpressionStatement(BinaryExpression(
-  BinaryExpression(Variable, Operator, BinaryExpression(Variable, Operator, Number)),
-  Operator,
-  BinaryExpression(Variable, Operator, Number))),
-ExpressionStatement(BinaryExpression(BinaryExpression(Number, Operator, Variable), Operator, Number)),
-ExpressionStatement(BinaryExpression(Number, Operator, BinaryExpression(Variable, Operator, Number))),
-ExpressionStatement(UnaryExpression(Operator, Variable)),
-ExpressionStatement(UnaryExpression(Operator, Variable))
+expression.s(unary.p(variable.n, operator.n)),
+expression.s(unary.p(variable.n, operator.n)),
+expression.s(binary.o(
+  binary.o(variable.n, operator.n, binary.o(variable.n, operator.n, number.l)),
+  operator.n,
+  binary.o(variable.n, operator.n, number.l))),
+expression.s(binary.o(binary.o(number.l, operator.n, variable.n), operator.n, number.l)),
+expression.s(binary.o(number.l, operator.n, binary.o(variable.n, operator.n, number.l))),
+expression.s(unary.p(operator.n, variable.n)),
+expression.s(unary.p(operator.n, variable.n))
 
 # Boolean operators
 
@@ -491,12 +492,12 @@ i && j;
 
 ==>
 
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(
-  BinaryExpression(UnaryExpression(Operator, Variable), Operator, UnaryExpression(Operator, Variable)),
-  Operator,
-  BinaryExpression(UnaryExpression(Operator, Variable), Operator, UnaryExpression(Operator, Variable))))
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(
+  binary.o(unary.p(operator.n, variable.n), operator.n, unary.p(operator.n, variable.n)),
+  operator.n,
+  binary.o(unary.p(operator.n, variable.n), operator.n, unary.p(operator.n, variable.n))))
 
 # Bitwise operators
 
@@ -509,12 +510,12 @@ i | j;
 
 ==>
 
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(UnaryExpression(Operator, Variable), Operator, UnaryExpression(Operator, Variable)))
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(unary.p(operator.n, variable.n), operator.n, unary.p(operator.n, variable.n)))
 
 # Relational operators
 
@@ -529,14 +530,14 @@ x >= y;
 
 ==>
 
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable)),
-ExpressionStatement(BinaryExpression(Variable, Operator, Variable))
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n)),
+expression.s(binary.o(variable.n, operator.n, variable.n))
 
 # Word operators
 
@@ -546,9 +547,9 @@ x instanceof y;
 
 ==>
 
-ExpressionStatement(BinaryExpression(Variable, OperatorKeyword, Variable)),
-ExpressionStatement(BinaryExpression(Variable, OperatorKeyword, Variable)),
-ExpressionStatement(BinaryExpression(UnaryExpression(Operator, Variable), OperatorKeyword, Variable))
+expression.s(binary.o(variable.n, in.o, variable.n)),
+expression.s(binary.o(variable.n, instanceof.o, variable.n)),
+expression.s(binary.o(unary.p(operator.n, variable.n), instanceof.o, variable.n))
 
 # Assignments
 
@@ -561,13 +562,13 @@ async = 0;
 
 ==>
 
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(MemberExpression(Variable, PropertyName), Operator, Number)),
-ExpressionStatement(AssignmentExpression(MemberExpression(Variable, String), Operator, Number)),
-ExpressionStatement(AssignmentExpression(Variable, Operator, Number)),
-ExpressionStatement(AssignmentExpression(ArrayPattern(Definition, Definition, Operator, Number), Operator, Variable)),
-ExpressionStatement(ParenthesizedExpression(
-  AssignmentExpression(ObjectPattern(Property(PropertyName), Property(PropertyName), Property(Definition)), Operator, Variable)))
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(member.e(variable.n, property.n), operator.n, number.l)),
+expression.s(assignment.e(member.e(variable.n, string.l), operator.n, number.l)),
+expression.s(assignment.e(variable.n, operator.n, number.l)),
+expression.s(assignment.e(array.p(variable.d, variable.d, operator.n, number.l), operator.n, variable.n)),
+expression.s(parenthesized.e(
+  assignment.e(object.p(property.d(property.n), property.d(property.n), property.d(variable.d)), operator.n, variable.n)))
 
 # Comma operator
 
@@ -576,9 +577,9 @@ c = {d: (3, 4 + 5)};
 
 ==>
 
-ExpressionStatement(SequenceExpression(AssignmentExpression(Variable, Operator, Number), AssignmentExpression(Variable, Operator, Number))),
-ExpressionStatement(AssignmentExpression(Variable, Operator, ObjectExpression(
-  Property(PropertyName, ParenthesizedExpression(SequenceExpression(Number, BinaryExpression(Number, Operator, Number)))))))
+expression.s(sequence.e(assignment.e(variable.n, operator.n, number.l), assignment.e(variable.n, operator.n, number.l))),
+expression.s(assignment.e(variable.n, operator.n, object.e(
+  property.d(property.n, parenthesized.e(sequence.e(number.l, binary.o(number.l, operator.n, number.l)))))))
 
 # Punctuation
 
@@ -586,6 +587,6 @@ ExpressionStatement(AssignmentExpression(Variable, Operator, ObjectExpression(
 
 ==>
 
-ExpressionStatement(ParenthesizedExpression("(",
-  SequenceExpression(CallExpression(Variable, ArgList("(", Number, ",", Number, ")")), ",",
-  Variable), ")"), ";")
+expression.s(parenthesized.e(open.paren.p,
+  sequence.e(call.e(variable.n, argument.l(open.paren.p, number.l, comma.p, number.l, close.paren.p)), comma.p,
+  variable.n), close.paren.p), semicolon.p)
