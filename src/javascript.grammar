@@ -1,5 +1,5 @@
-precedence {
-  else left,
+@precedence {
+  else @left,
   member,
   newArgs,
   call,
@@ -7,25 +7,25 @@ precedence {
   prefix,
   postfix,
   typeof,
-  exp left,
-  times left,
-  plus left,
-  shift left,
+  exp @left,
+  times @left,
+  plus @left,
+  shift @left,
   loop,
-  rel left,
-  equal left,
-  bitOr left,
-  bitXor left,
-  bitAnd left,
-  and left,
-  or left,
-  ternary left,
-  assign left,
-  comma left,
-  statement cut
+  rel @left,
+  equal @left,
+  bitOr @left,
+  bitXor @left,
+  bitAnd @left,
+  and @left,
+  or @left,
+  ternary @left,
+  assign @left,
+  comma @left,
+  statement @cut
 }
 
-top { statement+ }
+@top { statement+ }
 
 statement {
   exportDeclaration |
@@ -244,7 +244,7 @@ arrowFunction:arrow.function.expression {
   ckw<"async">? (definition:parameter.list | paramList) "=>" (block | expression)
 }
 
-skip {} {
+@skip {} {
   templateString:template.string.literal.expression {
     templateStart (templateContent | templateExpr)* templateEnd
   }
@@ -260,25 +260,25 @@ commaSep1<content> {
   content ("," content)*
 }
 
-kw<term> { specialize<identifier, term, :$term.keyword> }
+kw<term> { @specialize<identifier, term, :$term.keyword> }
 
-kwOp<term> { specialize<identifier, term, :$term.operator.keyword> }
+kwOp<term> { @specialize<identifier, term, :$term.operator.keyword> }
 
 // Contextual keywords
-ckw<term> { extend<identifier, term, :$term.keyword> }
+ckw<term> { @extend<identifier, term, :$term.keyword> }
 
 // Contextual keyword in property context
-pkw<term> { extend<word, term, :$term.keyword> }
+pkw<term> { @extend<word, term, :$term.keyword> }
 
 semi { ";" | insertSemi }
 
-boolean { specialize<identifier, "true" | "false", :boolean.literal.expression> }
+boolean { @specialize<identifier, "true" | "false", :boolean.literal.expression> }
 
-this { specialize<identifier, "this", :this.keyword.expression> }
+this { @specialize<identifier, "this", :this.keyword.expression> }
 
-null { specialize<identifier, "null", :null.keyword.expression> }
+null { @specialize<identifier, "null", :null.keyword.expression> }
 
-super { specialize<identifier, "super", :super.keyword.expression> }
+super { @specialize<identifier, "super", :super.keyword.expression> }
 
 star:star.punctuation { "*" }
 
@@ -290,13 +290,13 @@ label:label.name { identifier }
 
 propertyName:property.name { word }
 
-skip { whitespace | lineComment | blockComment }
+@skip { whitespace | lineComment | blockComment }
 
-external tokens noSemicolon from "./tokens" { noSemi }
+@external-tokens noSemicolon from "./tokens" { noSemi }
 
-external tokens postfix from "./tokens" { postfixOp:operator.name }
+@external-tokens postfix from "./tokens" { postfixOp:operator.name }
 
-tokens {
+@tokens {
   whitespace { std.whitespace+ }
 
   lineComment:line.comment { "//" [^\n]* }
@@ -309,9 +309,9 @@ tokens {
 
   divide:operator.name { "/" }
 
-  precedence { blockComment, lineComment, divide }
+  @precedence { blockComment, lineComment, divide }
 
-  precedence { blockComment, lineComment, regExp }
+  @precedence { blockComment, lineComment, regExp }
 
   identifierChar { std.asciiLetter | [_$\u{a1}-\u{10ffff}] }
 
@@ -319,9 +319,9 @@ tokens {
 
   identifier { word }
 
-  precedence { identifier, whitespace }
+  @precedence { identifier, whitespace }
 
-  precedence { word, whitespace }
+  @precedence { word, whitespace }
 
   number:number.literal.expression {
     (std.digit+ ("." std.digit*)? | "." std.digit+) (("e" | "E") ("+" | "-")? std.digit+)? |
@@ -355,9 +355,9 @@ tokens {
   ";":semicolon.punctuation
 }
 
-external tokens insertSemicolon from "./tokens" { insertSemi }
+@external-tokens insertSemicolon from "./tokens" { insertSemi }
 
-external tokens template from "./tokens" {
+@external-tokens template from "./tokens" {
   templateContent:template.string.content,
   templateDollarBrace,
   templateEnd:template.string.content
