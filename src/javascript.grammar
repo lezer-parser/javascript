@@ -340,19 +340,14 @@ propertyName:property.name { word }
   op<expr>:operator.name { expr }
 
   regExp:regexp.literal.expression { "/" ([^/\\\n[] | "\\" [^\n] | "[" ([^\n\\\]] | "\\" [^\n])* "]")+ ("/" [gimsuy]*)? }
+}
 
-  "(":open.paren.punctuation
-  ")":close.paren.punctuation
-  "[":open.bracket.punctuation
-  "]":close.bracket.punctuation
-  "{":open.brace.punctuation
-  "}":close.brace.punctuation
-  ",":comma.punctuation
-  ":":colon.punctuation
-  ".":dot.punctuation
+@tags {
+  @all<:lang=javascript>
+  @detect-delim
+  @punctuation<"()[]{},:.;">
   "...":spread.punctuation
   "=>":arrow.punctuation
-  ";":semicolon.punctuation
 }
 
 @external-tokens insertSemicolon from "./tokens" { insertSemi }
