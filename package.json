@@ -6,7 +6,6 @@
   "author": "Marijn Haverbeke <marijnh@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "ist": "^1.1.1",
     "lezer-generator": "^0.2.0",
     "mocha": "^6.1.3",
     "rollup": "^1.10.0",
@@ -16,7 +15,7 @@
     "lezer": "^0.2.0"
   },
   "scripts": {
-    "build": "lezer-generator src/javascript.grammar -o src/parser --names && rollup -c",
+    "build": "lezer-generator src/javascript.grammar -o src/parser && rollup -c",
     "prepare": "npm run build",
     "test": "mocha test/test-*.js"
   }
