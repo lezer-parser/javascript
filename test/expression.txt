@@ -1,3 +1,9 @@
+# Minimal
+
+0
+
+==> script.document.lang=javascript(expression.s(number.l))
+
 # Strings
 
 "A string with \"double\" and 'single' quotes";

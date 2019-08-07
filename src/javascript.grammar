@@ -25,7 +25,7 @@
   statement @cut
 }
 
-@top { statement+ }
+@top:script.document.lang=javascript { statement+ }
 
 statement {
   exportDeclaration |
@@ -343,7 +343,6 @@ propertyName:property.name { word }
 }
 
 @tags {
-  @all<:lang=javascript>
   @detect-delim
   @punctuation<"()[]{},:.;">
   "...":spread.punctuation
