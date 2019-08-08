@@ -61,12 +61,12 @@ exportGroup:export.group {
 }
 
 importDeclaration:import.declaration.statement {
-  kw<"import"> (star ckw<"as"> word:variable.definition.name | commaSep<definition | importGroup>) ckw<"from"> string semi |
+  kw<"import"> (star ckw<"as"> word:definition.variable.name | commaSep<definition | importGroup>) ckw<"from"> string semi |
   kw<"import"> string semi
 }
 
 importGroup:import.group {
-  "{" commaSep<definition | variable ckw<"as"> word:variable.definition.name> "}"
+  "{" commaSep<definition | variable ckw<"as"> word:definition.variable.name> "}"
 }
 
 labeledStatement:labeled.statement {
@@ -86,8 +86,8 @@ forXSpec<op> {
   ")"
 }
 
-forInSpec:for.in.spec { forXSpec<kwOp<"in">> }
-forOfSpec:for.of.spec { forXSpec<kw<"of">> }
+forInSpec:in.for.spec { forXSpec<kwOp<"in">> }
+forOfSpec:of.for.spec { forXSpec<kw<"of">> }
 
 declaration {
   functionDeclaration | classDeclaration | variableDeclaration
@@ -105,11 +105,11 @@ classBody:class.body {
   "{" (methodDeclaration | ";")* "}"
 }
 
-methodDeclaration:method.declaration {
+methodDeclaration:method.property.declaration {
   pkw<"static">?
   pkw<"async">?
   (pkw<"get"> | pkw<"set"> | star)?
-  propertyName
+  propertyNameDef
   paramList
   block
 }
@@ -183,7 +183,7 @@ arrayExpression:array.expression {
   "[" commaSep1<expressionNoComma | ""> ~destructure "]"
 }
 
-propName { propertyName | "[" expression "]" | number | string }
+propName { propertyNameDef | "[" expression "]" | number | string }
 
 property:property.declaration {
   pkw<"async">? (pkw<"get"> | pkw<"set"> | star)? propName paramList block |
@@ -284,11 +284,13 @@ star:star.punctuation { "*" }
 
 variable:variable.name { identifier ~arrow }
 
-definition:variable.definition.name.def=variable { identifier ~arrow }
+definition:definition.variable.name.def=variable { identifier ~arrow }
 
 label:label.name { identifier }
 
 propertyName:property.name { word }
+
+propertyNameDef:definition.property.name { word }
 
 @skip { whitespace | lineComment | blockComment }
 

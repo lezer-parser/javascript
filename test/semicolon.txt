@@ -11,7 +11,7 @@ if (a) {
 
 expression.s(variable.n),
 if.c(if.k, parenthesized.e(variable.n), block.s(
-  variable.d(var.k, variable.d, operator.n, variable.n),
+  variable.d(var.k, definition.v, operator.n, variable.n),
   expression.s(variable.n)), else.k, expression.s(variable.n))
 
 # Continued expressions on new line

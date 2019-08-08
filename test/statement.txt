@@ -6,8 +6,8 @@ const [x] = y = 3;
 
 ==>
 
-variable.d(var.k, variable.d, operator.n, variable.n, variable.d, operator.n, variable.n),
-variable.d(const.k, array.p(variable.d), operator.n, assignment.e(variable.n, operator.n, number.l))
+variable.d(var.k, definition.v, operator.n, variable.n, definition.v, operator.n, variable.n),
+variable.d(const.k, array.p(definition.v), operator.n, assignment.e(variable.n, operator.n, number.l))
 
 # Function declaration
 
@@ -16,11 +16,11 @@ function b({b}, c = d, e = f) {}
 
 ==>
 
-function.d(function.k, variable.d, parameter.l(variable.d, variable.d), block.s(return.s(return.k, number.l))),
-function.d(function.k, variable.d, parameter.l(
+function.d(function.k, definition.v, parameter.l(definition.v, definition.v), block.s(return.s(return.k, number.l))),
+function.d(function.k, definition.v, parameter.l(
   object.p(property.d(property.n)),
-  variable.d, operator.n, variable.n,
-  variable.d, operator.n, variable.n), block.s)
+  definition.v, operator.n, variable.n,
+  definition.v, operator.n, variable.n), block.s)
 
 # Async functions
 
@@ -32,9 +32,9 @@ async (a) => { return foo; };
 
 ==>
 
-function.d(async.k, function.k, variable.d, parameter.l, block.s),
-class.d(class.k, variable.d, class.b(method.d(async.k, property.n, parameter.l, block.s))),
-expression.s(arrow.f(async.k, parameter.l(variable.d), block.s(return.s(return.k, variable.n))))
+function.d(async.k, function.k, definition.v, parameter.l, block.s),
+class.d(class.k, definition.v, class.b(method.p(async.k, definition.property.n, parameter.l, block.s))),
+expression.s(arrow.f(async.k, parameter.l(definition.v), block.s(return.s(return.k, variable.n))))
 
 # If statements
 
@@ -98,7 +98,7 @@ try { 1; } catch (x) { 2; } finally { 3; }
 try.s(try.k, block.s(throw.s(throw.k, new.e(new.k, variable.n))), catch.k, block.s),
 try.s(try.k,
   block.s(expression.s(number.l)),
-  catch.k, variable.d,
+  catch.k, definition.v,
   block.s(expression.s(number.l)),
   finally.k,
   block.s(expression.s(number.l)))
@@ -144,19 +144,19 @@ for await (let x of stream) {}
 ==>
 
 for.l(for.k,
-  for.s(variable.d(let.k, variable.d, operator.n, number.l),
+  for.s(variable.d(let.k, definition.v, operator.n, number.l),
     binary.o(variable.n, operator.n, number.l),
     unary.p(variable.n, operator.n)),
   block.s),
-for.l(for.k, for.of.s(const.k, variable.d, of.k, variable.n), block.s),
-for.l(for.k, for.in.s(var.k, variable.d, in.o, variable.n), block.s),
-for.l(for.k, for.in.s(variable.n, in.o, variable.n), block.s),
-for.l(for.k, for.s(variable.d(var.k, variable.d, variable.d), variable.n, variable.n), continue.s(continue.k)),
+for.l(for.k, of.for.s(const.k, definition.v, of.k, variable.n), block.s),
+for.l(for.k, in.for.s(var.k, definition.v, in.o, variable.n), block.s),
+for.l(for.k, in.for.s(variable.n, in.o, variable.n), block.s),
+for.l(for.k, for.s(variable.d(var.k, definition.v, definition.v), variable.n, variable.n), continue.s(continue.k)),
 for.l(for.k, for.s(sequence.e(assignment.e(variable.n, operator.n, number.l), call.e(variable.n, argument.l)),
              binary.o(variable.n, operator.n, number.l), unary.p(variable.n, operator.n)), block.s),
 for.l(for.k, for.s, block.s),
-for.l(for.k, for.in.s(const.k, object.p(property.d(property.n)), in.o, variable.n), expression.s(variable.n)),
-for.l(for.k, await.k, for.of.s(let.k, variable.d, of.k, variable.n), block.s)
+for.l(for.k, in.for.s(const.k, object.p(property.d(property.n)), in.o, variable.n), expression.s(variable.n)),
+for.l(for.k, await.k, of.for.s(let.k, definition.v, of.k, variable.n), block.s)
 
 # Labeled statements
 
@@ -186,14 +186,14 @@ class Foo extends require('another-class') {
 
 ==>
 
-class.d(class.k, variable.d, class.b(
-  method.d(static.k, property.n, parameter.l(variable.d), block.s(return.s(return.k, variable.n))),
-  method.d(property.n, parameter.l(variable.d), block.s(return.s(return.k, variable.n))),
-  method.d(property.n, parameter.l, block.s))),
+class.d(class.k, definition.v, class.b(
+  method.p(static.k, definition.property.n, parameter.l(definition.v), block.s(return.s(return.k, variable.n))),
+  method.p(definition.property.n, parameter.l(definition.v), block.s(return.s(return.k, variable.n))),
+  method.p(definition.property.n, parameter.l, block.s))),
 
-class.d(class.k, variable.d, extends.k, call.e(variable.n, argument.l(string.l)), class.b(
-  method.d(property.n, parameter.l, block.s(expression.s(call.e(super.k, argument.l)))),
-  method.d(property.n, parameter.l, block.s(expression.s(call.e(member.e(super.k, property.n), argument.l))))))
+class.d(class.k, definition.v, extends.k, call.e(variable.n, argument.l(string.l)), class.b(
+  method.p(definition.property.n, parameter.l, block.s(expression.s(call.e(super.k, argument.l)))),
+  method.p(definition.property.n, parameter.l, block.s(expression.s(call.e(member.e(super.k, property.n), argument.l))))))
 
 # Imports
 
@@ -206,11 +206,11 @@ import "module-name";
 
 ==>
 
-import.d(import.k, variable.d, from.k, string.l),
-import.d(import.k, star.p, as.k, variable.d, from.k, string.l),
-import.d(import.k, import.g(variable.d), from.k, string.l),
-import.d(import.k, import.g(variable.d, variable.n, as.k, variable.d), from.k, string.l),
-import.d(import.k, variable.d, import.g(variable.d, variable.n, as.k, variable.d), from.k, string.l),
+import.d(import.k, definition.v, from.k, string.l),
+import.d(import.k, star.p, as.k, definition.v, from.k, string.l),
+import.d(import.k, import.g(definition.v), from.k, string.l),
+import.d(import.k, import.g(definition.v, variable.n, as.k, definition.v), from.k, string.l),
+import.d(import.k, definition.v, import.g(definition.v, variable.n, as.k, definition.v), from.k, string.l),
 import.d(import.k, string.l)
 
 # Exports
@@ -226,10 +226,10 @@ export * from 'foo';
 ==>
 
 export.d(export.k, export.g(variable.n, variable.n, variable.n, as.k, variable.n, variable.n)),
-export.d(export.k, variable.d(let.k, variable.d, variable.d, operator.n, number.l)),
+export.d(export.k, variable.d(let.k, definition.v, definition.v, operator.n, number.l)),
 export.d(export.k, default.k, binary.o(number.l, operator.n, number.l)),
 export.d(export.k, default.k, function.d(function.k, parameter.l, block.s)),
-export.d(export.k, default.k, function.d(async.k, function.k, variable.d, parameter.l, block.s)),
+export.d(export.k, default.k, function.d(async.k, function.k, definition.v, parameter.l, block.s)),
 export.d(export.k, export.g(variable.n, as.k, variable.n), from.k, string.l),
 export.d(export.k, star.p, from.k, string.l)
 

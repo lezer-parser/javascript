@@ -97,10 +97,10 @@ expression.s(array.e(assignment.e(variable.n, operator.n, number.l)))
 
 expression.s(array.e(
   function.e(function.k, parameter.l, block.s),
-  function.e(function.k, parameter.l(variable.d, variable.d), block.s(expression.s(variable.n))),
-  function.e(function.k, variable.d, parameter.l, block.s),
-  function.e(function.k, variable.d, parameter.l(variable.d), block.s),
-  function.e(function.k, variable.d, parameter.l(variable.d, variable.d), block.s)))
+  function.e(function.k, parameter.l(definition.v, definition.v), block.s(expression.s(variable.n))),
+  function.e(function.k, definition.v, parameter.l, block.s),
+  function.e(function.k, definition.v, parameter.l(definition.v), block.s),
+  function.e(function.k, definition.v, parameter.l(definition.v, definition.v), block.s)))
 
 # Arrow functions
 
@@ -114,10 +114,10 @@ async () => 4;
 
 ==>
 
-expression.s(arrow.f(parameter.l(variable.d), number.l)),
+expression.s(arrow.f(parameter.l(definition.v), number.l)),
 expression.s(arrow.f(parameter.l, number.l)),
-expression.s(arrow.f(parameter.l(variable.d, variable.d), number.l)),
-expression.s(arrow.f(parameter.l(variable.d, variable.d), block.s(return.s(return.k, variable.n)))),
+expression.s(arrow.f(parameter.l(definition.v, definition.v), number.l)),
+expression.s(arrow.f(parameter.l(definition.v, definition.v), block.s(return.s(return.k, variable.n)))),
 expression.s(arrow.f(async.k, parameter.l, number.l))
 
 # Long potential arrow function
@@ -316,11 +316,11 @@ foo({},
 
 expression.s(call.e(variable.n, argument.l(
   object.e,
-  object.e(property.d(property.n, string.l)),
-  object.e(property.d(property.n, string.l), property.d(string.l, variable.n), property.d(number.l, number.l)),
-  object.e(property.d(property.n), property.d(variable.n, parameter.l, block.s)),
-  object.e(property.d(property.n), property.d(property.n)),
-  object.e(property.d(property.n)))))
+  object.e(property.d(definition.p, string.l)),
+  object.e(property.d(definition.p, string.l), property.d(string.l, variable.n), property.d(number.l, number.l)),
+  object.e(property.d(definition.p), property.d(variable.n, parameter.l, block.s)),
+  object.e(property.d(definition.p), property.d(definition.p)),
+  object.e(property.d(definition.p)))))
 
 # Method definitions
 
@@ -344,12 +344,12 @@ expression.s(call.e(variable.n, argument.l(
 
 expression.s(parenthesized.e(
   object.e(
-    property.d(property.n, boolean.l),
-    property.d(property.n, parameter.l(variable.d, variable.d), block.s(return.s(return.k, binary.o(variable.n, operator.n, variable.n)))),
-    property.d(get.k, property.n, parameter.l, block.s(return.s(return.k, variable.n))),
-    property.d(set.k, property.n, parameter.l(variable.d), block.s(expression.s(assignment.e(variable.n, operator.n, variable.n)))),
-    property.d(star.p, property.n, parameter.l, block.s(expression.s(unary.p(yield.k, variable.n)))),
-    property.d(property.n, parameter.l, block.s(return.s(return.k, number.l))))))
+    property.d(definition.property.n, boolean.l),
+    property.d(definition.property.n, parameter.l(definition.v, definition.v), block.s(return.s(return.k, binary.o(variable.n, operator.n, variable.n)))),
+    property.d(get.k, definition.property.n, parameter.l, block.s(return.s(return.k, variable.n))),
+    property.d(set.k, definition.property.n, parameter.l(definition.v), block.s(expression.s(assignment.e(variable.n, operator.n, variable.n)))),
+    property.d(star.p, definition.property.n, parameter.l, block.s(expression.s(unary.p(yield.k, variable.n)))),
+    property.d(definition.property.n, parameter.l, block.s(return.s(return.k, number.l))))))
 
 # Keyword property names
 
@@ -365,12 +365,12 @@ expression.s(parenthesized.e(
 ==>
 
 expression.s(parenthesized.e(object.e(
-  property.d(property.n, parameter.l, block.s),
-  property.d(property.n, parameter.l, block.s),
-  property.d(property.n, function.e(function.k, parameter.l, block.s)),
-  property.d(property.n, parameter.l, block.s),
-  property.d(property.n, boolean.l),
-  property.d(property.n, boolean.l))))
+  property.d(definition.property.n, parameter.l, block.s),
+  property.d(definition.property.n, parameter.l, block.s),
+  property.d(definition.property.n, function.e(function.k, parameter.l, block.s)),
+  property.d(definition.property.n, parameter.l, block.s),
+  property.d(definition.property.n, boolean.l),
+  property.d(definition.property.n, boolean.l))))
 
 # Generator functions
 
@@ -386,7 +386,7 @@ expression.s(parenthesized.e(object.e(
 
 expression.s(array.e(
   function.e(function.k, star.p, parameter.l, block.s),
-  function.e(function.k, star.p, variable.d, parameter.l(variable.d, variable.d), block.s(
+  function.e(function.k, star.p, definition.v, parameter.l(definition.v, definition.v), block.s(
     expression.s(variable.n),
     expression.s(unary.p(yield.k, variable.n))))))
 
@@ -424,11 +424,11 @@ return this.map(function (a) {
 
 return.s(return.k, call.e(
   member.e(call.e(
-    member.e(this.k, property.n), argument.l(function.e(function.k, parameter.l(variable.d), block.s(
+    member.e(this.k, property.n), argument.l(function.e(function.k, parameter.l(definition.v), block.s(
       return.s(return.k, member.e(variable.n, property.n)))))),
     line.c,
     property.n),
-  argument.l(function.e(function.k, parameter.l(variable.d), block.s(return.s(return.k, number.l))))))
+  argument.l(function.e(function.k, parameter.l(definition.v), block.s(return.s(return.k, number.l))))))
 
 # Function calls
 
@@ -441,7 +441,7 @@ f(new foo.bar(1), 2);
 ==> 
 
 expression.s(call.e(member.e(variable.n, property.n), argument.l(variable.n, string.l))),
-expression.s(parenthesized.e(call.e(function.e(function.k, parameter.l(variable.d, variable.d), block.s),
+expression.s(parenthesized.e(call.e(function.e(function.k, parameter.l(definition.v, definition.v), block.s),
   argument.l(variable.n, variable.n)))),
 expression.s(call.e(variable.n, argument.l(new.e(new.k, member.e(variable.n, property.n), argument.l(number.l)), number.l)))
 
@@ -572,9 +572,9 @@ expression.s(assignment.e(variable.n, operator.n, number.l)),
 expression.s(assignment.e(member.e(variable.n, property.n), operator.n, number.l)),
 expression.s(assignment.e(member.e(variable.n, string.l), operator.n, number.l)),
 expression.s(assignment.e(variable.n, operator.n, number.l)),
-expression.s(assignment.e(array.p(variable.d, variable.d, operator.n, number.l), operator.n, variable.n)),
+expression.s(assignment.e(array.p(definition.v, definition.v, operator.n, number.l), operator.n, variable.n)),
 expression.s(parenthesized.e(
-  assignment.e(object.p(property.d(property.n), property.d(property.n), property.d(variable.d)), operator.n, variable.n)))
+  assignment.e(object.p(property.d(property.n), property.d(property.n), property.d(definition.v)), operator.n, variable.n)))
 
 # Comma operator
 
@@ -585,7 +585,7 @@ c = {d: (3, 4 + 5)};
 
 expression.s(sequence.e(assignment.e(variable.n, operator.n, number.l), assignment.e(variable.n, operator.n, number.l))),
 expression.s(assignment.e(variable.n, operator.n, object.e(
-  property.d(property.n, parenthesized.e(sequence.e(number.l, binary.o(number.l, operator.n, number.l)))))))
+  property.d(definition.property.n, parenthesized.e(sequence.e(number.l, binary.o(number.l, operator.n, number.l)))))))
 
 # Punctuation
 
