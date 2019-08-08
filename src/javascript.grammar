@@ -172,7 +172,7 @@ expressionNoComma {
   binaryExpression |
   (expressionNoComma !ternary op<"?"> expressionNoComma ":":operator.name expressionNoComma):conditional.operator.expression |
   assignmentExpression |
-  (expressionNoComma !postfix postfixOp):unary.postifx.operator.expression |
+  (expressionNoComma !postfix postfixOp):unary.postfix.operator.expression |
   (expressionNoComma !call argList):call.expression |
   (expressionNoComma !taggedTemplate templateString):tagged.template.expression
 }
