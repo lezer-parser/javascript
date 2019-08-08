@@ -601,4 +601,4 @@ expression.s(parenthesized.e(open.paren.p,
 
 1?1
 
-==> expression.s(conditional.o(number.l, operator.n, number.l, ⚠))
+==> expression.s(conditional.o(number.l, operator.n, number.l, error))
