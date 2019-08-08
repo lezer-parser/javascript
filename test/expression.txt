@@ -596,3 +596,9 @@ expression.s(assignment.e(variable.n, operator.n, object.e(
 expression.s(parenthesized.e(open.paren.p,
   sequence.e(call.e(variable.n, argument.l(open.paren.p, number.l, comma.p, number.l, close.paren.p)), comma.p,
   variable.n), close.paren.p), semicolon.p)
+
+# Doesn't choke on unfinished ternary operator
+
+1?1
+
+==> expression.s(conditional.o(number.l, operator.n, number.l, ⚠))
