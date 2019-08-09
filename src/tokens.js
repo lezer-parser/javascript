@@ -50,7 +50,7 @@ export const template = new ExternalTokenizer((input, token) => {
   for (;;) {
     let next = input.get(pos++)
     if (next < 0) {
-      if (pos > token.start) token.accept(templateContent, pos)
+      if (pos - 1 > token.start) token.accept(templateContent, pos - 1)
       break
     } else if (next == backtick) {
       if (pos == token.start + 1) token.accept(templateEnd, pos)
