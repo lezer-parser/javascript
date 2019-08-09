@@ -250,7 +250,7 @@ arrowFunction:arrow.function.expression {
   }
 }
 
-templateExpr { templateDollarBrace expression "}" }
+templateExpr { templateDollarBrace expression templateClosingBrace }
 
 commaSep<content> {
   "" | content ("," content?)*
@@ -337,7 +337,9 @@ propertyNameDef:definition.property.name { word }
     "'" ([^\\\n'] | "\\" _)* "'"?
   }
 
-  templateStart:template.string.content { "`" }
+  templateStart { "`" }
+
+  templateClosingBrace { "}" }
 
   op<expr>:operator.name { expr }
 
@@ -354,7 +356,7 @@ propertyNameDef:definition.property.name { word }
 @external-tokens insertSemicolon from "./tokens" { insertSemi }
 
 @external-tokens template from "./tokens" {
-  templateContent:template.string.content,
+  templateContent,
   templateDollarBrace,
-  templateEnd:template.string.content
+  templateEnd
 }

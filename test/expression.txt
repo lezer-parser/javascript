@@ -277,18 +277,15 @@ f`hi${there}`;
 
 ==>
 
-expression.s(template.s(template.string.c, template.string.c, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c, template.string.c, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c, template.string.c, binary.o(number.l, operator.n, number.l),
-  template.string.c, template.string.c, sequence.e(number.l, number.l), template.string.c, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c, variable.n, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c,
-  template.s(template.string.c, template.string.c, template.s(template.string.c, template.string.c, template.string.c),
-     template.string.c), template.string.c)),
-expression.s(tagged.t(variable.n, template.s(template.string.c, template.string.c, variable.n, template.string.c)))
+expression.s(template.s),
+expression.s(template.s),
+expression.s(template.s(binary.o(number.l, operator.n, number.l), sequence.e(number.l, number.l))),
+expression.s(template.s),
+expression.s(template.s),
+expression.s(template.s(variable.n)),
+expression.s(template.s),
+expression.s(template.s(template.s(template.s))),
+expression.s(tagged.t(variable.n, template.s(variable.n)))
 
 # Atoms
 
@@ -607,4 +604,4 @@ expression.s(parenthesized.e(open.paren.p,
 
 `f
 
-==> expression.s(template.string.l(template.s, template.s, error))
+==> expression.s(template.string.l(error))
