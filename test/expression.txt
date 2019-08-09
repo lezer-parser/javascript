@@ -278,9 +278,9 @@ f`hi${there}`;
 ==>
 
 expression.s(template.s(template.string.c, template.string.c, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c, template.string.c)),
-expression.s(template.s(template.string.c, template.string.c, binary.o(number.l, operator.n, number.l),
-  template.string.c, sequence.e(number.l, number.l), template.string.c, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c, template.string.c, template.string.c)),
+expression.s(template.s(template.string.c, template.string.c, template.string.c, binary.o(number.l, operator.n, number.l),
+  template.string.c, template.string.c, sequence.e(number.l, number.l), template.string.c, template.string.c)),
 expression.s(template.s(template.string.c, template.string.c, template.string.c)),
 expression.s(template.s(template.string.c, template.string.c, template.string.c)),
 expression.s(template.s(template.string.c, template.string.c, variable.n, template.string.c)),

@@ -60,7 +60,11 @@ export const template = new ExternalTokenizer((input, token) => {
       if (pos == token.start + 2) token.accept(templateDollarBrace, pos)
       else token.accept(templateContent, pos - 2)
       break
-    } else if (next == backslash) {
+    } else if (next == 10 /* "\n" */ && pos > token.start + 1) {
+      // Break up template strings on lines, to avoid huge tokens
+      token.accept(templateContent, pos)
+      break
+    } else if (next == backslash && pos != input.length) {
       pos++
     }
     afterDollar = next == dollar
