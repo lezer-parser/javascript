@@ -9,10 +9,12 @@ if (a) {
 
 ==>
 
-expression.s(variable.n),
-if.c(if.k, parenthesized.e(variable.n), block.s(
-  variable.d(var.k, definition.v, operator.n, variable.n),
-  expression.s(variable.n)), else.k, expression.s(variable.n))
+Script(
+  ExpressionStatement(VariableName),
+  IfStatement(if,ParenthesizedExpression(VariableName),Block(
+     VariableDeclaration(var,VariableDefinition,Equals,VariableName),
+     ExpressionStatement(VariableName)),
+   else,ExpressionStatement(VariableName)))
 
 # Continued expressions on new line
 
@@ -23,8 +25,9 @@ foo
 
 ==>
 
-expression.s(binary.o(variable.n, operator.n, number.l)),
-expression.s(call.e(variable.n, argument.l(variable.n)))
+Script(
+  ExpressionStatement(BinaryExpression(VariableName,ArithOp,Number)),
+  ExpressionStatement(CallExpression(VariableName,ArgList(VariableName))))
 
 # Doesn't parse postfix ops on a new line
 
@@ -33,8 +36,9 @@ x
 
 ==>
 
-expression.s(variable.n),
-expression.s(unary.p(operator.n, variable.n))
+Script(
+  ExpressionStatement(VariableName),
+  ExpressionStatement(UnaryExpression(ArithOp,VariableName)))
 
 # Eagerly cut return/break/continue
 
@@ -50,15 +54,16 @@ bar
 
 ==>
 
-return.s(return.k, number.l),
-return.s(return.k),
-expression.s(number.l),
-continue.s(continue.k, label.n),
-continue.s(continue.k),
-expression.s(variable.n),
-break.s(break.k, label.n),
-break.s(break.k),
-expression.s(variable.n)
+Script(
+  ReturnStatement(return,Number),
+  ReturnStatement(return),
+  ExpressionStatement(Number),
+  ContinueStatement(continue,Label),
+  ContinueStatement(continue),
+  ExpressionStatement(VariableName),
+  BreakStatement(break,Label),
+  BreakStatement(break),
+  ExpressionStatement(VariableName))
 
 # Cut return regardless of whitespace
 
@@ -69,4 +74,4 @@ return // foo
 
 ==>
 
-block.s(return.s(return.k)), return.s(return.k, line.c)
+Script(Block(ReturnStatement(return)),ReturnStatement(return,LineComment))

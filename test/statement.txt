@@ -6,8 +6,9 @@ const [x] = y = 3;
 
 ==>
 
-variable.d(var.k, definition.v, operator.n, variable.n, definition.v, operator.n, variable.n),
-variable.d(const.k, array.p(definition.v), operator.n, assignment.e(variable.n, operator.n, number.l))
+Script(
+  VariableDeclaration(var,VariableDefinition,Equals,VariableName,VariableDefinition,Equals,VariableName),
+  VariableDeclaration(const,ArrayPattern(VariableDefinition),Equals,AssignmentExpression(VariableName,Equals,Number)))
 
 # Function declaration
 
@@ -16,11 +17,10 @@ function b({b}, c = d, e = f) {}
 
 ==>
 
-function.d(function.k, definition.v, parameter.l(definition.v, definition.v), block.s(return.s(return.k, number.l))),
-function.d(function.k, definition.v, parameter.l(
-  object.p(property.d(property.n)),
-  definition.v, operator.n, variable.n,
-  definition.v, operator.n, variable.n), block.s)
+Script(
+  FunctionDeclaration(function,VariableDefinition,ParamList(VariableDefinition,VariableDefinition),Block(ReturnStatement(return,Number))),
+  FunctionDeclaration(function,VariableDefinition,ParamList(
+    ObjectPattern(PatternProperty(PropertyName)),VariableDefinition,Equals,VariableName,VariableDefinition,Equals,VariableName),Block))
 
 # Async functions
 
@@ -32,9 +32,10 @@ async (a) => { return foo; };
 
 ==>
 
-function.d(async.k, function.k, definition.v, parameter.l, block.s),
-class.d(class.k, definition.v, class.b(method.p(async.k, definition.property.n, parameter.l, block.s))),
-expression.s(arrow.f(async.k, parameter.l(definition.v), block.s(return.s(return.k, variable.n))))
+Script(
+  FunctionDeclaration(async,function,VariableDefinition,ParamList,Block),
+  ClassDeclaration(class,VariableDefinition,ClassBody(MethodDeclaration(async,PropertyNameDefinition,ParamList,Block))),
+  ExpressionStatement(ArrowFunction(async,ParamList(VariableDefinition),Arrow,Block(ReturnStatement(return,VariableName)))))
 
 # If statements
 
@@ -55,15 +56,13 @@ if (1) if (2) b; else c;
 
 ==>
 
-if.c(if.k, parenthesized.e(variable.n), expression.s(call.e(variable.n, argument.l(variable.n)))),
-
-if.c(if.k, parenthesized.e(member.e(variable.n, property.n)), block.s(expression.s(variable.n))),
-
-if.c(if.k, parenthesized.e(variable.n),
-  block.s(expression.s(variable.n), expression.s(variable.n)), else.k, block.s(expression.s(variable.n))),
-
-if.c(if.k, parenthesized.e(number.l),
-  if.c(if.k, parenthesized.e(number.l), expression.s(variable.n), else.k, expression.s(variable.n)))
+Script(
+  IfStatement(if,ParenthesizedExpression(VariableName),ExpressionStatement(CallExpression(VariableName,ArgList(VariableName)))),
+  IfStatement(if,ParenthesizedExpression(MemberExpression(VariableName,PropertyName)),Block(ExpressionStatement(VariableName))),
+  IfStatement(if,ParenthesizedExpression(VariableName),Block(ExpressionStatement(VariableName),ExpressionStatement(VariableName)),
+    else,Block(ExpressionStatement(VariableName))),
+  IfStatement(if,ParenthesizedExpression(Number),IfStatement(if,ParenthesizedExpression(Number),ExpressionStatement(VariableName),
+    else,ExpressionStatement(VariableName))))
 
 # While loop
 
@@ -75,8 +74,9 @@ while (2) {
 
 ==>
 
-while.l(while.k, parenthesized.e(number.l), debugger.s(debugger.k)),
-while.l(while.k, parenthesized.e(number.l), block.s(expression.s(variable.n), expression.s(variable.n)))
+Script(
+  WhileStatement(while,ParenthesizedExpression(Number),DebuggerStatement(debugger)),
+  WhileStatement(while,ParenthesizedExpression(Number),Block(ExpressionStatement(VariableName),ExpressionStatement(VariableName))))
 
 # Labels
 
@@ -85,8 +85,9 @@ foo: while(2) break foo;
 
 ==>
 
-labeled.s(label.n, expression.s(number.l)),
-labeled.s(label.n, while.l(while.k, parenthesized.e(number.l), break.s(break.k, label.n)))
+Script(
+  LabeledStatement(Label,ExpressionStatement(Number)),
+  LabeledStatement(Label,WhileStatement(while,ParenthesizedExpression(Number),BreakStatement(break,Label))))
 
 # Try
 
@@ -95,13 +96,11 @@ try { 1; } catch (x) { 2; } finally { 3; }
 
 ==>
 
-try.s(try.k, block.s(throw.s(throw.k, new.e(new.k, variable.n))), catch.k, block.s),
-try.s(try.k,
-  block.s(expression.s(number.l)),
-  catch.k, definition.v,
-  block.s(expression.s(number.l)),
-  finally.k,
-  block.s(expression.s(number.l)))
+Script(
+  TryStatement(try,Block(ThrowStatement(throw,NewExpression(new,VariableName))),catch,Block),
+  TryStatement(try,Block(ExpressionStatement(Number)),
+    catch,VariableDefinition,Block(ExpressionStatement(Number)),
+    finally,Block(ExpressionStatement(Number))))
 
 # Switch
 
@@ -117,17 +116,14 @@ switch (x) {
 
 ==>
 
-switch.s(
-  switch.k,
-  parenthesized.e(variable.n),
-  block.s(
-    case.l(case.k, number.l),
-    return.s(return.k, boolean.l),
-    case.l(case.k, number.l),
-    case.l(case.k, binary.o(number.l, operator.n, number.l)),
-    expression.s(call.e(member.e(variable.n, property.n), argument.l(string.l))),
-    default.l(default.k),
-    return.s(return.k, boolean.l)))
+Script(SwitchStatement(switch,ParenthesizedExpression(VariableName),Block(
+  CaseLabel(case,Number),
+  ReturnStatement(return,BooleanLiteral),
+  CaseLabel(case,Number),
+  CaseLabel(case,BinaryExpression(Number,ArithOp,Number)),
+  ExpressionStatement(CallExpression(MemberExpression(VariableName,PropertyName),ArgList(String))),
+  DefaultLabel(default),
+  ReturnStatement(return,BooleanLiteral))))
 
 # For
 
@@ -143,20 +139,18 @@ for await (let x of stream) {}
 
 ==>
 
-for.l(for.k,
-  for.s(variable.d(let.k, definition.v, operator.n, number.l),
-    binary.o(variable.n, operator.n, number.l),
-    unary.p(variable.n, operator.n)),
-  block.s),
-for.l(for.k, of.for.s(const.k, definition.v, of.k, variable.n), block.s),
-for.l(for.k, in.for.s(var.k, definition.v, in.o, variable.n), block.s),
-for.l(for.k, in.for.s(variable.n, in.o, variable.n), block.s),
-for.l(for.k, for.s(variable.d(var.k, definition.v, definition.v), variable.n, variable.n), continue.s(continue.k)),
-for.l(for.k, for.s(sequence.e(assignment.e(variable.n, operator.n, number.l), call.e(variable.n, argument.l)),
-             binary.o(variable.n, operator.n, number.l), unary.p(variable.n, operator.n)), block.s),
-for.l(for.k, for.s, block.s),
-for.l(for.k, in.for.s(const.k, object.p(property.d(property.n)), in.o, variable.n), expression.s(variable.n)),
-for.l(for.k, await.k, of.for.s(let.k, definition.v, of.k, variable.n), block.s)
+Script(
+  ForStatement(for,ForSpec(VariableDeclaration(let,VariableDefinition,Equals,Number),
+    BinaryExpression(VariableName,CompareOp,Number),PostfixExpression(VariableName,PostfixOp)),Block),
+  ForStatement(for,ForOfSpec(const,VariableDefinition,of,VariableName),Block),
+  ForStatement(for,ForInSpec(var,VariableDefinition,in,VariableName),Block),
+  ForStatement(for,ForInSpec(VariableName,in,VariableName),Block),
+  ForStatement(for,ForSpec(VariableDeclaration(var,VariableDefinition,VariableDefinition),VariableName,VariableName),ContinueStatement(continue)),
+  ForStatement(for,ForSpec(SequenceExpression(AssignmentExpression(VariableName,Equals,Number),
+    CallExpression(VariableName,ArgList)),BinaryExpression(VariableName,CompareOp,Number),PostfixExpression(VariableName,PostfixOp)),Block),
+  ForStatement(for,ForSpec,Block),
+  ForStatement(for,ForInSpec(const,ObjectPattern(PatternProperty(PropertyName)),in,VariableName),ExpressionStatement(VariableName)),
+  ForStatement(for,await,ForOfSpec(let,VariableDefinition,of,VariableName),Block))
 
 # Labeled statements
 
@@ -168,8 +162,8 @@ theLoop: for (;;) {
 
 ==>
 
-labeled.s(label.n, for.l(for.k, for.s,
-  block.s(if.c(if.k, parenthesized.e(variable.n), block.s(break.s(break.k, label.n))))))
+Script(LabeledStatement(Label,ForStatement(for,ForSpec,Block(
+  IfStatement(if,ParenthesizedExpression(VariableName),Block(BreakStatement(break,Label)))))))
 
 # Classes
 
@@ -186,14 +180,14 @@ class Foo extends require('another-class') {
 
 ==>
 
-class.d(class.k, definition.v, class.b(
-  method.p(static.k, definition.property.n, parameter.l(definition.v), block.s(return.s(return.k, variable.n))),
-  method.p(definition.property.n, parameter.l(definition.v), block.s(return.s(return.k, variable.n))),
-  method.p(definition.property.n, parameter.l, block.s))),
-
-class.d(class.k, definition.v, extends.k, call.e(variable.n, argument.l(string.l)), class.b(
-  method.p(definition.property.n, parameter.l, block.s(expression.s(call.e(super.k, argument.l)))),
-  method.p(definition.property.n, parameter.l, block.s(expression.s(call.e(member.e(super.k, property.n), argument.l))))))
+Script(
+  ClassDeclaration(class,VariableDefinition,ClassBody(
+    MethodDeclaration(static,PropertyNameDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
+    MethodDeclaration(PropertyNameDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
+    MethodDeclaration(PropertyNameDefinition,ParamList,Block))),
+  ClassDeclaration(class,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),ClassBody(
+    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(Super,ArgList)))),
+    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(Super,PropertyName),ArgList)))))))
 
 # Imports
 
@@ -206,12 +200,13 @@ import "module-name";
 
 ==>
 
-import.d(import.k, definition.v, from.k, string.l),
-import.d(import.k, star.p, as.k, definition.v, from.k, string.l),
-import.d(import.k, import.g(definition.v), from.k, string.l),
-import.d(import.k, import.g(definition.v, variable.n, as.k, definition.v), from.k, string.l),
-import.d(import.k, definition.v, import.g(definition.v, variable.n, as.k, definition.v), from.k, string.l),
-import.d(import.k, string.l)
+Script(
+  ImportDeclaration(import,VariableDefinition,from,String),
+  ImportDeclaration(import,Star,as,VariableDefinition,from,String),
+  ImportDeclaration(import,ImportGroup(VariableDefinition),from,String),
+  ImportDeclaration(import,ImportGroup(VariableDefinition,VariableName,as,VariableDefinition),from,String),
+  ImportDeclaration(import,VariableDefinition,ImportGroup(VariableDefinition,VariableName,as,VariableDefinition),from,String),
+  ImportDeclaration(import,String))
 
 # Exports
 
@@ -225,13 +220,14 @@ export * from 'foo';
 
 ==>
 
-export.d(export.k, export.g(variable.n, variable.n, variable.n, as.k, variable.n, variable.n)),
-export.d(export.k, variable.d(let.k, definition.v, definition.v, operator.n, number.l)),
-export.d(export.k, default.k, binary.o(number.l, operator.n, number.l)),
-export.d(export.k, default.k, function.d(function.k, parameter.l, block.s)),
-export.d(export.k, default.k, function.d(async.k, function.k, definition.v, parameter.l, block.s)),
-export.d(export.k, export.g(variable.n, as.k, variable.n), from.k, string.l),
-export.d(export.k, star.p, from.k, string.l)
+Script(
+  ExportDeclaration(export,ExportGroup(VariableName,VariableName,VariableName,as,VariableName,VariableName)),
+  ExportDeclaration(export,VariableDeclaration(let,VariableDefinition,VariableDefinition,Equals,Number)),
+  ExportDeclaration(export,default,BinaryExpression(Number,ArithOp,Number)),
+  ExportDeclaration(export,default,FunctionDeclaration(function,ParamList,Block)),
+  ExportDeclaration(export,default,FunctionDeclaration(async,function,VariableDefinition,ParamList,Block)),
+  ExportDeclaration(export,ExportGroup(VariableName,as,VariableName),from,String),
+  ExportDeclaration(export,Star,from,String))
 
 # Empty statements
 
@@ -239,7 +235,7 @@ if (true) { ; };;;
 
 ==>
 
-if.c(if.k, parenthesized.e(boolean.l), block.s)
+Script(IfStatement(if,ParenthesizedExpression(BooleanLiteral),Block))
 
 # Comments
 
@@ -262,12 +258,13 @@ y // comment
 
 ==>
 
-block.c,
-expression.s(variable.n),
-block.c,
-expression.s(variable.n),
-block.c,
-expression.s(variable.n),
-block.c,
-expression.s(variable.n),
-expression.s(binary.o(variable.n, line.c, operator.n, variable.n))
+Script(
+  BlockComment,
+  ExpressionStatement(VariableName),
+  BlockComment,
+  ExpressionStatement(VariableName),
+  BlockComment,
+  ExpressionStatement(VariableName),
+  BlockComment,
+  ExpressionStatement(VariableName),
+  ExpressionStatement(BinaryExpression(VariableName,LineComment,ArithOp,VariableName)))
