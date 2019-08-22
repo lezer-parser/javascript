@@ -186,8 +186,8 @@ Script(
     MethodDeclaration(PropertyNameDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
     MethodDeclaration(PropertyNameDefinition,ParamList,Block))),
   ClassDeclaration(class,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),ClassBody(
-    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(Super,ArgList)))),
-    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(Super,PropertyName),ArgList)))))))
+    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(super,ArgList)))),
+    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))))))
 
 # Imports
 

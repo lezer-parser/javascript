@@ -30,17 +30,17 @@
 statement {
   ExportDeclaration |
   ImportDeclaration |
-  ForStatement { kwCtrl<"for"> ckwOp<"await">? (ForSpec | ForInSpec | ForOfSpec) statement } |
-  WhileStatement { kwCtrl<"while"> ParenthesizedExpression statement } |
+  ForStatement { kw<"for"> ckw<"await">? (ForSpec | ForInSpec | ForOfSpec) statement } |
+  WhileStatement { kw<"while"> ParenthesizedExpression statement } |
   WithStatement { kw<"with"> ParenthesizedExpression statement } |
-  DoStatement { kwCtrl<"do"> statement kwCtrl<"while"> ParenthesizedExpression semi } |
-  IfStatement { kwCtrl<"if"> ParenthesizedExpression statement (!else kwCtrl<"else"> statement)? } |
-  SwitchStatement { kwCtrl<"switch"> ParenthesizedExpression Block { "{" switchItem* "}" } } |
-  TryStatement { kwCtrl<"try"> Block (kwCtrl<"catch"> ("(" pattern ")")? Block)? (kwCtrl<"finally"> Block)? } |
-  ReturnStatement { kwCtrl<"return"> (noSemi expression)? semi } |
-  ThrowStatement { kwCtrl<"throw"> expression semi } |
-  BreakStatement { kwCtrl<"break"> (noSemi Label)? semi } |
-  ContinueStatement { kwCtrl<"continue"> (noSemi Label)? semi } |
+  DoStatement { kw<"do"> statement kw<"while"> ParenthesizedExpression semi } |
+  IfStatement { kw<"if"> ParenthesizedExpression statement (!else kw<"else"> statement)? } |
+  SwitchStatement { kw<"switch"> ParenthesizedExpression Block { "{" switchItem* "}" } } |
+  TryStatement { kw<"try"> Block (kw<"catch"> ("(" pattern ")")? Block)? (kw<"finally"> Block)? } |
+  ReturnStatement { kw<"return"> (noSemi expression)? semi } |
+  ThrowStatement { kw<"throw"> expression semi } |
+  BreakStatement { kw<"break"> (noSemi Label)? semi } |
+  ContinueStatement { kw<"continue"> (noSemi Label)? semi } |
   DebuggerStatement { kw<"debugger"> semi } |
   Block |
   LabeledStatement { Label ":" statement } |
@@ -50,10 +50,10 @@ statement {
 }
 
 ExportDeclaration {
-  kwDef<"export"> Star ckw<"from"> String semi |
-  kwDef<"export"> kwCtrl<"default"> (FunctionDeclaration | ClassDeclaration | expression semi) |
-  kwDef<"export"> declaration |
-  kwDef<"export"> ExportGroup (ckw<"from"> String)? semi
+  kw<"export"> Star ckw<"from"> String semi |
+  kw<"export"> kw<"default"> (FunctionDeclaration | ClassDeclaration | expression semi) |
+  kw<"export"> declaration |
+  kw<"export"> ExportGroup (ckw<"from"> String)? semi
 }
 
 ExportGroup {
@@ -61,8 +61,8 @@ ExportGroup {
 }
 
 ImportDeclaration {
-  kwDef<"import"> (Star ckw<"as"> VariableDefinition | commaSep<VariableDefinition | ImportGroup>) ckw<"from"> String semi |
-  kwDef<"import"> String semi
+  kw<"import"> (Star ckw<"as"> VariableDefinition | commaSep<VariableDefinition | ImportGroup>) ckw<"from"> String semi |
+  kw<"import"> String semi
 }
 
 ImportGroup {
@@ -77,24 +77,24 @@ ForSpec {
 
 forXSpec<op> {
   "("
-  ((kwDef<"let"> | kwDef<"var"> | kwDef<"const">) pattern | VariableName | MemberExpression | ArrayPattern | ObjectPattern)
+  ((kw<"let"> | kw<"var"> | kw<"const">) pattern | VariableName | MemberExpression | ArrayPattern | ObjectPattern)
   !loop op expression
   ")"
 }
 
-ForInSpec { forXSpec<kwOp<"in">> }
-ForOfSpec { forXSpec<ckwOp<"of">> }
+ForInSpec { forXSpec<kw<"in">> }
+ForOfSpec { forXSpec<ckw<"of">> }
 
 declaration {
   FunctionDeclaration | ClassDeclaration | VariableDeclaration
 }
 
 FunctionDeclaration {
-  async? !statement kwDef<"function"> Star? VariableDefinition? ParamList Block
+  async? !statement kw<"function"> Star? VariableDefinition? ParamList Block
 }
 
 ClassDeclaration {
-  !statement kwDef<"class"> VariableDefinition (kwDef<"extends"> expression)? ClassBody
+  !statement kw<"class"> VariableDefinition (kw<"extends"> expression)? ClassBody
 }
 
 ClassBody {
@@ -111,7 +111,7 @@ MethodDeclaration {
 }
 
 VariableDeclaration {
-  (kwDef<"let"> | kwDef<"var"> | kwDef<"const">) commaSep1<patternAssign> semi
+  (kw<"let"> | kw<"var"> | kw<"const">) commaSep1<patternAssign> semi
 }
 
 pattern { VariableDefinition | ArrayPattern | ObjectPattern }
@@ -133,8 +133,8 @@ Block {
 }
 
 switchItem {
-  CaseLabel { kwCtrl<"case"> expression ":" } |
-  DefaultLabel { kwCtrl<"default"> ":" } |
+  CaseLabel { kw<"case"> expression ":" } |
+  DefaultLabel { kw<"default"> ":" } |
   statement
 }
 
@@ -152,9 +152,9 @@ expressionNoComma {
   TemplateString |
   VariableName |
   boolean |
-  this |
-  null |
-  super |
+  kw<"this"> |
+  kw<"null"> |
+  kw<"super"> |
   RegExp |
   ArrayExpression |
   ObjectExpression { "{" commaSep<Property> ~destructure "}" } |
@@ -193,19 +193,19 @@ PatternProperty {
 }
 
 ClassExpression {
-  kwDef<"class"> VariableDefinition? (kwDef<"extends"> expression)? ClassBody
+  kw<"class"> VariableDefinition? (kw<"extends"> expression)? ClassBody
 }
 
 FunctionExpression {
-  kwDef<"function"> Star? VariableDefinition? ParamList Block
+  kw<"function"> Star? VariableDefinition? ParamList Block
 }
 
 NewExpression {
-  kwOp<"new"> expressionNoComma (!newArgs ArgList)?
+  kw<"new"> expressionNoComma (!newArgs ArgList)?
 }
 
 UnaryExpression {
-  !prefix (ckwOp<"await"> | ckwOp<"yield"> | kwOp<"void"> | kwOp<"typeof"> | kwOp<"delete"> |
+  !prefix (ckw<"await"> | ckw<"yield"> | kw<"void"> | kw<"typeof"> | kw<"delete"> |
            LogicOp<"!"> | BitOp<"~"> | ArithOp<"++" | "--"> | ArithOp<"+" | "-">)
   expressionNoComma
 }
@@ -215,7 +215,7 @@ BinaryExpression {
   expressionNoComma !times (divide | ArithOp<"%"> | ArithOp<"*">) expressionNoComma |
   expressionNoComma !plus ArithOp<"+" | "-"> expressionNoComma |
   expressionNoComma !shift BitOp<">>" ">"? | "<<"> expressionNoComma |
-  expressionNoComma !rel (CompareOp<"<" "="? | ">" "="?> | kwOp<"in"> | kwOp<"instanceof">) expressionNoComma |
+  expressionNoComma !rel (CompareOp<"<" "="? | ">" "="?> | kw<"in"> | kw<"instanceof">) expressionNoComma |
   expressionNoComma !equal CompareOp<"==" "="? | "!=" "="?> expressionNoComma |
   expressionNoComma !bitOr BitOp<"|"> expressionNoComma |
   expressionNoComma !bitXor BitOp<"^"> expressionNoComma |
@@ -242,7 +242,7 @@ ArrowFunction {
 }
 
 @skip {} {
-  TemplateString[style=literal.string.special] {
+  TemplateString {
     templateStart (templateContent | templateExpr)* templateEnd
   }
 }
@@ -259,66 +259,52 @@ commaSep1<content> {
 
 // Keywords
 
-kw<term> { @specialize[name={term},style=keyword]<identifier, term> }
-
-kwCtrl<term> { @specialize[name={term},style=keyword.control]<identifier, term> }
-
-kwOp<term> { @specialize[name={term},style=keyword.operator]<identifier, term> }
-
-kwDef<term> { @specialize[name={term},style=keyword.define]<identifier, term> }
+kw<term> { @specialize[name={term}]<identifier, term> }
 
 // Contextual keywords
 
-ckw<term> { @extend[name={term},style=keyword]<identifier, term> }
+ckw<term> { @extend[name={term}]<identifier, term> }
 
-ckwOp<term> { @extend[name={term},style=keyword.operator]<identifier, term> }
-
-async { @extend[name=async,style=keyword.modifier]<identifier, "async"> }
+async { @extend[name=async]<identifier, "async"> }
 
 // Contextual keyword in property context
 
-pkwMod<term> { @extend[name={term},style=keyword.modifier]<word, term> }
+pkwMod<term> { @extend[name={term}]<word, term> }
 
 semi { ";" | insertSemi }
 
-boolean { @specialize[name=BooleanLiteral,style=keyword.expression]<identifier, "true" | "false"> }
+boolean { @specialize[name=BooleanLiteral]<identifier, "true" | "false"> }
 
-this { @specialize[name=This,style=keyword.expression.self]<identifier, "this"> }
+Star { "*" }
 
-null { @specialize[name=Null,style=keyword.expression.null]<identifier, "null"> }
+VariableName { identifier ~arrow }
 
-super { @specialize[name=Super,style=keyword.expression]<identifier, "super"> }
+VariableDefinition { identifier ~arrow }
 
-Star[style=punctuation.marker] { "*" }
+Label { identifier }
 
-VariableName[style=name.variable] { identifier ~arrow }
+PropertyName { word }
 
-VariableDefinition[style=name.variable.define] { identifier ~arrow }
-
-Label[style=name.label] { identifier }
-
-PropertyName[style=name.property] { word }
-
-PropertyNameDefinition[style=name.property.define] { word }
+PropertyNameDefinition { word }
 
 @skip { whitespace | LineComment | BlockComment }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
 
-@external tokens postfix from "./tokens" { PostfixOp[style=operator.update] }
+@external tokens postfix from "./tokens" { PostfixOp }
 
 @tokens {
   whitespace { std.whitespace+ }
 
-  LineComment[style=comment.line] { "//" ![\n]* }
+  LineComment { "//" ![\n]* }
 
-  BlockComment[style=comment.block] { "/*" blockCommentRest }
+  BlockComment { "/*" blockCommentRest }
 
   blockCommentRest { ![*] blockCommentRest | "*" blockCommentAfterStar }
 
   blockCommentAfterStar { "/" | "*" blockCommentAfterStar | ![/*] blockCommentRest }
 
-  divide[name=ArithOp,style=operator.arithmetic] { "/" }
+  divide[name=ArithOp] { "/" }
 
   @precedence { BlockComment, LineComment, divide }
 
@@ -334,14 +320,14 @@ PropertyNameDefinition[style=name.property.define] { word }
 
   @precedence { word, whitespace }
 
-  Number[style=literal.number] {
+  Number {
     (std.digit+ ("." std.digit*)? | "." std.digit+) (("e" | "E") ("+" | "-")? std.digit+)? |
     "0x" (std.digit | $[a-fA-F])+ |
     "0b" $[01]+ |
     "0o" $[0-7]+
   }
 
-  String[style=literal.string] {
+  String {
     '"' (![\\\n"] | "\\" _)* '"'? |
     "'" (![\\\n'] | "\\" _)* "'"?
   }
@@ -350,29 +336,21 @@ PropertyNameDefinition[style=name.property.define] { word }
 
   templateClosingBrace { "}" }
 
-  ArithOp[style=operator.arithmetic]<expr> { expr }
-  LogicOp[style=operator.logic]<expr> { expr }
-  BitOp[style=operator.bitwise]<expr> { expr }
-  CompareOp[style=operator.compare]<expr> { expr }
-  UpdateOp[style=operator.update]<expr> { expr }
+  ArithOp<expr> { expr }
+  LogicOp<expr> { expr }
+  BitOp<expr> { expr }
+  CompareOp<expr> { expr }
+  UpdateOp<expr> { expr }
 
-  RegExp[style=literal.regexp] { "/" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ ("/" $[gimsuy]*)? }
+  RegExp { "/" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ ("/" $[gimsuy]*)? }
 
-  "="[name=Equals,style=operator.define]
-  "..."[name=Spread, style=punctuation.modifier]
-  "=>"[name=Arrow, style=punctuation.define]
+  "="[name=Equals]
+  "..."[name=Spread]
+  "=>"[name=Arrow]
 
-  "("[style=bracket.paren.open]
-  ")"[style=bracket.paren.close]
-  "["[style=bracket.square.open]
-  "]"[style=bracket.square.close]
-  "{"[style=bracket.brace.open]
-  "}"[style=bracket.brace.close]
+  "(" ")" "[" "]" "{" "}"
 
-  "."[style=operator.deref]
-  ","[style=punctuation.separator]
-  ";"[style=punctuation.separator]
-  ":"[style=punctuation.define]
+  "." "," ";" ":"
 }
 
 @external tokens insertSemicolon from "./tokens" { insertSemi }

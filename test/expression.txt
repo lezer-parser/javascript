@@ -192,7 +192,7 @@ true ? delete thing.prop : null;
 Script(
   ExpressionStatement(UnaryExpression(delete,MemberExpression(VariableName,String))),
   ExpressionStatement(ConditionalExpression(BooleanLiteral,LogicOp,
-    UnaryExpression(delete,MemberExpression(VariableName,PropertyName)),LogicOp,Null)))
+    UnaryExpression(delete,MemberExpression(VariableName,PropertyName)),LogicOp,null)))
 
 # Void
 
@@ -272,8 +272,8 @@ Script(
   ExpressionStatement(BinaryExpression(ParenthesizedExpression(
     BinaryExpression(
       BinaryExpression(
-        CallExpression(MemberExpression(This,PropertyName),ArgList),ArithOp,
-        CallExpression(MemberExpression(This,PropertyName),ArgList)),ArithOp,Number)),ArithOp,Number)))
+        CallExpression(MemberExpression(this,PropertyName),ArgList),ArithOp,
+        CallExpression(MemberExpression(this,PropertyName),ArgList)),ArithOp,Number)),ArithOp,Number)))
 
 # Yield expressions
 
@@ -331,8 +331,8 @@ false;
 ==>
 
 Script(
-  ExpressionStatement(This),
-  ExpressionStatement(Null),
+  ExpressionStatement(this),
+  ExpressionStatement(null),
   ExpressionStatement(VariableName),
   ExpressionStatement(BooleanLiteral),
   ExpressionStatement(BooleanLiteral))
@@ -458,7 +458,7 @@ return this.map(function (a) {
 
 ==>
 
-Script(ReturnStatement(return,CallExpression(MemberExpression(CallExpression(MemberExpression(This,PropertyName),
+Script(ReturnStatement(return,CallExpression(MemberExpression(CallExpression(MemberExpression(this,PropertyName),
   ArgList(FunctionExpression(function,ParamList(VariableDefinition),Block(ReturnStatement(return,MemberExpression(VariableName,PropertyName)))))),
   LineComment,PropertyName),ArgList(FunctionExpression(function,ParamList(VariableDefinition),Block(ReturnStatement(return,Number)))))))
 
