@@ -35,7 +35,7 @@ statement {
   WithStatement { kw<"with"> ParenthesizedExpression statement } |
   DoStatement { kw<"do"> statement kw<"while"> ParenthesizedExpression semi } |
   IfStatement { kw<"if"> ParenthesizedExpression statement (!else kw<"else"> statement)? } |
-  SwitchStatement { kw<"switch"> ParenthesizedExpression Block { "{" switchItem* "}" } } |
+  SwitchStatement { kw<"switch"> ParenthesizedExpression SwitchBody { "{" switchItem* "}" } } |
   TryStatement { kw<"try"> Block (kw<"catch"> ("(" pattern ")")? Block)? (kw<"finally"> Block)? } |
   ReturnStatement { kw<"return"> (noSemi expression)? semi } |
   ThrowStatement { kw<"throw"> expression semi } |

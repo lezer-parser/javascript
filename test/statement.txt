@@ -116,7 +116,7 @@ switch (x) {
 
 ==>
 
-Script(SwitchStatement(switch,ParenthesizedExpression(VariableName),Block(
+Script(SwitchStatement(switch,ParenthesizedExpression(VariableName),SwitchBody(
   CaseLabel(case,Number),
   ReturnStatement(return,BooleanLiteral),
   CaseLabel(case,Number),
