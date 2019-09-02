@@ -642,7 +642,7 @@ Script(ExpressionStatement(ParenthesizedExpression(
 
 Script(ExpressionStatement(ConditionalExpression(Number,LogicOp,Number,⚠)))
 
-# Can hanle unterminated template literals
+# Can handle unterminated template literals
 
 `f
 
