@@ -268,3 +268,15 @@ Script(
   BlockComment,
   ExpressionStatement(VariableName),
   ExpressionStatement(BinaryExpression(VariableName,LineComment,ArithOp,VariableName)))
+
+# Recover from invalid char
+
+const {foo#bar} = {};
+
+==>
+
+Script(VariableDeclaration(
+  const,
+  ObjectPattern(PatternProperty(PropertyName,⚠,VariableDefinition)),
+  Equals,
+  ObjectExpression))
