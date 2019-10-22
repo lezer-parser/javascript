@@ -1,3 +1,9 @@
+## 0.5.1 (2019-10-22)
+
+### Bug fixes
+
+Fix top prop missing from build output.
+
 ## 0.5.0 (2019-10-22)
 
 ### Breaking changes
