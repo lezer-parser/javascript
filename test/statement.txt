@@ -277,6 +277,6 @@ const {foo#bar} = {};
 
 Script(VariableDeclaration(
   const,
-  ObjectPattern(PatternProperty(PropertyName,⚠),⚠,PatternProperty(PropertyName)),
+  ObjectPattern("{",PatternProperty(PropertyName,⚠,VariableDefinition),"}"),
   Equals,
   ObjectExpression))
