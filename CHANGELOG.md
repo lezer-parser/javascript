@@ -1,3 +1,9 @@
+## 0.5.2 (2020-01-15)
+
+### Bug fixes
+
+Regenerate with lezer-generator 0.5.2 to avoid cyclic forced reductions.
+
 ## 0.5.1 (2019-10-22)
 
 ### Bug fixes
