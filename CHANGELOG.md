@@ -1,3 +1,9 @@
+## 0.7.0 (2020-01-20)
+
+### Breaking changes
+
+Use the lezer 0.7.0 parser format.
+
 ## 0.5.2 (2020-01-15)
 
 ### Bug fixes
