@@ -280,3 +280,16 @@ Script(VariableDeclaration(
   ObjectPattern("{",PatternProperty(PropertyName,⚠,VariableDefinition),"}"),
   Equals,
   ObjectExpression))
+
+# Sync back to statement
+
+function f() {
+  log(a b --c)
+}
+function g() {}
+
+==>
+
+Script(
+  FunctionDeclaration(function,VariableDefinition,ParamList,Block(ExpressionStatement(CallExpression(VariableName,ArgList(...))))),
+  FunctionDeclaration(function,VariableDefinition,ParamList,Block))
