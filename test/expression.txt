@@ -93,6 +93,7 @@ Script(
 [ "item1", item2 ];
 [ , item2 ];
 [ item2 = 5 ];
+[ a, ...b, c ];
 
 ==>
 
@@ -102,7 +103,8 @@ Script(
   ExpressionStatement(ArrayExpression(String)),
   ExpressionStatement(ArrayExpression(String,VariableName)),
   ExpressionStatement(ArrayExpression(VariableName)),
-  ExpressionStatement(ArrayExpression(AssignmentExpression(VariableName,Equals,Number))))
+  ExpressionStatement(ArrayExpression(AssignmentExpression(VariableName,Equals,Number))),
+  ExpressionStatement(ArrayExpression(VariableName, Spread, VariableName, VariableName)))
 
 # Functions
 

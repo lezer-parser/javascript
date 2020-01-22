@@ -116,7 +116,7 @@ VariableDeclaration {
 
 pattern { VariableDefinition | ArrayPattern | ObjectPattern }
 
-ArrayPattern { "[" commaSep<"..." patternAssign | patternAssign> ~destructure "]" }
+ArrayPattern { "[" commaSep<"..."? patternAssign> ~destructure "]" }
 
 ObjectPattern { "{" commaSep<PatternProperty> ~destructure "}" }
 
@@ -176,7 +176,7 @@ expressionNoComma {
 ParenthesizedExpression { "(" expression ")" }
 
 ArrayExpression {
-  "[" commaSep1<expressionNoComma | ""> ~destructure "]"
+  "[" commaSep1<"..."? expressionNoComma | ""> ~destructure "]"
 }
 
 propName { PropertyNameDefinition | "[" expression "]" | Number | String }
