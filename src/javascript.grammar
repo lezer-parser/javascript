@@ -221,7 +221,7 @@ BinaryExpression {
   expressionNoComma !bitXor BitOp<"^"> expressionNoComma |
   expressionNoComma !bitAnd BitOp<"&"> expressionNoComma |
   expressionNoComma !and LogicOp<"&&"> expressionNoComma |
-  expressionNoComma !or LogicOp<"||"> expressionNoComma
+  expressionNoComma !or LogicOp<"||" | "??"> expressionNoComma
 }
 
 AssignmentExpression {
@@ -230,7 +230,7 @@ AssignmentExpression {
 }
 
 MemberExpression {
-  expressionNoComma !member ("." PropertyName | "[" expression "]")
+  expressionNoComma !member (("." | "?.") PropertyName | "[" expression "]")
 }
 
 ArgList {
@@ -350,7 +350,7 @@ PropertyNameDefinition { word }
 
   "(" ")" "[" "]" "{" "}"
 
-  "." "," ";" ":"
+  "?." "." "," ";" ":"
 }
 
 @external tokens insertSemicolon from "./tokens" { insertSemi }
