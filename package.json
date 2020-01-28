@@ -14,6 +14,10 @@
   "dependencies": {
     "lezer": "^0.7.0"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/lezer-parser/javascript.git"
+  },
   "scripts": {
     "build": "lezer-generator src/javascript.grammar -o src/parser && rollup -c",
     "build-debug": "lezer-generator src/javascript.grammar --names -o src/parser && rollup -c",
