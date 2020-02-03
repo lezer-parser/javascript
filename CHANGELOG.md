@@ -1,3 +1,15 @@
+## 0.8.0 (2020-02-03)
+
+### Bug fixes
+
+Add support for the spread ... operator in array literals.
+
+### New features
+
+Follow 0.8.0 release of the library.
+
+Add support for nullish coalescing and optional chaining.
+
 ## 0.7.0 (2020-01-20)
 
 ### Breaking changes
