@@ -1,3 +1,9 @@
+## 0.8.1 (2020-02-28)
+
+### New features
+
+Provide an ES module file.
+
 ## 0.8.0 (2020-02-03)
 
 ### Bug fixes
