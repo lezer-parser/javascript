@@ -1,3 +1,9 @@
+## 0.8.2 (2020-04-01)
+
+### Bug fixes
+
+Make the package load as an ES module on node
+
 ## 0.8.1 (2020-02-28)
 
 ### New features
