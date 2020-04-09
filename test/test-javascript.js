@@ -1,8 +1,10 @@
-const {parser} = require("../dist/index")
-const {fileTests} = require("lezer-generator/dist/test.js")
+import {parser} from "../dist/index.es.js"
+import {fileTests} from "lezer-generator/dist/test"
 
-let fs = require("fs"), path = require("path")
-let caseDir = __dirname
+import * as fs from "fs"
+import * as path from "path"
+import { fileURLToPath } from 'url';
+let caseDir = path.dirname(fileURLToPath(import.meta.url))
 
 for (let file of fs.readdirSync(caseDir)) {
   if (!/\.txt$/.test(file)) continue
