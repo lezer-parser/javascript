@@ -1,3 +1,9 @@
+## 0.8.3 (2020-04-09)
+
+### Bug fixes
+
+Regenerate parser with a fix in lezer-generator so that the top node prop is properly assigned.
+
 ## 0.8.2 (2020-04-01)
 
 ### Bug fixes
