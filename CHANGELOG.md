@@ -1,3 +1,9 @@
+## 0.8.4 (2020-05-30)
+
+### Bug fixes
+
+Fix the package.json `main` field pointing at the wrong file, breaking the library in node versions older than 13.
+	
 ## 0.8.3 (2020-04-09)
 
 ### Bug fixes
