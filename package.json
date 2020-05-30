@@ -2,7 +2,7 @@
   "name": "lezer-javascript",
   "version": "0.8.3",
   "description": "lezer-based JavaScript grammar",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "type": "module",
   "exports": {
     "import": "./dist/index.es.js",
