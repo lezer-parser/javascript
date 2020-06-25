@@ -14,8 +14,8 @@ const braceR = 125, braceL = 123, semicolon = 59, slash = 47, star = 42,
 function newlineBefore(input, pos) {
   for (let i = pos - 1; i >= 0; i--) {
     let prev = input.get(i)
-    if (newline.includes(prev)) return true
-    if (!space.includes(prev)) break
+    if (newline.indexOf(prev) > -1) return true
+    if (space.indexOf(prev) < 0) break
   }
   return false
 }
@@ -28,7 +28,7 @@ export const insertSemicolon = new ExternalTokenizer((input, token, stack) => {
 
 export const noSemicolon = new ExternalTokenizer((input, token, stack) => {
   let pos = token.start, next = input.get(pos++)
-  if (space.includes(next) || newline.includes(next)) return
+  if (space.indexOf(next) > -1 || newline.indexOf(next) > -1) return
   if (next == slash) {
     let after = input.get(pos++)
     if (after == slash || after == star) return
