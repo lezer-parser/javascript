@@ -1,3 +1,9 @@
+## 0.9.1 (2020-06-29)
+
+### Bug fixes
+
+Fix accidental use of non-ES5 library methods.
+
 ## 0.9.0 (2020-06-08)
 
 ### Breaking changes
@@ -9,7 +15,7 @@ Upgrade to 0.9 parser serialization
 ### Bug fixes
 
 Fix the package.json `main` field pointing at the wrong file, breaking the library in node versions older than 13.
-	
+
 ## 0.8.3 (2020-04-09)
 
 ### Bug fixes
