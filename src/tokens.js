@@ -2,7 +2,7 @@
    expressed by lezer's built-in tokenizer. */
 
 import {ExternalTokenizer} from "lezer"
-import {insertSemi, noSemi, PostfixOp, templateContent, templateDollarBrace, templateEnd} from "./parser.terms.js"
+import {insertSemi, noSemi, incdec, incdecPrefix, templateContent, templateDollarBrace, templateEnd} from "./parser.terms.js"
 
 const newline = [10, 13, 8232, 8233]
 const space = [9, 11, 12, 32, 133, 160, 5760, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200, 8201, 8202, 8239, 8287, 12288]
@@ -38,11 +38,12 @@ export const noSemicolon = new ExternalTokenizer((input, token, stack) => {
     token.accept(noSemi, token.start)
 }, {contextual: true})
 
-export const postfix = new ExternalTokenizer((input, token, stack) => {
-  let pos = token.start, next = input.get(pos++)
-  if ((next == plus || next == minus) && next == input.get(pos++) &&
-      !newlineBefore(input, token.start) && stack.canShift(PostfixOp))
-    token.accept(PostfixOp, pos)
+export const incdecToken = new ExternalTokenizer((input, token, stack) => {
+  let pos = token.start, next = input.get(pos)
+  if ((next == plus || next == minus) && next == input.get(pos + 1)) {
+    let mayPostfix = !newlineBefore(input, token.start) && stack.canShift(incdec)
+    token.accept(mayPostfix ? incdec : incdecPrefix, pos + 2)
+  }
 }, {contextual: true})
 
 export const template = new ExternalTokenizer((input, token) => {

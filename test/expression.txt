@@ -519,8 +519,8 @@ i + j * 3 - j % 5;
 ==>
 
 Script(
-  ExpressionStatement(PostfixExpression(VariableName,PostfixOp)),
-  ExpressionStatement(PostfixExpression(VariableName,PostfixOp)),
+  ExpressionStatement(PostfixExpression(VariableName,ArithOp)),
+  ExpressionStatement(PostfixExpression(VariableName,ArithOp)),
   ExpressionStatement(BinaryExpression(BinaryExpression(VariableName,ArithOp,BinaryExpression(VariableName,ArithOp,Number)),ArithOp,BinaryExpression(VariableName,ArithOp,Number))),
   ExpressionStatement(BinaryExpression(BinaryExpression(Number,ArithOp,VariableName),ArithOp,Number)),
   ExpressionStatement(BinaryExpression(Number,ArithOp,BinaryExpression(VariableName,ArithOp,Number))),

@@ -168,7 +168,7 @@ expressionNoComma {
   BinaryExpression |
   ConditionalExpression { expressionNoComma !ternary LogicOp<"?"> expressionNoComma LogicOp<":"> expressionNoComma } |
   AssignmentExpression |
-  PostfixExpression { expressionNoComma !postfix PostfixOp } |
+  PostfixExpression { expressionNoComma !postfix incdec } |
   CallExpression { expressionNoComma !call ArgList } |
   TaggedTemplatExpression { expressionNoComma !taggedTemplate TemplateString }
 }
@@ -206,7 +206,7 @@ NewExpression {
 
 UnaryExpression {
   !prefix (ckw<"await"> | ckw<"yield"> | kw<"void"> | kw<"typeof"> | kw<"delete"> |
-           LogicOp<"!"> | BitOp<"~"> | ArithOp<"++" | "--"> | ArithOp<"+" | "-">)
+           LogicOp<"!"> | BitOp<"~"> | incdec | incdecPrefix | ArithOp<"+" | "-">)
   expressionNoComma
 }
 

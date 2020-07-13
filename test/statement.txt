@@ -141,13 +141,13 @@ for await (let x of stream) {}
 
 Script(
   ForStatement(for,ForSpec(VariableDeclaration(let,VariableDefinition,Equals,Number),
-    BinaryExpression(VariableName,CompareOp,Number),PostfixExpression(VariableName,PostfixOp)),Block),
+    BinaryExpression(VariableName,CompareOp,Number),PostfixExpression(VariableName,ArithOp)),Block),
   ForStatement(for,ForOfSpec(const,VariableDefinition,of,VariableName),Block),
   ForStatement(for,ForInSpec(var,VariableDefinition,in,VariableName),Block),
   ForStatement(for,ForInSpec(VariableName,in,VariableName),Block),
   ForStatement(for,ForSpec(VariableDeclaration(var,VariableDefinition,VariableDefinition),VariableName,VariableName),ContinueStatement(continue)),
   ForStatement(for,ForSpec(SequenceExpression(AssignmentExpression(VariableName,Equals,Number),
-    CallExpression(VariableName,ArgList)),BinaryExpression(VariableName,CompareOp,Number),PostfixExpression(VariableName,PostfixOp)),Block),
+    CallExpression(VariableName,ArgList)),BinaryExpression(VariableName,CompareOp,Number),PostfixExpression(VariableName,ArithOp)),Block),
   ForStatement(for,ForSpec,Block),
   ForStatement(for,ForInSpec(const,ObjectPattern(PatternProperty(PropertyName)),in,VariableName),ExpressionStatement(VariableName)),
   ForStatement(for,await,ForOfSpec(let,VariableDefinition,of,VariableName),Block))
