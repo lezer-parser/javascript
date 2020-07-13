@@ -24,7 +24,7 @@ export const insertSemicolon = new ExternalTokenizer((input, token, stack) => {
   let pos = token.start, next = input.get(pos)
   if ((next == braceR || next == -1 || newlineBefore(input, pos)) && stack.canShift(insertSemi))
     token.accept(insertSemi, token.start)
-}, {contextual: true})
+}, {contextual: true, fallback: true})
 
 export const noSemicolon = new ExternalTokenizer((input, token, stack) => {
   let pos = token.start, next = input.get(pos++)
