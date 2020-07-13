@@ -170,7 +170,8 @@ expressionNoComma {
   AssignmentExpression |
   PostfixExpression { expressionNoComma !postfix incdec } |
   CallExpression { expressionNoComma !call ArgList } |
-  TaggedTemplatExpression { expressionNoComma !taggedTemplate TemplateString }
+  TaggedTemplatExpression { expressionNoComma !taggedTemplate TemplateString } |
+  JSXElement
 }
 
 ParenthesizedExpression { "(" expression ")" }
@@ -249,6 +250,42 @@ ArrowFunction {
 
 templateExpr { templateDollarBrace expression templateClosingBrace }
 
+@skip {} {
+  JSXElement {
+    JSXSelfClosingTag |
+    (JSXOpenTag | JSXFragmentTag) (JSXText | JSXElement | JSXEscape)* JSXCloseTag
+  }
+}
+
+JSXSelfClosingTag { JSXStartTag jsxElementName jsxAttribute* JSXSelfCloseEndTag }
+
+JSXOpenTag { JSXStartTag jsxElementName jsxAttribute* JSXEndTag }
+
+JSXFragmentTag { JSXStartTag JSXEndTag }
+
+JSXCloseTag { JSXStartCloseTag jsxElementName? JSXEndTag }
+
+jsxElementName {
+  JSXIdentifier |
+  JSXNamespacedName |
+  JSXMemberExpression { (JSXMemberExpression | JSXIdentifier) "." JSXIdentifier }
+}
+
+JSXNamespacedName { (JSXIdentifier | JSXNamespacedName) ":" JSXIdentifier }
+
+jsxAttribute {
+  JSXSpreadAttribute { "{" "..." expression "}" } |
+  JSXAttribute { (JSXIdentifier | JSXNamespacedName) ("=" jsxAttributeValue)? }
+}
+
+jsxAttributeValue {
+  JSXAttributeValue |
+  "{" expression "}" |
+  JSXElement
+}
+
+JSXEscape { "{" "..."? expression "}" }
+
 commaSep<content> {
   "" | content ("," content?)*
 }
@@ -291,7 +328,16 @@ PropertyNameDefinition { word }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
 
-@external tokens postfix from "./tokens" { PostfixOp }
+@external tokens incdecToken from "./tokens" {
+ incdec[name=ArithOp],
+ incdecPrefix[name=ArithOp]
+}
+
+@external tokens template from "./tokens" {
+  templateContent,
+  templateDollarBrace,
+  templateEnd
+}
 
 @tokens {
   whitespace { std.whitespace+ }
@@ -317,6 +363,8 @@ PropertyNameDefinition { word }
   identifier { word }
 
   @precedence { identifier, whitespace }
+
+  @precedence { JSXIdentifier, whitespace }
 
   @precedence { word, whitespace }
 
@@ -351,14 +399,22 @@ PropertyNameDefinition { word }
   "(" ")" "[" "]" "{" "}"
 
   "?." "." "," ";" ":"
+
+  JSXIdentifier { identifierChar (identifierChar | std.digit | "-")* }
+
+  JSXAttributeValue { '"' !["]* '"' | "'" ![']* "'" }
+
+  JSXStartTag { "<" }
+
+  JSXStartCloseTag { "</" }
+
+  JSXEndTag { ">" }
+
+  JSXSelfCloseEndTag { "/>" }
+
+  JSXText { ![<{]+ }
 }
 
 @external tokens insertSemicolon from "./tokens" { insertSemi }
-
-@external tokens template from "./tokens" {
-  templateContent,
-  templateDollarBrace,
-  templateEnd
-}
 
 @detectDelim
