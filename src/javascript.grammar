@@ -1,6 +1,12 @@
 @precedence {
+  typeargs,
+  typeMember,
+  union,
+  typeTernary @left,
   else @left,
   member,
+  array @left,
+  readonly,
   newArgs,
   call,
   taggedTemplate,
@@ -86,15 +92,15 @@ ForInSpec { forXSpec<kw<"in">> }
 ForOfSpec { forXSpec<ckw<"of">> }
 
 declaration {
-  FunctionDeclaration | ClassDeclaration | VariableDeclaration
+  FunctionDeclaration | ClassDeclaration | VariableDeclaration | TypeAliasDeclaration | InterfaceDeclaration | EnumDeclaration
 }
 
 FunctionDeclaration {
-  async? !statement kw<"function"> Star? VariableDefinition? ParamList Block
+  async? !statement kw<"function"> Star? VariableDefinition? TypeParamList? ParamList Block
 }
 
 ClassDeclaration {
-  !statement kw<"class"> VariableDefinition (kw<"extends"> expression)? ClassBody
+  !statement kw<"class"> VariableDefinition TypeParamList? (kw<"extends"> expression)? ClassBody
 }
 
 ClassBody {
@@ -111,7 +117,19 @@ MethodDeclaration {
 }
 
 VariableDeclaration {
-  (kw<"let"> | kw<"var"> | kw<"const">) commaSep1<patternAssign> semi
+  (kw<"let"> | kw<"var"> | kw<"const">) commaSep1<patternAssignTyped> semi
+}
+
+TypeAliasDeclaration {
+  ckw<"type"> TypeDefinition TypeParamList? "=" type semi
+}
+
+InterfaceDeclaration {
+  ckw<"interface"> TypeDefinition TypeParamList? ObjectType
+}
+
+EnumDeclaration {
+  ckw<"enum"> TypeDefinition EnumBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
 }
 
 pattern { VariableDefinition | ArrayPattern | ObjectPattern }
@@ -122,6 +140,12 @@ ObjectPattern { "{" commaSep<PatternProperty> ~destructure "}" }
 
 patternAssign {
   pattern ("=" expressionNoComma)?
+}
+
+TypeDeclaration { ":" type }
+
+patternAssignTyped {
+  pattern Optional? TypeDeclaration? ("=" expressionNoComma)?
 }
 
 ParamList {
@@ -166,7 +190,7 @@ expressionNoComma {
   ArrowFunction |
   MemberExpression |
   BinaryExpression |
-  ConditionalExpression { expressionNoComma !ternary LogicOp<"?"> expressionNoComma LogicOp<":"> expressionNoComma } |
+  ConditionalExpression { expressionNoComma !ternary questionOp expressionNoComma LogicOp<":"> expressionNoComma } |
   AssignmentExpression |
   PostfixExpression { expressionNoComma !postfix incdec } |
   CallExpression { expressionNoComma !call ArgList } |
@@ -216,11 +240,12 @@ BinaryExpression {
   expressionNoComma !times (divide | ArithOp<"%"> | ArithOp<"*">) expressionNoComma |
   expressionNoComma !plus ArithOp<"+" | "-"> expressionNoComma |
   expressionNoComma !shift BitOp<">>" ">"? | "<<"> expressionNoComma |
-  expressionNoComma !rel (CompareOp<"<" "="? | ">" "="?> | kw<"in"> | kw<"instanceof">) expressionNoComma |
+  expressionNoComma !rel (CompareOp { "<" } | CompareOp<"<=" | ">" "="?> | kw<"in"> | kw<"instanceof">) expressionNoComma |
+  expressionNoComma !rel ckw<"as"> type |
   expressionNoComma !equal CompareOp<"==" "="? | "!=" "="?> expressionNoComma |
-  expressionNoComma !bitOr BitOp<"|"> expressionNoComma |
+  expressionNoComma !bitOr BitOp { "|" } expressionNoComma |
   expressionNoComma !bitXor BitOp<"^"> expressionNoComma |
-  expressionNoComma !bitAnd BitOp<"&"> expressionNoComma |
+  expressionNoComma !bitAnd BitOp { "&" } expressionNoComma |
   expressionNoComma !and LogicOp<"&&"> expressionNoComma |
   expressionNoComma !or LogicOp<"||" | "??"> expressionNoComma
 }
@@ -241,6 +266,42 @@ ArgList {
 ArrowFunction {
   async? (ParamList { VariableDefinition } | ParamList) "=>" (Block | expression)
 }
+
+TypeArgList {
+  "<" commaSep<type> ">"
+}
+
+TypeParamList {
+  "<" commaSep<TypeDefinition (kw<"extends"> type)? ("=" type)?> ">"
+}
+
+typeofMemberExpression[name=MemberExpression] {
+  VariableName !member (("." | "?.") PropertyName | "[" expression "]")
+}
+
+type {
+  kw<"this"> |
+  Number |
+  boolean |
+  String |
+  TypeofType { kw<"typeof"> (VariableName | typeofMemberExpression) } |
+  KeyofType { ckw<"keyof"> type } |
+  "(" type ")" |
+  FunctionSignature { ParamTypeList "=>" type } |
+  NewSignature { kw<"new"> ParamTypeList "=>" type } |
+  IndexedType { type !typeMember ("." PropertyName | "[" (String | Number) "]")+ } |
+  TupleType { "[" commaSep<type> "]" } |
+  ArrayType { ckw<"readonly"> !readonly type "[" "]" | type "[" "]" } |
+  ObjectType |
+  UnionType { type !union ((LogicOp { "&" } | LogicOp { "|" }) type)+ } |
+  ConditionalType { type !typeTernary questionOp ~arrow type LogicOp<":"> type } |
+  ParameterizedType { TypeName !typeargs TypeArgList } |
+  TypeName
+}
+
+ObjectType { "{" "}" } // FIXME
+
+ParamTypeList[name=ParamList] { "(" commaSep<"..."? identifier ~arrow Optional? ~arrow TypeDeclaration?> ")" }
 
 @skip {} {
   TemplateString {
@@ -318,11 +379,19 @@ VariableName { identifier ~arrow }
 
 VariableDefinition { identifier ~arrow }
 
+TypeDefinition { identifier }
+
+TypeName { identifier ~arrow }
+
 Label { identifier }
 
 PropertyName { word }
 
 PropertyNameDefinition { word }
+
+Optional { "?" }
+
+questionOp[name=LogicOp] { "?" }
 
 @skip { whitespace | LineComment | BlockComment }
 
