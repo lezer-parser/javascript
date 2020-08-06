@@ -1,4 +1,4 @@
-# Self-closing element
+# Self-closing element {"dialect": "jsx"}
 
 <img/>
 
@@ -6,7 +6,7 @@
 
 Script(ExpressionStatement(JSXElement(JSXSelfClosingTag(JSXStartTag,JSXIdentifier,JSXSelfCloseEndTag))))
 
-# Regular element
+# Regular element {"dialect": "jsx"}
 
 <Foo>bar</Foo>
 
@@ -17,7 +17,7 @@ Script(ExpressionStatement(JSXElement(
   JSXText,
   JSXCloseTag(JSXStartCloseTag, JSXIdentifier, JSXEndTag))))
 
-# Fragment
+# Fragment {"dialect": "jsx"}
 
 <>bar</>
 
@@ -28,7 +28,7 @@ Script(ExpressionStatement(JSXElement(
   JSXText,
   JSXCloseTag(JSXStartCloseTag, JSXEndTag))))
 
-# Namespaced name
+# Namespaced name {"dialect": "jsx"}
 
 <blah-namespace:img/>
 
@@ -37,7 +37,7 @@ Script(ExpressionStatement(JSXElement(
 Script(ExpressionStatement(JSXElement(
   JSXSelfClosingTag(JSXStartTag,JSXNamespacedName(JSXIdentifier, JSXIdentifier),JSXSelfCloseEndTag))))
 
-# Member name
+# Member name {"dialect": "jsx"}
 
 <pkg.Component/>
 
@@ -46,7 +46,7 @@ Script(ExpressionStatement(JSXElement(
 Script(ExpressionStatement(JSXElement(
   JSXSelfClosingTag(JSXStartTag,JSXMemberExpression(JSXIdentifier, JSXIdentifier),JSXSelfCloseEndTag))))
 
-# Nested tags
+# Nested tags {"dialect": "jsx"}
 
 <a><b.C>text</b.C>{x} {...y}</a>
 
@@ -63,7 +63,7 @@ Script(ExpressionStatement(JSXElement(
   JSXEscape(Spread, VariableName),
   JSXCloseTag(JSXStartCloseTag, JSXIdentifier, JSXEndTag))))
 
-# Attributes
+# Attributes {"dialect": "jsx"}
 
 <foo a="1" b {...attrs} c={c}></foo>
 

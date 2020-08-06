@@ -1,0 +1,84 @@
+# Type declaration {"dialect": "ts"}
+
+function foo(a: number, b: "literal" | Map<number, boolean>): RegExp[] {}
+
+==>
+
+Script(FunctionDeclaration(function, VariableDefinition, ParamList(
+  VariableDefinition, TypeDeclaration(TypeName),
+  VariableDefinition, TypeDeclaration(UnionType(String, LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName, TypeName))))
+), TypeDeclaration(ArrayType(TypeName)), Block))
+
+# Type predicate {"dialect": "ts"}
+
+function isFoo(foo: any): foo is Foo { return true }
+
+==>
+
+Script(FunctionDeclaration(function, VariableDefinition, ParamList(
+  VariableDefinition, TypeDeclaration(TypeName)
+), TypePredicate(VariableName, is, TypeName), Block(ReturnStatement(return, BooleanLiteral))))
+
+# Type alias {"dialect": "ts"}
+
+type Foo<T extends string> = T[]
+
+==>
+
+Script(TypeAliasDeclaration(type, TypeDefinition, TypeParamList(TypeDefinition, extends, TypeName), Equals, ArrayType(TypeName)))
+
+# Enum declaration {"dialect": "ts"}
+
+const enum Type { Red = 1, Blue, Green }
+
+==>
+
+Script(EnumDeclaration(const, enum, TypeDefinition, EnumBody(PropertyName, Equals, Number, PropertyName, PropertyName)))
+
+# Interface declaration {"dialect": "ts"}
+
+interface Foo {
+  a: number
+  b(arg: string): void
+  (call: number): boolean
+  new (): Foo
+}
+
+==>
+
+Script(InterfaceDeclaration(interface, TypeDefinition, ObjectType(
+  PropertyType(PropertyNameDefinition, TypeDeclaration(TypeName)),
+  MethodType(PropertyNameDefinition, ParamList(VariableDefinition, TypeDeclaration(TypeName)), TypeDeclaration(void)),
+  CallSignature(ParamList(VariableDefinition, TypeDeclaration(TypeName)), TypeDeclaration(TypeName)),
+  NewSignature(new,ParamList, TypeDeclaration(TypeName)))))
+
+# Call type args {"dialect": "ts"}
+
+foo<number, string>() + new Bar<11>()
+x < 10 > 5
+
+==>
+
+Script(
+  ExpressionStatement(BinaryExpression(
+    CallExpression(VariableName, TypeArgList(TypeName, TypeName), ArgList),
+    ArithOp,
+    NewExpression(new, VariableName, TypeArgList(Number), ArgList))),
+  ExpressionStatement(BinaryExpression(BinaryExpression(VariableName, CompareOp, Number), CompareOp, Number)))
+
+# Advanced types {"dialect": "ts"}
+
+let x: typeof X.x | keyof Y & Z["Foo"] | A<string>
+let tuple: [a, b]
+let f: (x: number) => boolean
+
+==>
+
+Script(
+  VariableDeclaration(let, VariableDefinition, TypeDeclaration(
+    UnionType(UnionType(TypeofType(typeof, MemberExpression(VariableName, PropertyName)), LogicOp,
+                        IntersectionType(KeyofType(keyof, TypeName), LogicOp, IndexedType(TypeName, String))),
+              LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName))))),
+  VariableDeclaration(let, VariableDefinition, TypeDeclaration(TupleType(TypeName, TypeName))),
+  VariableDeclaration(let, VariableDefinition, TypeDeclaration(FunctionSignature(
+    ParamList(VariableDefinition, TypeDeclaration(TypeName)), Arrow, TypeName))))
