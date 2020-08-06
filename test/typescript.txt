@@ -127,3 +127,16 @@ Script(ClassDeclaration(
       Privacy, VariableDefinition, TypeAnnotation(TypeName),
       VariableDefinition, TypeAnnotation(TypeName)), Block),
     MethodDeclaration(Privacy, static, PropertyNameDefinition, ParamList, TypeAnnotation(void), Block))))
+
+# Arrow with type params {"dialect": "ts"}
+
+let x = <T>(arg: T): T => arg
+
+==>
+
+Script(VariableDeclaration(let, VariableDefinition, Equals, ArrowFunction(
+  TypeParamList(TypeDefinition),
+  ParamList(VariableDefinition, TypeAnnotation(TypeName)),
+  TypeAnnotation(TypeName),
+  Arrow,
+  VariableName)))

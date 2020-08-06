@@ -110,7 +110,7 @@ declaration {
 }
 
 FunctionDeclaration {
-  async? !statement kw<"function"> Star? VariableDefinition? TypeParamList? ParamList (TypeAnnotation | TypePredicate)? Block
+  async? !statement kw<"function"> Star? VariableDefinition? functionSignature Block
 }
 
 ClassDeclaration {
@@ -138,8 +138,7 @@ MethodDeclaration {
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   PropertyNameDefinition
-  ParamList
-  (TypeAnnotation | TypePredicate)?
+  functionSignature
   Block
 }
 
@@ -189,7 +188,7 @@ AmbientDeclaration {
       ClassBody { "{" (
         MethodDeclaration {
           privacy? (pkwMod<"static"> | tsPkwMod<"abstract">)? pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)?
-          PropertyNameDefinition ParamList (TypeAnnotation | TypePredicate) semi
+          PropertyNameDefinition TypeParamList? ParamList (TypeAnnotation | TypePredicate) semi
         } |
         PropertyDeclaration |        
         IndexSignature
@@ -269,7 +268,8 @@ expressionNoComma {
   DynamicImport { kw<"import"> "(" expressionNoComma ")" } |
   ImportMeta { kw<"import"> "." PropertyName } |
   JSXElement |
-  PrefixCast { tsAngleOpen type ">" expressionNoComma } // FIXME arrow with params
+  PrefixCast { tsAngleOpen type ~tsAngle ">" expressionNoComma } |
+  ArrowFunction { TypeParamList { tsAngleOpen commaSep<typeParam> ">" } ParamList TypeAnnotation? "=>" (Block | expression) }
 }
 
 ParenthesizedExpression { "(" expression ")" }
@@ -281,7 +281,7 @@ ArrayExpression {
 propName { PropertyNameDefinition | "[" expression "]" | Number | String }
 
 Property {
-  pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)? propName ParamList Block |
+  pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)? propName functionSignature Block |
   propName ~destructure (":" expressionNoComma)? |
   "..." expressionNoComma
 }
@@ -295,8 +295,10 @@ ClassExpression {
   kw<"class"> VariableDefinition? (kw<"extends"> expression | TSExtends type)? ClassBody
 }
 
+functionSignature { TypeParamList? ParamList (TypeAnnotation | TypePredicate)? }
+
 FunctionExpression {
-  kw<"function"> Star? VariableDefinition? ParamList Block
+  kw<"function"> Star? VariableDefinition? functionSignature Block
 }
 
 UnaryExpression {
@@ -335,7 +337,7 @@ ArgList {
 }
 
 ArrowFunction {
-  async? (ParamList { VariableDefinition } | ParamList) "=>" (Block | expression)
+  async? (ParamList { VariableDefinition } | ParamList TypeAnnotation?) "=>" (Block | expression)
 }
 
 TypeArgList {
@@ -343,8 +345,10 @@ TypeArgList {
 }
 
 TypeParamList {
-  "<" commaSep<TypeDefinition (TSExtends type)? ("=" type)?> ">"
+  "<" commaSep<typeParam> ">"
 }
+
+typeParam { TypeDefinition ~tsAngle (TSExtends type)? ("=" type)? }
 
 typeofMemberExpression[name=MemberExpression] {
   VariableName !member (("." | "?.") PropertyName | "[" expression "]")
@@ -380,19 +384,22 @@ ObjectType {
   "{" (
     MethodType |
     PropertyType |
-    IndexSignature { pkwMod<"readonly">? "[" PropertyNameDefinition (TypeAnnotation | kw<"in"> type) "]" TypeAnnotation semi } |
+    IndexSignature |
     CallSignature { ParamTypeList (TypeAnnotation | TypePredicate) semi } |
     NewSignature { @extend[name=new]<word, "new"> ParamTypeList TypeAnnotation semi } |
     ";"
   )* "}"
 }
 
+IndexSignature {
+  pkwMod<"readonly">? "[" PropertyNameDefinition (TypeAnnotation | kw<"in"> type) "]" TypeAnnotation semi
+}
+
 MethodType {
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   PropertyNameDefinition
-  ParamTypeList
-  (TypeAnnotation | TypePredicate)
+  functionSignature
   semi
 }
 
@@ -433,8 +440,10 @@ JSXCloseTag { JSXStartCloseTag jsxElementName? JSXEndTag }
 jsxElementName {
   JSXIdentifier |
   JSXNamespacedName |
-  JSXMemberExpression { (JSXMemberExpression | JSXIdentifier) "." JSXIdentifier }
+  JSXMemberExpression
 }
+
+JSXMemberExpression { (JSXMemberExpression | JSXIdentifier) "." JSXIdentifier }
 
 JSXNamespacedName { (JSXIdentifier | JSXNamespacedName) ":" JSXIdentifier }
 
