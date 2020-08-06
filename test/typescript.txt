@@ -5,9 +5,9 @@ function foo(a: number, b: "literal" | Map<number, boolean>): RegExp[] {}
 ==>
 
 Script(FunctionDeclaration(function, VariableDefinition, ParamList(
-  VariableDefinition, TypeDeclaration(TypeName),
-  VariableDefinition, TypeDeclaration(UnionType(String, LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName, TypeName))))
-), TypeDeclaration(ArrayType(TypeName)), Block))
+  VariableDefinition, TypeAnnotation(TypeName),
+  VariableDefinition, TypeAnnotation(UnionType(String, LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName, TypeName))))
+), TypeAnnotation(ArrayType(TypeName)), Block))
 
 # Type predicate {"dialect": "ts"}
 
@@ -16,7 +16,7 @@ function isFoo(foo: any): foo is Foo { return true }
 ==>
 
 Script(FunctionDeclaration(function, VariableDefinition, ParamList(
-  VariableDefinition, TypeDeclaration(TypeName)
+  VariableDefinition, TypeAnnotation(TypeName)
 ), TypePredicate(VariableName, is, TypeName), Block(ReturnStatement(return, BooleanLiteral))))
 
 # Type alias {"dialect": "ts"}
@@ -48,11 +48,11 @@ interface Foo {
 ==>
 
 Script(InterfaceDeclaration(interface, TypeDefinition, ObjectType(
-  PropertyType(readonly, PropertyNameDefinition, TypeDeclaration(TypeName)),
-  MethodType(PropertyNameDefinition, ParamList(VariableDefinition, TypeDeclaration(TypeName)), TypeDeclaration(void)),
-  CallSignature(ParamList(VariableDefinition, TypeDeclaration(TypeName)), TypeDeclaration(TypeName)),
-  NewSignature(new,ParamList, TypeDeclaration(TypeName)),
-  IndexSignature(readonly, PropertyNameDefinition, TypeDeclaration(TypeName), TypeDeclaration(TypeName)))))
+  PropertyType(readonly, PropertyNameDefinition, TypeAnnotation(TypeName)),
+  MethodType(PropertyNameDefinition, ParamList(VariableDefinition, TypeAnnotation(TypeName)), TypeAnnotation(void)),
+  CallSignature(ParamList(VariableDefinition, TypeAnnotation(TypeName)), TypeAnnotation(TypeName)),
+  NewSignature(new,ParamList, TypeAnnotation(TypeName)),
+  IndexSignature(readonly, PropertyNameDefinition, TypeAnnotation(TypeName), TypeAnnotation(TypeName)))))
 
 # Call type args {"dialect": "ts"}
 
@@ -77,13 +77,13 @@ let f: (x: number) => boolean
 ==>
 
 Script(
-  VariableDeclaration(let, VariableDefinition, TypeDeclaration(
+  VariableDeclaration(let, VariableDefinition, TypeAnnotation(
     UnionType(UnionType(TypeofType(typeof, MemberExpression(VariableName, PropertyName)), LogicOp,
                         IntersectionType(KeyofType(keyof, TypeName), LogicOp, IndexedType(TypeName, String))),
               LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName))))),
-  VariableDeclaration(let, VariableDefinition, TypeDeclaration(TupleType(TypeName, TypeName))),
-  VariableDeclaration(let, VariableDefinition, TypeDeclaration(FunctionSignature(
-    ParamList(VariableDefinition, TypeDeclaration(TypeName)), Arrow, TypeName))))
+  VariableDeclaration(let, VariableDefinition, TypeAnnotation(TupleType(TypeName, TypeName))),
+  VariableDeclaration(let, VariableDefinition, TypeAnnotation(FunctionSignature(
+    ParamList(VariableDefinition, TypeAnnotation(TypeName)), Arrow, TypeName))))
 
 # Prefix cast {"dialect": "ts"}
 
@@ -120,10 +120,10 @@ Script(ClassDeclaration(
   extends ParameterizedType(TypeName, TypeArgList(TypeName)),
   implements TypeName,
   ClassBody(
-    PropertyDeclaration(PropertyNameDefinition, TypeDeclaration(TypeName)),
-    PropertyDeclaration(Privacy, readonly, PropertyNameDefinition, TypeDeclaration(TypeName), Equals, String),
+    PropertyDeclaration(PropertyNameDefinition, TypeAnnotation(TypeName)),
+    PropertyDeclaration(Privacy, readonly, PropertyNameDefinition, TypeAnnotation(TypeName), Equals, String),
     MethodDeclaration(PropertyNameDefinition, ParamList(
-      readonly, VariableDefinition, TypeDeclaration(TypeName),
-      Privacy, VariableDefinition, TypeDeclaration(TypeName),
-      VariableDefinition, TypeDeclaration(TypeName)), Block),
-    MethodDeclaration(Privacy, static, PropertyNameDefinition, ParamList, TypeDeclaration(void), Block))))
+      readonly, VariableDefinition, TypeAnnotation(TypeName),
+      Privacy, VariableDefinition, TypeAnnotation(TypeName),
+      VariableDefinition, TypeAnnotation(TypeName)), Block),
+    MethodDeclaration(Privacy, static, PropertyNameDefinition, ParamList, TypeAnnotation(void), Block))))

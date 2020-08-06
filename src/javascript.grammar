@@ -3,7 +3,7 @@
 @precedence {
   typeargs,
   typeMember,
-  keyof,
+  typePrefix,
   intersection @left,
   union @left,
   typeTernary @left,
@@ -64,7 +64,8 @@ ExportDeclaration {
   kw<"export"> Star (ckw<"as"> VariableName)? ckw<"from"> String semi |
   kw<"export"> kw<"default"> (FunctionDeclaration | ClassDeclaration | expression semi) |
   kw<"export"> tskw<"type">? declaration |
-  kw<"export"> tskw<"type">? ExportGroup (ckw<"from"> String)? semi
+  kw<"export"> tskw<"type">? ExportGroup (ckw<"from"> String)? semi |
+  kw<"export"> "=" expression semi
 }
 
 ExportGroup {
@@ -98,15 +99,21 @@ ForInSpec { forXSpec<kw<"in">> }
 ForOfSpec { forXSpec<ckw<"of">> }
 
 declaration {
-  FunctionDeclaration | ClassDeclaration | VariableDeclaration | TypeAliasDeclaration | InterfaceDeclaration | EnumDeclaration
+  FunctionDeclaration |
+  ClassDeclaration |
+  VariableDeclaration |
+  TypeAliasDeclaration |
+  InterfaceDeclaration |
+  EnumDeclaration |
+  NamespaceDeclaration
 }
 
 FunctionDeclaration {
-  async? !statement kw<"function"> Star? VariableDefinition? TypeParamList? ParamList (TypeDeclaration | TypePredicate)? Block
+  async? !statement kw<"function"> Star? VariableDefinition? TypeParamList? ParamList (TypeAnnotation | TypePredicate)? Block
 }
 
 ClassDeclaration {
-  !statement kw<"class"> VariableDefinition TypeParamList?
+  !statement tskw<"abstract">? kw<"class"> VariableDefinition TypeParamList?
   (kw<"extends"> expression | TSExtends type)?
   (tskw<"implements"> commaSep1<type>)?
   ClassBody
@@ -131,7 +138,7 @@ MethodDeclaration {
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   PropertyNameDefinition
   ParamList
-  (TypeDeclaration | TypePredicate)?
+  (TypeAnnotation | TypePredicate)?
   Block
 }
 
@@ -140,8 +147,8 @@ PropertyDeclaration {
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   pkwMod<"readonly">?
   PropertyNameDefinition
-  Optional?
-  TypeDeclaration?
+  (Optional | LogicOp<"!">)?
+  TypeAnnotation?
   ("=" expressionNoComma)?
   semi
 }
@@ -162,6 +169,12 @@ EnumDeclaration {
   kw<"const">? tskw<"enum"> TypeDefinition EnumBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
 }
 
+NamespaceDeclaration {
+  (tskw<"namespace"> | tskw<"module">) VariableDefinition ("." PropertyNameDefinition)* Block
+}
+
+// FIXME ambient declarations
+
 pattern { VariableDefinition | ArrayPattern | ObjectPattern }
 
 ArrayPattern { "[" commaSep<"..."? patternAssign> ~destructure "]" }
@@ -172,12 +185,12 @@ patternAssign {
   pattern ("=" expressionNoComma)?
 }
 
-TypeDeclaration { ":" type }
+TypeAnnotation { ":" type }
 
-TypePredicate { ":" VariableName !predicate tskw<"is"> type }
+TypePredicate { ":" (VariableName | kw<"this">) !predicate tskw<"is"> type }
 
 patternAssignTyped {
-  pattern Optional? TypeDeclaration? ("=" expressionNoComma)?
+  pattern Optional? TypeAnnotation? ("=" expressionNoComma)?
 }
 
 ParamList {
@@ -282,7 +295,8 @@ BinaryExpression {
 }
 
 AssignmentExpression {
-  (VariableName | MemberExpression) !assign UpdateOp<($[+\-/|&%^] | "*" "*"? | "<<" | ">>" ">"?) "="> expressionNoComma |
+  (VariableName | MemberExpression) !assign UpdateOp<($[+\-/%^] | "*" "*"? | "|" "|"? | "&" "&"? | "<<" | ">>" ">"?) "=">
+    expressionNoComma |
   (VariableName | MemberExpression | ArrayPattern | ObjectPattern) !assign "=" expressionNoComma
 }
 
@@ -312,19 +326,21 @@ typeofMemberExpression[name=MemberExpression] {
 
 type {
   kw<"this"> |
-  Number |
+  ArithOp<"+" | "-">? Number |
   boolean |
   String |
   kw<"void"> |
   kw<"this"> |
   TypeofType { kw<"typeof"> (VariableName | typeofMemberExpression) } |
-  KeyofType { !keyof tskw<"keyof"> type } |
+  KeyofType { !typePrefix tskw<"keyof"> type } |
+  UniqueType { !typePrefix tskw<"unique"> type } |
+  ImportType { kw<"import"> "(" String ")" } |
   InferredType { tskw<"infer"> TypeName } |
   "(" type ")" |
   FunctionSignature { ParamTypeList "=>" type } |
   NewSignature { kw<"new"> ParamTypeList "=>" type } |
   IndexedType { type !typeMember ("." PropertyName | "[" (String | Number) "]")+ } |
-  TupleType { "[" commaSep<type> "]" } |
+  TupleType { "[" commaSep<(Label ":")? type | "..." type> "]" } |
   ArrayType { tskw<"readonly"> !readonly type "[" "]" | type "[" "]" } |
   ObjectType |
   UnionType { type !union LogicOp { "|" } type } |
@@ -338,9 +354,9 @@ ObjectType {
   "{" (
     MethodType |
     PropertyType |
-    IndexSignature { pkwMod<"readonly">? "[" PropertyNameDefinition (TypeDeclaration | kw<"in"> type) "]" TypeDeclaration semi } |
-    CallSignature { ParamTypeList (TypeDeclaration | TypePredicate) semi } |
-    NewSignature { @extend[name=new]<word, "new"> ParamTypeList TypeDeclaration semi } |
+    IndexSignature { pkwMod<"readonly">? "[" PropertyNameDefinition (TypeAnnotation | kw<"in"> type) "]" TypeAnnotation semi } |
+    CallSignature { ParamTypeList (TypeAnnotation | TypePredicate) semi } |
+    NewSignature { @extend[name=new]<word, "new"> ParamTypeList TypeAnnotation semi } |
     ";"
   )* "}"
 }
@@ -350,18 +366,18 @@ MethodType {
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   PropertyNameDefinition
   ParamTypeList
-  (TypeDeclaration | TypePredicate)
+  (TypeAnnotation | TypePredicate)
   semi
 }
 
 PropertyType {
   pkwMod<"readonly">?
   PropertyNameDefinition
-  TypeDeclaration
+  TypeAnnotation
   semi
 }  
 
-ParamTypeList[name=ParamList] { "(" commaSep<"..."? VariableDefinition ~arrow Optional? ~arrow TypeDeclaration?> ")" }
+ParamTypeList[name=ParamList] { "(" commaSep<"..."? VariableDefinition ~arrow Optional? ~arrow TypeAnnotation?> ")" }
 
 @skip {} {
   TemplateString {
