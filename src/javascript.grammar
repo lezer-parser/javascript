@@ -106,7 +106,10 @@ FunctionDeclaration {
 }
 
 ClassDeclaration {
-  !statement kw<"class"> VariableDefinition TypeParamList? (kw<"extends"> expression)? ClassBody
+  !statement kw<"class"> VariableDefinition TypeParamList?
+  (kw<"extends"> expression | TSExtends type)?
+  (tskw<"implements"> commaSep1<type>)?
+  ClassBody
 }
 
 ClassBody {
@@ -114,7 +117,11 @@ ClassBody {
 }
 
 privacy {
-  tsPkwMod<"public"> | tsPkwMod<"private"> | tsPkwMod<"protected">
+  @extend[name=Privacy,dialect=ts]<word, "public" | "private" | "protected">
+}
+
+privacyArg {
+  @extend[name=Privacy,dialect=ts]<identifier, "public" | "private" | "protected">
 }
 
 MethodDeclaration {
@@ -148,7 +155,7 @@ TypeAliasDeclaration {
 }
 
 InterfaceDeclaration {
-  tskw<"interface"> TypeDefinition TypeParamList? (kw<"extends"> type)? ObjectType
+  tskw<"interface"> TypeDefinition TypeParamList? (TSExtends type)? ObjectType
 }
 
 EnumDeclaration {
@@ -174,7 +181,7 @@ patternAssignTyped {
 }
 
 ParamList {
-  "(" commaSep<"..." patternAssignTyped | patternAssignTyped> ")"
+  "(" commaSep<"..." patternAssignTyped | privacyArg? tskw<"readonly">? patternAssignTyped> ")"
 }
 
 Block {
@@ -246,7 +253,7 @@ PatternProperty {
 }
 
 ClassExpression {
-  kw<"class"> VariableDefinition? (kw<"extends"> expression)? ClassBody
+  kw<"class"> VariableDefinition? (kw<"extends"> expression | TSExtends type)? ClassBody
 }
 
 FunctionExpression {
@@ -296,7 +303,7 @@ TypeArgList {
 }
 
 TypeParamList {
-  "<" commaSep<TypeDefinition (kw<"extends"> type)? ("=" type)?> ">"
+  "<" commaSep<TypeDefinition (TSExtends type)? ("=" type)?> ">"
 }
 
 typeofMemberExpression[name=MemberExpression] {
@@ -309,8 +316,10 @@ type {
   boolean |
   String |
   kw<"void"> |
+  kw<"this"> |
   TypeofType { kw<"typeof"> (VariableName | typeofMemberExpression) } |
   KeyofType { !keyof tskw<"keyof"> type } |
+  InferredType { tskw<"infer"> TypeName } |
   "(" type ")" |
   FunctionSignature { ParamTypeList "=>" type } |
   NewSignature { kw<"new"> ParamTypeList "=>" type } |
@@ -329,6 +338,7 @@ ObjectType {
   "{" (
     MethodType |
     PropertyType |
+    IndexSignature { pkwMod<"readonly">? "[" PropertyNameDefinition (TypeDeclaration | kw<"in"> type) "]" TypeDeclaration semi } |
     CallSignature { ParamTypeList (TypeDeclaration | TypePredicate) semi } |
     NewSignature { @extend[name=new]<word, "new"> ParamTypeList TypeDeclaration semi } |
     ";"
@@ -336,7 +346,6 @@ ObjectType {
 }
 
 MethodType {
-  pkwMod<"static">?
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   PropertyNameDefinition
@@ -346,7 +355,7 @@ MethodType {
 }
 
 PropertyType {
-  pkwMod<"static">?
+  pkwMod<"readonly">?
   PropertyNameDefinition
   TypeDeclaration
   semi
@@ -449,6 +458,8 @@ Optional { "?" }
 questionOp[name=LogicOp] { "?" }
 
 @skip { whitespace | LineComment | BlockComment }
+
+@external extend { identifier } tsExtends from "./tokens" { TSExtends[name=extends] }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
 

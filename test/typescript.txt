@@ -38,19 +38,21 @@ Script(EnumDeclaration(const, enum, TypeDefinition, EnumBody(PropertyName, Equal
 # Interface declaration {"dialect": "ts"}
 
 interface Foo {
-  a: number
+  readonly a: number
   b(arg: string): void
   (call: number): boolean
   new (): Foo
+  readonly [x: string]: number
 }
 
 ==>
 
 Script(InterfaceDeclaration(interface, TypeDefinition, ObjectType(
-  PropertyType(PropertyNameDefinition, TypeDeclaration(TypeName)),
+  PropertyType(readonly, PropertyNameDefinition, TypeDeclaration(TypeName)),
   MethodType(PropertyNameDefinition, ParamList(VariableDefinition, TypeDeclaration(TypeName)), TypeDeclaration(void)),
   CallSignature(ParamList(VariableDefinition, TypeDeclaration(TypeName)), TypeDeclaration(TypeName)),
-  NewSignature(new,ParamList, TypeDeclaration(TypeName)))))
+  NewSignature(new,ParamList, TypeDeclaration(TypeName)),
+  IndexSignature(readonly, PropertyNameDefinition, TypeDeclaration(TypeName), TypeDeclaration(TypeName)))))
 
 # Call type args {"dialect": "ts"}
 
@@ -82,3 +84,46 @@ Script(
   VariableDeclaration(let, VariableDefinition, TypeDeclaration(TupleType(TypeName, TypeName))),
   VariableDeclaration(let, VariableDefinition, TypeDeclaration(FunctionSignature(
     ParamList(VariableDefinition, TypeDeclaration(TypeName)), Arrow, TypeName))))
+
+# Prefix cast {"dialect": "ts"}
+
+<string>foo
+
+==>
+
+Script(ExpressionStatement(PrefixCast(TypeName, VariableName)))
+
+# No prefix cast in JSX {"dialect": "ts jsx"}
+
+<string>foo</string>
+
+==>
+
+Script(ExpressionStatement(JSXElement(
+  JSXOpenTag(JSXStartTag, JSXIdentifier, JSXEndTag),
+  JSXText,
+  JSXCloseTag(JSXStartCloseTag, JSXIdentifier, JSXEndTag))))
+
+# Class definition {"dialect": "ts"}
+
+class Foo<T> extends Bar<T> implements Stuff {
+  a: number
+  public readonly b: string = "two"
+  constructor(readonly x: boolean, public y: number, z: string) {}
+  private static blah(): void {}
+}
+
+==>
+
+Script(ClassDeclaration(
+  class, VariableDefinition, TypeParamList(TypeDefinition),
+  extends ParameterizedType(TypeName, TypeArgList(TypeName)),
+  implements TypeName,
+  ClassBody(
+    PropertyDeclaration(PropertyNameDefinition, TypeDeclaration(TypeName)),
+    PropertyDeclaration(Privacy, readonly, PropertyNameDefinition, TypeDeclaration(TypeName), Equals, String),
+    MethodDeclaration(PropertyNameDefinition, ParamList(
+      readonly, VariableDefinition, TypeDeclaration(TypeName),
+      Privacy, VariableDefinition, TypeDeclaration(TypeName),
+      VariableDefinition, TypeDeclaration(TypeName)), Block),
+    MethodDeclaration(Privacy, static, PropertyNameDefinition, ParamList, TypeDeclaration(void), Block))))

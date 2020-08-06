@@ -2,7 +2,8 @@
    expressed by lezer's built-in tokenizer. */
 
 import {ExternalTokenizer} from "lezer"
-import {insertSemi, noSemi, incdec, incdecPrefix, templateContent, templateDollarBrace, templateEnd} from "./parser.terms.js"
+import {insertSemi, noSemi, incdec, incdecPrefix, templateContent, templateDollarBrace, templateEnd,
+        TSExtends, Dialect_ts} from "./parser.terms.js"
 
 const newline = [10, 13, 8232, 8233]
 const space = [9, 11, 12, 32, 133, 160, 5760, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200, 8201, 8202, 8239, 8287, 12288]
@@ -71,3 +72,7 @@ export const template = new ExternalTokenizer((input, token) => {
     afterDollar = next == dollar
   }
 })
+
+export function tsExtends(value, stack) {
+  return value == "extends" && stack.dialectEnabled(Dialect_ts) ? TSExtends : -1
+}
