@@ -105,7 +105,8 @@ declaration {
   TypeAliasDeclaration |
   InterfaceDeclaration |
   EnumDeclaration |
-  NamespaceDeclaration
+  NamespaceDeclaration |
+  AmbientDeclaration
 }
 
 FunctionDeclaration {
@@ -173,7 +174,32 @@ NamespaceDeclaration {
   (tskw<"namespace"> | tskw<"module">) VariableDefinition ("." PropertyNameDefinition)* Block
 }
 
-// FIXME ambient declarations
+AmbientDeclaration {
+  tskw<"declare"> (
+    VariableDeclaration |
+    TypeAliasDeclaration |
+    EnumDeclaration |
+    InterfaceDeclaration |
+    NamespaceDeclaration |
+    GlobalDeclaration { tskw<"global"> Block } |
+    ClassDeclaration {
+      tskw<"abstract">? kw<"class"> VariableDefinition TypeParamList?
+      (kw<"extends"> expression | TSExtends type)?
+      (tskw<"implements"> commaSep1<type>)?
+      ClassBody { "{" (
+        MethodDeclaration {
+          privacy? (pkwMod<"static"> | tsPkwMod<"abstract">)? pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)?
+          PropertyNameDefinition ParamList (TypeAnnotation | TypePredicate) semi
+        } |
+        PropertyDeclaration |        
+        IndexSignature
+      )* "}" }
+    } |
+    AmbientFunctionDeclaration {
+      async? kw<"function"> Star? VariableDefinition? TypeParamList? ParamList (TypeAnnotation | TypePredicate) semi
+    }
+  )
+}
 
 pattern { VariableDefinition | ArrayPattern | ObjectPattern }
 
@@ -377,7 +403,9 @@ PropertyType {
   semi
 }  
 
-ParamTypeList[name=ParamList] { "(" commaSep<"..."? VariableDefinition ~arrow Optional? ~arrow TypeAnnotation?> ")" }
+ParamTypeList[name=ParamList] {
+  "(" commaSep<"..."? VariableDefinition ~arrow Optional? ~arrow TypeAnnotation?> ")"
+}
 
 @skip {} {
   TemplateString {
