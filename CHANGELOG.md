@@ -1,3 +1,15 @@
+## 0.10.0 (2020-08-07)
+
+### Breaking changes
+
+Upgrade to 0.10 parser serialization
+
+### New features
+
+The gammar now supports TypeScript (use the `"ts"` dialect).
+
+The grammar can now parse JSX syntax (use the `"jsx"` dialect).
+
 ## 0.9.1 (2020-06-29)
 
 ### Bug fixes
