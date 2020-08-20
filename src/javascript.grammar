@@ -323,7 +323,7 @@ BinaryExpression {
 }
 
 AssignmentExpression {
-  (VariableName | MemberExpression) !assign UpdateOp<($[+\-/%^] | "*" "*"? | "|" "|"? | "&" "&"? | "<<" | ">>" ">"?) "=">
+  (VariableName | MemberExpression) !assign UpdateOp<($[+\-/%^] | "*" "*"? | "|" "|"? | "&" "&"? | "<<" | ">>" ">"? | "??") "=">
     expressionNoComma |
   (VariableName | MemberExpression | ArrayPattern | ObjectPattern) !assign "=" expressionNoComma
 }
