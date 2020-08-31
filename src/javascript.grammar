@@ -385,7 +385,7 @@ ObjectType {
     PropertyType |
     IndexSignature |
     CallSignature { ParamTypeList (TypeAnnotation | TypePredicate) semi } |
-    NewSignature { @extend[name=new]<word, "new"> ParamTypeList TypeAnnotation semi } |
+    NewSignature[dynamicPrecedence=1] { @extend[name=new]<word, "new"> ParamTypeList TypeAnnotation semi } |
     ";"
   )* "}"
 }
