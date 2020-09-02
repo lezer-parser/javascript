@@ -1,6 +1,6 @@
 {
   "name": "lezer-javascript",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "lezer-based JavaScript grammar",
   "main": "dist/index.cjs",
   "type": "module",
@@ -13,7 +13,7 @@
   "author": "Marijn Haverbeke <marijnh@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "lezer-generator": "^0.10.0",
+    "lezer-generator": "^0.10.2",
     "mocha": "^7.1.1",
     "rollup": "^1.10.0",
     "rollup-plugin-node-resolve": "^4.2.3"

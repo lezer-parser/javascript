@@ -1,3 +1,13 @@
+## 0.10.1 (2020-09-02)
+
+### Bug fixes
+
+Fix associativity of `else` and ternary operators.
+
+Work around accidental ambiguity of TypeScript method and constructor signatures.
+
+Properly parse `??=` as an update operator.
+
 ## 0.10.0 (2020-08-07)
 
 ### Breaking changes
