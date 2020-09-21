@@ -1,7 +1,7 @@
 {
-  "name": "lezer-javascript",
+  "name": "@observablehq/lezer",
   "version": "0.9.1",
-  "description": "lezer-based JavaScript grammar",
+  "description": "lezer-based Observable grammar, forked from lezer-javascript",
   "main": "dist/index.cjs",
   "type": "module",
   "exports": {
