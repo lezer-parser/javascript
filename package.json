@@ -14,9 +14,9 @@
   "license": "MIT",
   "devDependencies": {
     "lezer-generator": "^0.10.2",
-    "mocha": "^7.1.1",
-    "rollup": "^1.10.0",
-    "rollup-plugin-node-resolve": "^4.2.3"
+    "mocha": "^8.1.3",
+    "rollup": "^2.27.1",
+    "@rollup/plugin-node-resolve": "^9.0.0"
   },
   "dependencies": {
     "lezer": "^0.10.0"
