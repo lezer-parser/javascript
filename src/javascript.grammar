@@ -403,8 +403,9 @@ MethodType {
 }
 
 PropertyType {
-  pkwMod<"readonly">?
+  (ArithOp<"+" | "-">? pkwMod<"readonly">)?
   PropertyNameDefinition
+  (ArithOp<"+" | "-">? Optional)?
   TypeAnnotation
   semi
 }  
