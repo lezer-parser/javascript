@@ -268,7 +268,9 @@ expressionNoComma {
   ImportMeta { kw<"import"> "." PropertyName } |
   JSXElement |
   PrefixCast { tsAngleOpen type ~tsAngle ">" expressionNoComma } |
-  ArrowFunction { TypeParamList { tsAngleOpen commaSep<typeParam> ">" } ParamList TypeAnnotation? "=>" (Block | expression) }
+  ArrowFunction[dynamicPrecedence=1] {
+    TypeParamList { tsAngleOpen commaSep<typeParam> ">" } ParamList TypeAnnotation? "=>" (Block | expression)
+  }
 }
 
 ParenthesizedExpression { "(" expression ")" }
