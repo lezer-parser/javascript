@@ -372,7 +372,8 @@ type {
   NewSignature { kw<"new"> ParamTypeList "=>" type } |
   IndexedType { type !typeMember ("." PropertyName | "[" (String | Number) "]")+ } |
   TupleType { "[" commaSep<(Label ":")? type | "..." type> "]" } |
-  ArrayType { tskw<"readonly"> !readonly type "[" "]" | type "[" "]" } |
+  ArrayType { type "[" "]" | type "[" "]" } |
+  ReadonlyType { tskw<"readonly"> !readonly type } |
   ObjectType |
   UnionType { type !union LogicOp { "|" } type } |
   IntersectionType { type !intersection LogicOp { "&" } type } |
