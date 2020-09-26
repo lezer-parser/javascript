@@ -293,3 +293,11 @@ function g() {}
 Script(
   FunctionDeclaration(function,VariableDefinition,ParamList,Block(ExpressionStatement(CallExpression(VariableName,ArgList(...))))),
   FunctionDeclaration(function,VariableDefinition,ParamList,Block))
+
+# XXX
+
+if (foo &&
+
+==>
+
+Script(IfStatement(ParenthesizedExpression(VariableName, ⚠)))
