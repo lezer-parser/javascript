@@ -124,11 +124,11 @@ ClassBody {
 }
 
 privacy {
-  @extend[name=Privacy,dialect=ts]<word, "public" | "private" | "protected">
+  @extend[@name=Privacy,@dialect=ts]<word, "public" | "private" | "protected">
 }
 
 privacyArg {
-  @extend[name=Privacy,dialect=ts]<identifier, "public" | "private" | "protected">
+  @extend[@name=Privacy,@dialect=ts]<identifier, "public" | "private" | "protected">
 }
 
 MethodDeclaration {
@@ -268,7 +268,7 @@ expressionNoComma {
   ImportMeta { kw<"import"> "." PropertyName } |
   JSXElement |
   PrefixCast { tsAngleOpen type ~tsAngle ">" expressionNoComma } |
-  ArrowFunction[dynamicPrecedence=1] {
+  ArrowFunction[@dynamicPrecedence=1] {
     TypeParamList { tsAngleOpen commaSep<typeParam> ">" } ParamList TypeAnnotation? "=>" (Block | expression)
   }
 }
@@ -342,7 +342,7 @@ ArrowFunction {
 }
 
 TypeArgList {
-  @extend[dialect=ts,name="<"]<LessThan, "<"> commaSep<type> ">"
+  @extend[@dialect=ts,@name="<"]<LessThan, "<"> commaSep<type> ">"
 }
 
 TypeParamList {
@@ -351,7 +351,7 @@ TypeParamList {
 
 typeParam { TypeDefinition ~tsAngle (TSExtends type)? ("=" type)? }
 
-typeofMemberExpression[name=MemberExpression] {
+typeofMemberExpression[@name=MemberExpression] {
   VariableName !member (("." | "?.") PropertyName | "[" expression "]")
 }
 
@@ -388,7 +388,7 @@ ObjectType {
     PropertyType |
     IndexSignature |
     CallSignature { ParamTypeList (TypeAnnotation | TypePredicate) semi } |
-    NewSignature[dynamicPrecedence=1] { @extend[name=new]<word, "new"> ParamTypeList TypeAnnotation semi } |
+    NewSignature[@dynamicPrecedence=1] { @extend[@name=new]<word, "new"> ParamTypeList TypeAnnotation semi } |
     ";"
   )* "}"
 }
@@ -413,7 +413,7 @@ PropertyType {
   semi
 }  
 
-ParamTypeList[name=ParamList] {
+ParamTypeList[@name=ParamList] {
   "(" commaSep<"..."? VariableDefinition ~arrow Optional? ~arrow TypeAnnotation?> ")"
 }
 
@@ -473,25 +473,25 @@ commaSep1<content> {
 
 // Keywords
 
-kw<term> { @specialize[name={term}]<identifier, term> }
+kw<term> { @specialize[@name={term}]<identifier, term> }
 
 // Contextual keywords
 
-ckw<term> { @extend[name={term}]<identifier, term> }
+ckw<term> { @extend[@name={term}]<identifier, term> }
 
-tskw<term> { @extend[name={term},dialect=ts]<identifier, term> }
+tskw<term> { @extend[@name={term},@dialect=ts]<identifier, term> }
 
-async { @extend[name=async]<identifier, "async"> }
+async { @extend[@name=async]<identifier, "async"> }
 
 // Contextual keyword in property context
 
-pkwMod<term> { @extend[name={term}]<word, term> }
+pkwMod<term> { @extend[@name={term}]<word, term> }
 
-tsPkwMod<term> { @extend[name={term},dialect=ts]<word, term> }
+tsPkwMod<term> { @extend[@name={term},@dialect=ts]<word, term> }
 
 semi { ";" | insertSemi }
 
-boolean { @specialize[name=BooleanLiteral]<identifier, "true" | "false"> }
+boolean { @specialize[@name=BooleanLiteral]<identifier, "true" | "false"> }
 
 Star { "*" }
 
@@ -511,17 +511,17 @@ PropertyNameDefinition { word }
 
 Optional { "?" }
 
-questionOp[name=LogicOp] { "?" }
+questionOp[@name=LogicOp] { "?" }
 
 @skip { whitespace | LineComment | BlockComment }
 
-@external extend { identifier } tsExtends from "./tokens" { TSExtends[name=extends] }
+@external extend { identifier } tsExtends from "./tokens" { TSExtends[@name=extends] }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
 
 @external tokens incdecToken from "./tokens" {
- incdec[name=ArithOp],
- incdecPrefix[name=ArithOp]
+ incdec[@name=ArithOp],
+ incdecPrefix[@name=ArithOp]
 }
 
 @external tokens template from "./tokens" {
@@ -541,7 +541,7 @@ questionOp[name=LogicOp] { "?" }
 
   blockCommentAfterStar { "/" | "*" blockCommentAfterStar | ![/*] blockCommentRest }
 
-  divide[name=ArithOp] { "/" }
+  divide[@name=ArithOp] { "/" }
 
   @precedence { BlockComment, LineComment, divide }
 
@@ -585,11 +585,11 @@ questionOp[name=LogicOp] { "?" }
 
   RegExp { "/" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ ("/" $[gimsuy]*)? }
 
-  LessThan[name=CompareOp] { "<" }
+  LessThan[@name=CompareOp] { "<" }
 
-  "="[name=Equals]
-  "..."[name=Spread]
-  "=>"[name=Arrow]
+  "="[@name=Equals]
+  "..."[@name=Spread]
+  "=>"[@name=Arrow]
 
   "(" ")" "[" "]" "{" "}"
 
@@ -599,7 +599,7 @@ questionOp[name=LogicOp] { "?" }
 
   JSXAttributeValue { '"' !["]* '"' | "'" ![']* "'" }
 
-  JSXStartTag[dialect=jsx] { "<" }
+  JSXStartTag[@dialect=jsx] { "<" }
 
   JSXStartCloseTag { "</" }
 
@@ -609,7 +609,7 @@ questionOp[name=LogicOp] { "?" }
 
   JSXText { ![<{]+ }
 
-  tsAngleOpen[dialect=ts] { "<" }
+  tsAngleOpen[@dialect=ts] { "<" }
 
   @precedence { JSXStartTag, tsAngleOpen }
 }
