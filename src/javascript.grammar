@@ -37,7 +37,7 @@
 
 @top Script { statement+ }
 
-statement {
+statement[@isGroup=Statement] {
   ExportDeclaration |
   ImportDeclaration |
   ForStatement { kw<"for"> ckw<"await">? (ForSpec | ForInSpec | ForOfSpec) statement } |
@@ -131,7 +131,7 @@ privacyArg {
   @extend[@name=Privacy,@dialect=ts]<identifier, "public" | "private" | "protected">
 }
 
-MethodDeclaration {
+MethodDeclaration[group=ClassItem] {
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   pkwMod<"async">?
@@ -141,7 +141,7 @@ MethodDeclaration {
   Block
 }
 
-PropertyDeclaration {
+PropertyDeclaration[group=ClassItem] {
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   pkwMod<"readonly">?
@@ -231,7 +231,7 @@ switchItem {
   statement
 }
 
-expression {
+expression[@isGroup=Expression] {
   expressionNoComma | SequenceExpression
 }
 
@@ -355,19 +355,20 @@ typeofMemberExpression[@name=MemberExpression] {
   VariableName !member (("." | "?.") PropertyName | "[" expression "]")
 }
 
-type {
-  kw<"this"> |
-  ArithOp<"+" | "-">? Number |
-  boolean |
-  String |
-  kw<"void"> |
-  kw<"this"> |
+type[@isGroup=Type] {
+  ThisType { kw<"this"> } |
+  LiteralType {
+   ArithOp<"+" | "-">? Number |
+   boolean |
+   String
+  } |
+  VoidType { kw<"void"> } |
   TypeofType { kw<"typeof"> (VariableName | typeofMemberExpression) } |
   KeyofType { !typePrefix tskw<"keyof"> type } |
   UniqueType { !typePrefix tskw<"unique"> type } |
   ImportType { kw<"import"> "(" String ")" } |
   InferredType { tskw<"infer"> TypeName } |
-  "(" type ")" |
+  ParenthesizedType { "(" type ")" } |
   FunctionSignature { ParamTypeList "=>" type } |
   NewSignature { kw<"new"> ParamTypeList "=>" type } |
   IndexedType { type !typeMember ("." PropertyName | "[" (String | Number) "]")+ } |

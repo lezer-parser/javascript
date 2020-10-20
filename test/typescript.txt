@@ -6,7 +6,7 @@ function foo(a: number, b: "literal" | Map<number, boolean>): RegExp[] {}
 
 Script(FunctionDeclaration(function, VariableDefinition, ParamList(
   VariableDefinition, TypeAnnotation(TypeName),
-  VariableDefinition, TypeAnnotation(UnionType(String, LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName, TypeName))))
+  VariableDefinition, TypeAnnotation(UnionType(LiteralType(String), LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName, TypeName))))
 ), TypeAnnotation(ArrayType(TypeName)), Block))
 
 # Type predicate {"dialect": "ts"}
@@ -49,7 +49,7 @@ interface Foo {
 
 Script(InterfaceDeclaration(interface, TypeDefinition, ObjectType(
   PropertyType(readonly, PropertyNameDefinition, TypeAnnotation(TypeName)),
-  MethodType(PropertyNameDefinition, ParamList(VariableDefinition, TypeAnnotation(TypeName)), TypeAnnotation(void)),
+  MethodType(PropertyNameDefinition, ParamList(VariableDefinition, TypeAnnotation(TypeName)), TypeAnnotation(VoidType(void))),
   CallSignature(ParamList(VariableDefinition, TypeAnnotation(TypeName)), TypeAnnotation(TypeName)),
   NewSignature(new,ParamList, TypeAnnotation(TypeName)),
   IndexSignature(readonly, PropertyNameDefinition, TypeAnnotation(TypeName), TypeAnnotation(TypeName)))))
@@ -65,7 +65,7 @@ Script(
   ExpressionStatement(BinaryExpression(
     CallExpression(VariableName, TypeArgList(TypeName, TypeName), ArgList),
     ArithOp,
-    NewExpression(new, VariableName, TypeArgList(Number), ArgList))),
+    NewExpression(new, VariableName, TypeArgList(LiteralType(Number)), ArgList))),
   ExpressionStatement(BinaryExpression(BinaryExpression(VariableName, CompareOp, Number), CompareOp, Number)))
 
 # Advanced types {"dialect": "ts"}
@@ -126,7 +126,7 @@ Script(ClassDeclaration(
       readonly, VariableDefinition, TypeAnnotation(TypeName),
       Privacy, VariableDefinition, TypeAnnotation(TypeName),
       VariableDefinition, TypeAnnotation(TypeName)), Block),
-    MethodDeclaration(Privacy, static, PropertyNameDefinition, ParamList, TypeAnnotation(void), Block))))
+    MethodDeclaration(Privacy, static, PropertyNameDefinition, ParamList, TypeAnnotation(VoidType(void)), Block))))
 
 # Arrow with type params {"dialect": "ts"}
 
