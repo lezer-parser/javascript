@@ -1,3 +1,9 @@
+## 0.12.0 (2020-10-23)
+
+### Breaking changes
+
+Adjust to changed serialized parser format.
+
 ## 0.11.1 (2020-09-26)
 
 ### Bug fixes
