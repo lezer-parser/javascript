@@ -1,3 +1,9 @@
+## 0.13.2 (2021-01-18)
+
+### Bug fixes
+
+Fix parsing of async function expressions.
+
 ## 0.13.1 (2020-12-04)
 
 ### Bug fixes
