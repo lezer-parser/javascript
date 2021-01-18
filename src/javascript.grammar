@@ -299,7 +299,7 @@ ClassExpression {
 functionSignature { TypeParamList? ParamList (TypeAnnotation | TypePredicate)? }
 
 FunctionExpression {
-  kw<"function"> Star? VariableDefinition? functionSignature Block
+  async? kw<"function"> Star? VariableDefinition? functionSignature Block
 }
 
 UnaryExpression {
