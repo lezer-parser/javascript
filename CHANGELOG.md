@@ -1,3 +1,9 @@
+## 0.13.3 (2021-02-15)
+
+### Bug fixes
+
+Wrap escaped JSX attribute values in a `JSXEscape` node.
+
 ## 0.13.2 (2021-01-18)
 
 ### Bug fixes
