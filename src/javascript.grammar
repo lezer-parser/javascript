@@ -458,7 +458,7 @@ jsxAttribute {
 
 jsxAttributeValue {
   JSXAttributeValue |
-  "{" expression "}" |
+  JSXEscape { "{" expression "}" } |
   JSXElement
 }
 

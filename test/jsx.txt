@@ -74,6 +74,6 @@ Script(ExpressionStatement(JSXElement(
     JSXAttribute(JSXIdentifier, Equals, JSXAttributeValue),
     JSXAttribute(JSXIdentifier),
     JSXSpreadAttribute(Spread, VariableName),
-    JSXAttribute(JSXIdentifier, Equals, VariableName),
+    JSXAttribute(JSXIdentifier, Equals, JSXEscape(VariableName)),
   JSXEndTag),
   JSXCloseTag(JSXStartCloseTag, JSXIdentifier, JSXEndTag))))
