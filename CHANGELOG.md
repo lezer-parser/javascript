@@ -1,3 +1,9 @@
+## 0.13.4 (2021-04-30)
+
+### Bug fixes
+
+Fixes a bug where arrow functions with expression bodies would include commas after the expression.
+
 ## 0.13.3 (2021-02-15)
 
 ### Bug fixes
