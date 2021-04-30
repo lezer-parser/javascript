@@ -269,7 +269,7 @@ expressionNoComma {
   JSXElement |
   PrefixCast { tsAngleOpen type ~tsAngle ">" expressionNoComma } |
   ArrowFunction[@dynamicPrecedence=1] {
-    TypeParamList { tsAngleOpen commaSep<typeParam> ">" } ParamList TypeAnnotation? "=>" (Block | expression)
+    TypeParamList { tsAngleOpen commaSep<typeParam> ">" } ParamList TypeAnnotation? "=>" (Block | expressionNoComma)
   }
 }
 
@@ -338,7 +338,7 @@ ArgList {
 }
 
 ArrowFunction {
-  async? (ParamList { VariableDefinition } | ParamList TypeAnnotation?) "=>" (Block | expression)
+  async? (ParamList { VariableDefinition } | ParamList TypeAnnotation?) "=>" (Block | expressionNoComma)
 }
 
 TypeArgList {

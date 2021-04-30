@@ -146,6 +146,19 @@ Script(
   ExpressionStatement(ArrowFunction(ParamList(VariableDefinition,VariableDefinition),Arrow,Block(ReturnStatement(return,VariableName)))),
   ExpressionStatement(ArrowFunction(async,ParamList,Arrow,Number)))
 
+# Arrow function followed by comma
+
+({
+  a: () => 1,
+  b: "x"
+})
+
+==>
+
+Script(ExpressionStatement(ParenthesizedExpression(ObjectExpression(
+  Property(PropertyNameDefinition,ArrowFunction(ParamList,Arrow,Number)),
+  Property(PropertyNameDefinition,String)))))
+
 # Long potential arrow function
 
 (assign = [to, from], from = assign[0], to = assign[1]);
