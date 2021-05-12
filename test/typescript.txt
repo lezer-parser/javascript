@@ -140,3 +140,12 @@ Script(VariableDeclaration(let, VariableDefinition, Equals, ArrowFunction(
   TypeAnnotation(TypeName),
   Arrow,
   VariableName)))
+
+# Template types {"dialect": "ts"}
+
+type Tmpl<T> = `${string} ${5}` | `one ${Two}`
+
+==>
+
+Script(TypeAliasDeclaration(type, TypeDefinition, TypeParamList(TypeDefinition), Equals,
+  UnionType(TemplateType(TypeName, LiteralType(Number)), LogicOp, TemplateType(TypeName))))

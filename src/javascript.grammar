@@ -362,6 +362,7 @@ type[@isGroup=Type] {
    boolean |
    String
   } |
+  TemplateType |
   VoidType { kw<"void"> } |
   TypeofType { kw<"typeof"> (VariableName | typeofMemberExpression) } |
   KeyofType { !typePrefix tskw<"keyof"> type } |
@@ -422,9 +423,15 @@ ParamTypeList[@name=ParamList] {
   TemplateString {
     templateStart (templateContent | templateExpr)* templateEnd
   }
+
+  TemplateType {
+    templateStart (templateContent | templateType)* templateEnd
+  }
 }
 
 templateExpr { templateDollarBrace expression templateClosingBrace }
+
+templateType { templateDollarBrace type templateClosingBrace }
 
 @skip {} {
   JSXElement {
