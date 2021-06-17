@@ -523,6 +523,8 @@ questionOp[@name=LogicOp] { "?" }
 
 @skip { whitespace | LineComment | BlockComment }
 
+@context trackNewline from "./tokens.js"
+
 @external extend { identifier } tsExtends from "./tokens" { TSExtends[@name=extends] }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
@@ -539,10 +541,11 @@ questionOp[@name=LogicOp] { "?" }
 }
 
 @tokens {
-  whitespace { std.whitespace+ }
+  whitespace[@export] { std.whitespace+ }
 
   LineComment { "//" ![\n]* }
 
+  // FIXME split into multiple tokens
   BlockComment { "/*" blockCommentRest }
 
   blockCommentRest { ![*] blockCommentRest | "*" blockCommentAfterStar }
