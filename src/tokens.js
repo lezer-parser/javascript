@@ -3,26 +3,19 @@
 
 import {ExternalTokenizer, ContextTracker} from "lezer"
 import {insertSemi, noSemi, incdec, incdecPrefix, templateContent, templateDollarBrace, templateEnd,
-        whitespace, BlockComment, LineComment,
+        spaces, newline, BlockComment, LineComment,
         TSExtends, Dialect_ts} from "./parser.terms.js"
 
-const newline = [10, 13, 8232, 8233]
-const space = [9, 11, 12, 32, 133, 160, 5760, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200, 8201, 8202, 8239, 8287, 12288]
+const space = [9, 10, 11, 12, 13, 32, 133, 160, 5760, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200,
+               8201, 8202, 8232, 8233, 8239, 8287, 12288]
 
 const braceR = 125, braceL = 123, semicolon = 59, slash = 47, star = 42,
       plus = 43, minus = 45, dollar = 36, backtick = 96, backslash = 92
 
 export const trackNewline = new ContextTracker({
   start: false,
-  shift(context, term, input, stack, from, to) {
-    if (term == LineComment || term == BlockComment) return context
-    if (term != whitespace) return false
-    if (!context) {
-      let space = input.read(from, to)
-      for (let i = 0; i < space.length; i++)
-        if (newline.indexOf(space.charCodeAt(i)) > -1) context = true
-    }
-    return context
+  shift(context, term) {
+    return term == LineComment || term == BlockComment || term == spaces ? context : term == newline
   },
   strict: false
 })
@@ -35,7 +28,7 @@ export const insertSemicolon = new ExternalTokenizer((input, stack) => {
 
 export const noSemicolon = new ExternalTokenizer((input, stack) => {
   let {next} = input, after
-  if (space.indexOf(next) > -1 || newline.indexOf(next) > -1) return
+  if (space.indexOf(next) > -1) return
   if (next == slash && ((after = input.peek(1)) == slash || after == star)) return
   if (next != braceR && next != semicolon && next != -1 && !stack.context && stack.canShift(noSemi))
     input.acceptToken(noSemi)

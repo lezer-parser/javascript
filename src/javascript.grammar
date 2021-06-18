@@ -521,7 +521,7 @@ Optional { "?" }
 
 questionOp[@name=LogicOp] { "?" }
 
-@skip { whitespace | LineComment | BlockComment }
+@skip { spaces | newline | LineComment | BlockComment }
 
 @context trackNewline from "./tokens.js"
 
@@ -541,7 +541,8 @@ questionOp[@name=LogicOp] { "?" }
 }
 
 @tokens {
-  whitespace[@export] { std.whitespace+ }
+  spaces[@export] { $[\u0009 \u000b\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]+ }
+  newline[@export] { $[\r\n\u2028\u2029] }
 
   LineComment { "//" ![\n]* }
 
@@ -564,11 +565,11 @@ questionOp[@name=LogicOp] { "?" }
 
   identifier { word }
 
-  @precedence { identifier, whitespace }
+  @precedence { spaces, newline, identifier }
 
-  @precedence { JSXIdentifier, whitespace }
+  @precedence { spaces, newline, JSXIdentifier }
 
-  @precedence { word, whitespace }
+  @precedence { spaces, newline, word }
 
   Number {
     (std.digit ("_" | std.digit)* ("." ("_" | std.digit)*)? | "." std.digit ("_" | std.digit)*)
