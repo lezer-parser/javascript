@@ -1,5 +1,5 @@
 import {parser} from "../dist/index.es.js"
-import {fileTests} from "lezer-generator/dist/test"
+import {fileTests} from "@lezer/generator/dist/test"
 
 import * as fs from "fs"
 import * as path from "path"
