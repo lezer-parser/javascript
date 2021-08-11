@@ -1,3 +1,11 @@
+## 0.15.0 (2021-08-11)
+
+### Breaking changes
+
+The module's name changed from `lezer-javascript` to `@lezer/javascript`.
+
+Upgrade to the 0.15.0 lezer interfaces.
+
 ## 0.13.4 (2021-04-30)
 
 ### Bug fixes
