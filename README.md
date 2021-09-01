@@ -1,4 +1,4 @@
-# lezer-javascript
+# @lezer/javascript
 
 This is a JavaScript grammar for the
 [lezer](https://lezer.codemirror.net/) parser system.
