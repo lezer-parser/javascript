@@ -134,6 +134,7 @@ privacyArg {
 MethodDeclaration[group=ClassItem] {
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
+  pkwMod<"override">?
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   PropertyNameDefinition

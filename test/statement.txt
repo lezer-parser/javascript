@@ -176,6 +176,7 @@ class Foo {
 class Foo extends require('another-class') {
   constructor() { super(); }
   bar() { super.a(); }
+  override baz() {}
 }
 
 ==>
@@ -187,7 +188,8 @@ Script(
     MethodDeclaration(PropertyNameDefinition,ParamList,Block))),
   ClassDeclaration(class,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),ClassBody(
     MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(super,ArgList)))),
-    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))))))
+    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))),
+    MethodDeclaration(override, PropertyNameDefinition,ParamList,Block))))
 
 # Imports
 
