@@ -78,7 +78,7 @@ ImportDeclaration {
 }
 
 ImportGroup {
-  "{" commaSep<VariableDefinition | VariableName ckw<"as"> VariableDefinition> "}"
+  "{" commaSep<tskw<"type">? (VariableDefinition | VariableName ckw<"as"> VariableDefinition)> "}"
 }
 
 ForSpec {
