@@ -134,10 +134,10 @@ privacyArg {
 MethodDeclaration[group=ClassItem] {
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
-  pkwMod<"override">?
+  tsPkwMod<"override">?
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
-  PropertyNameDefinition
+  (PropertyNameDefinition | PrivatePropertyDefinition)
   functionSignature
   Block
 }
@@ -146,7 +146,7 @@ PropertyDeclaration[group=ClassItem] {
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   pkwMod<"readonly">?
-  PropertyNameDefinition
+  (PropertyNameDefinition | PrivatePropertyDefinition)
   (Optional | LogicOp<"!">)?
   TypeAnnotation?
   ("=" expressionNoComma)?
@@ -188,7 +188,7 @@ AmbientDeclaration {
       ClassBody { "{" (
         MethodDeclaration {
           privacy? (pkwMod<"static"> | tsPkwMod<"abstract">)? pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)?
-          PropertyNameDefinition TypeParamList? ParamList (TypeAnnotation | TypePredicate) semi
+          (PropertyNameDefinition | PrivatePropertyDefinition) TypeParamList? ParamList (TypeAnnotation | TypePredicate) semi
         } |
         PropertyDeclaration |        
         IndexSignature
@@ -331,7 +331,7 @@ AssignmentExpression {
 }
 
 MemberExpression {
-  expressionNoComma !member (("." | "?.") PropertyName | "[" expression "]")
+  expressionNoComma !member (("." | "?.") (PropertyName | PrivatePropertyName) | "[" expression "]")
 }
 
 ArgList {
@@ -373,7 +373,7 @@ type[@isGroup=Type] {
   ParenthesizedType { "(" type ")" } |
   FunctionSignature { ParamTypeList "=>" type } |
   NewSignature { kw<"new"> ParamTypeList "=>" type } |
-  IndexedType { type !typeMember ("." PropertyName | "[" (String | Number) "]")+ } |
+  IndexedType |
   TupleType { "[" commaSep<(Label ":")? type | "..." type> "]" } |
   ArrayType { type "[" "]" | type "[" "]" } |
   ReadonlyType { tskw<"readonly"> !readonly type } |
@@ -381,8 +381,12 @@ type[@isGroup=Type] {
   UnionType { type !union LogicOp { "|" } type } |
   IntersectionType { type !intersection LogicOp { "&" } type } |
   ConditionalType { type !typeTernary questionOp ~arrow type LogicOp<":"> type } |
-  ParameterizedType { TypeName !typeargs TypeArgList } |
+  ParameterizedType { (TypeName | IndexedType) !typeargs TypeArgList } |
   TypeName
+}
+
+IndexedType {
+  type !typeMember ("." TypeName | "[" (String | Number) "]")+
 }
 
 ObjectType {
@@ -518,6 +522,10 @@ PropertyName { word }
 
 PropertyNameDefinition { word }
 
+PrivatePropertyName { privateIdentifier }
+
+PrivatePropertyDefinition { privateIdentifier }
+
 Optional { "?" }
 
 questionOp[@name=LogicOp] { "?" }
@@ -526,7 +534,7 @@ questionOp[@name=LogicOp] { "?" }
 
 @context trackNewline from "./tokens.js"
 
-@external extend { identifier } tsExtends from "./tokens" { TSExtends[@name=extends] }
+@external specialize { identifier } tsExtends from "./tokens" { TSExtends[@name=extends] }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
 
@@ -565,6 +573,8 @@ questionOp[@name=LogicOp] { "?" }
   word { identifierChar (identifierChar | std.digit)* }
 
   identifier { word }
+
+  privateIdentifier { "#" word }
 
   @precedence { spaces, newline, identifier }
 

@@ -176,7 +176,8 @@ class Foo {
 class Foo extends require('another-class') {
   constructor() { super(); }
   bar() { super.a(); }
-  override baz() {}
+  prop;
+  etc = 20;
 }
 
 ==>
@@ -189,7 +190,27 @@ Script(
   ClassDeclaration(class,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),ClassBody(
     MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(super,ArgList)))),
     MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))),
-    MethodDeclaration(override, PropertyNameDefinition,ParamList,Block))))
+    PropertyDeclaration(PropertyNameDefinition),
+    PropertyDeclaration(PropertyNameDefinition,Equals,Number))))
+
+# Private properties
+
+class Foo {
+  #bar() { this.#a() + this?.#prop; }
+  #prop;
+  #etc = 20;
+}
+
+==>
+
+Script(ClassDeclaration(class,VariableDefinition,ClassBody(
+  MethodDeclaration(PrivatePropertyDefinition,ParamList,Block(
+    ExpressionStatement(BinaryExpression(
+       CallExpression(MemberExpression(this,PrivatePropertyName),ArgList),
+       ArithOp,
+       MemberExpression(this,PrivatePropertyName))))),
+  PropertyDeclaration(PrivatePropertyDefinition),
+  PropertyDeclaration(PrivatePropertyDefinition,Equals,Number))))
 
 # Imports
 

@@ -149,3 +149,13 @@ type Tmpl<T> = `${string} ${5}` | `one ${Two}`
 
 Script(TypeAliasDeclaration(type, TypeDefinition, TypeParamList(TypeDefinition), Equals,
   UnionType(TemplateType(TypeName, LiteralType(Number)), LogicOp, TemplateType(TypeName))))
+
+# Extending complex types {"dialect": "ts"}
+
+class Foo extends A.B<Param> {}
+
+==>
+
+Script(ClassDeclaration(class, VariableDefinition,
+  extends, ParameterizedType(IndexedType(TypeName, TypeName), TypeArgList(TypeName)),
+  ClassBody))
