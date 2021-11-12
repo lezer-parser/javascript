@@ -1,3 +1,19 @@
+## 0.15.1 (2021-11-12)
+
+### Bug fixes
+
+Add support for TypeScript `import {type X} from y` syntax.
+
+Indexed TypeScript types can now take type parameters.
+
+Add support for private field syntax.
+
+Rename PropertyNameDefinition node to PropertyDefinition for consistency with other names.
+
+### New features
+
+Recognize TypeScript 4.3's `override` keyword.
+
 ## 0.15.0 (2021-08-11)
 
 ### Breaking changes
