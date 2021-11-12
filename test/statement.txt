@@ -34,7 +34,7 @@ async (a) => { return foo; };
 
 Script(
   FunctionDeclaration(async,function,VariableDefinition,ParamList,Block),
-  ClassDeclaration(class,VariableDefinition,ClassBody(MethodDeclaration(async,PropertyNameDefinition,ParamList,Block))),
+  ClassDeclaration(class,VariableDefinition,ClassBody(MethodDeclaration(async,PropertyDefinition,ParamList,Block))),
   ExpressionStatement(ArrowFunction(async,ParamList(VariableDefinition),Arrow,Block(ReturnStatement(return,VariableName)))))
 
 # If statements
@@ -184,14 +184,14 @@ class Foo extends require('another-class') {
 
 Script(
   ClassDeclaration(class,VariableDefinition,ClassBody(
-    MethodDeclaration(static,PropertyNameDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
-    MethodDeclaration(PropertyNameDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
-    MethodDeclaration(PropertyNameDefinition,ParamList,Block))),
+    MethodDeclaration(static,PropertyDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
+    MethodDeclaration(PropertyDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
+    MethodDeclaration(PropertyDefinition,ParamList,Block))),
   ClassDeclaration(class,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),ClassBody(
-    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(super,ArgList)))),
-    MethodDeclaration(PropertyNameDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))),
-    PropertyDeclaration(PropertyNameDefinition),
-    PropertyDeclaration(PropertyNameDefinition,Equals,Number))))
+    MethodDeclaration(PropertyDefinition,ParamList,Block(ExpressionStatement(CallExpression(super,ArgList)))),
+    MethodDeclaration(PropertyDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))),
+    PropertyDeclaration(PropertyDefinition),
+    PropertyDeclaration(PropertyDefinition,Equals,Number))))
 
 # Private properties
 

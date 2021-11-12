@@ -48,11 +48,11 @@ interface Foo {
 ==>
 
 Script(InterfaceDeclaration(interface, TypeDefinition, ObjectType(
-  PropertyType(readonly, PropertyNameDefinition, TypeAnnotation(TypeName)),
-  MethodType(PropertyNameDefinition, ParamList(VariableDefinition, TypeAnnotation(TypeName)), TypeAnnotation(VoidType(void))),
+  PropertyType(readonly, PropertyDefinition, TypeAnnotation(TypeName)),
+  MethodType(PropertyDefinition, ParamList(VariableDefinition, TypeAnnotation(TypeName)), TypeAnnotation(VoidType(void))),
   CallSignature(ParamList(VariableDefinition, TypeAnnotation(TypeName)), TypeAnnotation(TypeName)),
   NewSignature(new,ParamList, TypeAnnotation(TypeName)),
-  IndexSignature(readonly, PropertyNameDefinition, TypeAnnotation(TypeName), TypeAnnotation(TypeName)))))
+  IndexSignature(readonly, PropertyDefinition, TypeAnnotation(TypeName), TypeAnnotation(TypeName)))))
 
 # Call type args {"dialect": "ts"}
 
@@ -120,13 +120,13 @@ Script(ClassDeclaration(
   extends ParameterizedType(TypeName, TypeArgList(TypeName)),
   implements TypeName,
   ClassBody(
-    PropertyDeclaration(PropertyNameDefinition, TypeAnnotation(TypeName)),
-    PropertyDeclaration(Privacy, readonly, PropertyNameDefinition, TypeAnnotation(TypeName), Equals, String),
-    MethodDeclaration(PropertyNameDefinition, ParamList(
+    PropertyDeclaration(PropertyDefinition, TypeAnnotation(TypeName)),
+    PropertyDeclaration(Privacy, readonly, PropertyDefinition, TypeAnnotation(TypeName), Equals, String),
+    MethodDeclaration(PropertyDefinition, ParamList(
       readonly, VariableDefinition, TypeAnnotation(TypeName),
       Privacy, VariableDefinition, TypeAnnotation(TypeName),
       VariableDefinition, TypeAnnotation(TypeName)), Block),
-    MethodDeclaration(Privacy, static, PropertyNameDefinition, ParamList, TypeAnnotation(VoidType(void)), Block))))
+    MethodDeclaration(Privacy, static, PropertyDefinition, ParamList, TypeAnnotation(VoidType(void)), Block))))
 
 # Arrow with type params {"dialect": "ts"}
 
