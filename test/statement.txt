@@ -196,7 +196,7 @@ Script(
 # Private properties
 
 class Foo {
-  #bar() { this.#a() + this?.#prop; }
+  #bar() { this.#a() + this?.#prop == #prop in this; }
   #prop;
   #etc = 20;
 }
@@ -206,9 +206,12 @@ class Foo {
 Script(ClassDeclaration(class,VariableDefinition,ClassBody(
   MethodDeclaration(PrivatePropertyDefinition,ParamList,Block(
     ExpressionStatement(BinaryExpression(
-       CallExpression(MemberExpression(this,PrivatePropertyName),ArgList),
-       ArithOp,
-       MemberExpression(this,PrivatePropertyName))))),
+       BinaryExpression(
+         CallExpression(MemberExpression(this,PrivatePropertyName),ArgList),
+         ArithOp,
+         MemberExpression(this,PrivatePropertyName)),
+       CompareOp,
+       BinaryExpression(PrivatePropertyName, in, this))))),
   PropertyDeclaration(PrivatePropertyDefinition),
   PropertyDeclaration(PrivatePropertyDefinition,Equals,Number))))
 
@@ -294,7 +297,7 @@ Script(
 
 # Recover from invalid char
 
-const {foo#bar} = {};
+const {foobar} = {};
 
 ==>
 

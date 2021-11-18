@@ -314,7 +314,8 @@ BinaryExpression {
   expressionNoComma !times (divide | ArithOp<"%"> | ArithOp<"*">) expressionNoComma |
   expressionNoComma !plus ArithOp<"+" | "-"> expressionNoComma |
   expressionNoComma !shift BitOp<">>" ">"? | "<<"> expressionNoComma |
-  expressionNoComma !rel (LessThan | CompareOp<"<=" | ">" "="?> | kw<"in"> | kw<"instanceof">) expressionNoComma |
+  expressionNoComma !rel (LessThan | CompareOp<"<=" | ">" "="?> | kw<"instanceof">) expressionNoComma |
+  (expressionNoComma | PrivatePropertyName) !rel kw<"in"> expressionNoComma |
   expressionNoComma !rel ckw<"as"> (kw<"const"> | type) |
   expressionNoComma !equal CompareOp<"==" "="? | "!=" "="?> expressionNoComma |
   expressionNoComma !bitOr BitOp { "|" } expressionNoComma |
