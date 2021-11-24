@@ -264,7 +264,7 @@ expressionNoComma {
   AssignmentExpression |
   PostfixExpression { expressionNoComma !postfix (incdec | LogicOp<"!">) } |
   CallExpression { expressionNoComma !call TypeArgList? ArgList } |
-  TaggedTemplatExpression { expressionNoComma !taggedTemplate TemplateString } |
+  TaggedTemplateExpression { expressionNoComma !taggedTemplate TemplateString } |
   DynamicImport { kw<"import"> "(" expressionNoComma ")" } |
   ImportMeta { kw<"import"> "." PropertyName } |
   JSXElement |
