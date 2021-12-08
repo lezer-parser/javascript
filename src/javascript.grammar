@@ -587,9 +587,9 @@ questionOp[@name=LogicOp] { "?" }
     (std.digit ("_" | std.digit)* ("." ("_" | std.digit)*)? | "." std.digit ("_" | std.digit)*)
       (("e" | "E") ("+" | "-")? ("_" | std.digit)+)? |
     std.digit ("_" | std.digit)* "n" |
-    "0x" (std.digit | $[a-fA-F] | "_")+ |
-    "0b" $[01_]+ |
-    "0o" $[0-7_]+
+    "0x" (std.digit | $[a-fA-F] | "_")+ "n"? |
+    "0b" $[01_]+ "n"? |
+    "0o" $[0-7_]+ "n"?
   }
 
   String {
