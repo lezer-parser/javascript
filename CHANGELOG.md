@@ -1,3 +1,13 @@
+## 0.15.2 (2021-12-08)
+
+### Bug fixes
+
+Fix a typo in the `TaggedTemplateExpression` node name. Support n suffixes after non-decimal integers
+
+Add support for non-decimal bignum literals ().
+
+Add support for static class initialization blocks.
+
 ## 0.15.1 (2021-11-12)
 
 ### Bug fixes
