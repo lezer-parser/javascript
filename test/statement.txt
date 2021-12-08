@@ -178,6 +178,7 @@ class Foo extends require('another-class') {
   bar() { super.a(); }
   prop;
   etc = 20;
+  static { f() }
 }
 
 ==>
@@ -191,7 +192,8 @@ Script(
     MethodDeclaration(PropertyDefinition,ParamList,Block(ExpressionStatement(CallExpression(super,ArgList)))),
     MethodDeclaration(PropertyDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))),
     PropertyDeclaration(PropertyDefinition),
-    PropertyDeclaration(PropertyDefinition,Equals,Number))))
+    PropertyDeclaration(PropertyDefinition,Equals,Number),
+    StaticBlock(static, Block(ExpressionStatement(CallExpression(VariableName,ArgList)))))))
 
 # Private properties
 

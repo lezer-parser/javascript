@@ -120,7 +120,7 @@ ClassDeclaration {
 }
 
 ClassBody {
-  "{" (MethodDeclaration | PropertyDeclaration | ";")* "}"
+  "{" (MethodDeclaration | PropertyDeclaration | StaticBlock | ";")* "}"
 }
 
 privacy {
@@ -140,6 +140,10 @@ MethodDeclaration[group=ClassItem] {
   (PropertyDefinition | PrivatePropertyDefinition)
   functionSignature
   Block
+}
+
+StaticBlock[group=ClassItem] {
+  pkwMod<"static"> Block
 }
 
 PropertyDeclaration[group=ClassItem] {
