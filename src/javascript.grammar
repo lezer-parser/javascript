@@ -206,7 +206,7 @@ AmbientDeclaration {
 
 pattern { VariableDefinition | ArrayPattern | ObjectPattern }
 
-ArrayPattern { "[" commaSep<"..."? patternAssign> ~destructure "]" }
+ArrayPattern { "[" commaSep<("..."? patternAssign)?> ~destructure "]" }
 
 ObjectPattern { "{" commaSep<PatternProperty> ~destructure "}" }
 
