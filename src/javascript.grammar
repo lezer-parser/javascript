@@ -60,7 +60,7 @@ statement[@isGroup=Statement] {
 }
 
 ExportDeclaration {
-  kw<"export"> Star (ckw<"as"> VariableName)? ckw<"from"> String semi |
+  kw<"export"> Star (ckw<"as"> (VariableName | String))? ckw<"from"> String semi |
   kw<"export"> kw<"default"> (FunctionDeclaration | ClassDeclaration | expression semi) |
   kw<"export"> tskw<"type">? declaration |
   kw<"export"> tskw<"type">? ExportGroup (ckw<"from"> String)? semi |
@@ -68,7 +68,7 @@ ExportDeclaration {
 }
 
 ExportGroup {
-  "{" commaSep<VariableName (ckw<"as"> VariableName { word })?> "}"
+  "{" commaSep<VariableName (ckw<"as"> (VariableName { word } | String))?> "}"
 }
 
 ImportDeclaration {
@@ -78,7 +78,7 @@ ImportDeclaration {
 }
 
 ImportGroup {
-  "{" commaSep<tskw<"type">? (VariableDefinition | VariableName ckw<"as"> VariableDefinition)> "}"
+  "{" commaSep<tskw<"type">? (VariableDefinition | (VariableName | String) ckw<"as"> VariableDefinition)> "}"
 }
 
 ForSpec {
