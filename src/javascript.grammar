@@ -439,9 +439,9 @@ ParamTypeList[@name=ParamList] {
   }
 }
 
-templateExpr { templateDollarBrace expression templateClosingBrace }
+templateExpr[@name=Interpolation] { InterpolationStart expression InterpolationEnd }
 
-templateType { templateDollarBrace type templateClosingBrace }
+templateType[@name=Interpolation] { InterpolationStart type InterpolationEnd }
 
 @skip {} {
   JSXElement {
@@ -550,7 +550,7 @@ questionOp[@name=LogicOp] { "?" }
 
 @external tokens template from "./tokens" {
   templateContent,
-  templateDollarBrace,
+  InterpolationStart[closedBy=InterpolationEnd],
   templateEnd
 }
 
@@ -603,7 +603,7 @@ questionOp[@name=LogicOp] { "?" }
 
   templateStart { "`" }
 
-  templateClosingBrace { "}" }
+  InterpolationEnd[openedBy=InterpolationStart] { "}" }
 
   ArithOp<expr> { expr }
   LogicOp<expr> { expr }

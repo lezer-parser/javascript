@@ -148,7 +148,7 @@ type Tmpl<T> = `${string} ${5}` | `one ${Two}`
 ==>
 
 Script(TypeAliasDeclaration(type, TypeDefinition, TypeParamList(TypeDefinition), Equals,
-  UnionType(TemplateType(TypeName, LiteralType(Number)), LogicOp, TemplateType(TypeName))))
+  UnionType(TemplateType(Interpolation(InterpolationStart,TypeName,InterpolationEnd), Interpolation(InterpolationStart,LiteralType(Number),InterpolationEnd)), LogicOp, TemplateType(Interpolation(InterpolationStart,TypeName,InterpolationEnd)))))
 
 # Extending complex types {"dialect": "ts"}
 

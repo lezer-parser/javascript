@@ -2,7 +2,7 @@
    expressed by lezer's built-in tokenizer. */
 
 import {ExternalTokenizer, ContextTracker} from "@lezer/lr"
-import {insertSemi, noSemi, incdec, incdecPrefix, templateContent, templateDollarBrace, templateEnd,
+import {insertSemi, noSemi, incdec, incdecPrefix, templateContent, InterpolationStart, templateEnd,
         spaces, newline, BlockComment, LineComment,
         TSExtends, Dialect_ts} from "./parser.terms.js"
 
@@ -57,7 +57,7 @@ export const template = new ExternalTokenizer(input => {
       else input.acceptToken(templateEnd, 1)
       break
     } else if (next == braceL && afterDollar) {
-      if (i == 1) input.acceptToken(templateDollarBrace, 1)
+      if (i == 1) input.acceptToken(InterpolationStart, 1)
       else input.acceptToken(templateContent, -1)
       break
     } else if (next == 10 /* "\n" */ && i) {

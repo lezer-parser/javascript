@@ -327,13 +327,17 @@ f`hi${there}`;
 Script(
   ExpressionStatement(TemplateString),
   ExpressionStatement(TemplateString),
-  ExpressionStatement(TemplateString(BinaryExpression(Number,ArithOp,Number),SequenceExpression(Number,Number))),
+  ExpressionStatement(TemplateString(
+    Interpolation(InterpolationStart,BinaryExpression(Number,ArithOp,Number),InterpolationEnd),
+    Interpolation(InterpolationStart,SequenceExpression(Number,Number),InterpolationEnd))),
   ExpressionStatement(TemplateString),
   ExpressionStatement(TemplateString),
-  ExpressionStatement(TemplateString(VariableName)),
+  ExpressionStatement(TemplateString(Interpolation(InterpolationStart,VariableName,InterpolationEnd))),
   ExpressionStatement(TemplateString),
-  ExpressionStatement(TemplateString(TemplateString(TemplateString))),
-  ExpressionStatement(TaggedTemplateExpression(VariableName,TemplateString(VariableName))))
+  ExpressionStatement(TemplateString(Interpolation(InterpolationStart,TemplateString(
+    Interpolation(InterpolationStart,TemplateString,InterpolationEnd)),InterpolationEnd))),
+  ExpressionStatement(TaggedTemplateExpression(VariableName,TemplateString(
+    Interpolation(InterpolationStart,VariableName,InterpolationEnd)))))
 
 # Atoms
 
