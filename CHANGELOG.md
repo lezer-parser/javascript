@@ -1,3 +1,15 @@
+## 0.15.3 (2022-01-26)
+
+### Bug fixes
+
+Support missing values in array pattern syntax.
+
+Support quoted module export names.
+
+### New features
+
+Template string interpolations now get their own nodes in the syntax tree.
+
 ## 0.15.2 (2021-12-08)
 
 ### Bug fixes
