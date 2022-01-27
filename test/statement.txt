@@ -97,10 +97,10 @@ try { 1; } catch (x) { 2; } finally { 3; }
 ==>
 
 Script(
-  TryStatement(try,Block(ThrowStatement(throw,NewExpression(new,VariableName))),catch,Block),
+  TryStatement(try,Block(ThrowStatement(throw,NewExpression(new,VariableName))),CatchClause(catch,Block)),
   TryStatement(try,Block(ExpressionStatement(Number)),
-    catch,VariableDefinition,Block(ExpressionStatement(Number)),
-    finally,Block(ExpressionStatement(Number))))
+    CatchClause(catch,VariableDefinition,Block(ExpressionStatement(Number))),
+    FinallyClause(finally,Block(ExpressionStatement(Number)))))
 
 # Switch
 

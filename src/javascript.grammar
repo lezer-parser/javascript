@@ -46,7 +46,11 @@ statement[@isGroup=Statement] {
   DoStatement { kw<"do"> statement kw<"while"> ParenthesizedExpression semi } |
   IfStatement { kw<"if"> ParenthesizedExpression statement (!else kw<"else"> statement)? } |
   SwitchStatement { kw<"switch"> ParenthesizedExpression SwitchBody { "{" switchItem* "}" } } |
-  TryStatement { kw<"try"> Block (kw<"catch"> ("(" pattern ")")? Block)? (kw<"finally"> Block)? } |
+  TryStatement {
+    kw<"try"> Block
+    CatchClause { kw<"catch"> ("(" pattern ")")? Block }?
+    FinallyClause { kw<"finally"> Block }?
+  } |
   ReturnStatement { kw<"return"> (noSemi expression)? semi } |
   ThrowStatement { kw<"throw"> expression semi } |
   BreakStatement { kw<"break"> (noSemi Label)? semi } |
