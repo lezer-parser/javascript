@@ -159,3 +159,18 @@ class Foo extends A.B<Param> {}
 Script(ClassDeclaration(class, VariableDefinition,
   extends, ParameterizedType(IndexedType(TypeName, TypeName), TypeArgList(TypeName)),
   ClassBody))
+
+# Object type {"dialect": "ts"}
+
+type A = {a: number, b: number}
+type B = {a: number; b: number;}
+
+==>
+
+Script(
+  TypeAliasDeclaration(type,TypeDefinition,Equals,ObjectType(
+    PropertyType(PropertyDefinition,TypeAnnotation(TypeName)),
+    PropertyType(PropertyDefinition,TypeAnnotation(TypeName)))),
+  TypeAliasDeclaration(type,TypeDefinition,Equals,ObjectType(
+    PropertyType(PropertyDefinition,TypeAnnotation(TypeName)),
+    PropertyType(PropertyDefinition,TypeAnnotation(TypeName)))))

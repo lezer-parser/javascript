@@ -400,17 +400,17 @@ IndexedType {
 
 ObjectType {
   "{" (
-    MethodType |
-    PropertyType |
-    IndexSignature |
-    CallSignature { ParamTypeList (TypeAnnotation | TypePredicate) semi } |
-    NewSignature[@dynamicPrecedence=1] { @extend[@name=new]<word, "new"> ParamTypeList TypeAnnotation semi } |
-    ";"
+    (MethodType |
+     PropertyType |
+     IndexSignature |
+     CallSignature { ParamTypeList (TypeAnnotation | TypePredicate) } |
+     NewSignature[@dynamicPrecedence=1] { @extend[@name=new]<word, "new"> ParamTypeList TypeAnnotation })
+    ("," | semi)
   )* "}"
 }
 
 IndexSignature {
-  pkwMod<"readonly">? "[" PropertyDefinition (TypeAnnotation | kw<"in"> type) "]" TypeAnnotation semi
+  pkwMod<"readonly">? "[" PropertyDefinition (TypeAnnotation | kw<"in"> type) "]" TypeAnnotation
 }
 
 MethodType {
@@ -418,7 +418,6 @@ MethodType {
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   PropertyDefinition
   functionSignature
-  semi
 }
 
 PropertyType {
@@ -426,7 +425,6 @@ PropertyType {
   PropertyDefinition
   (ArithOp<"+" | "-">? Optional)?
   TypeAnnotation
-  semi
 }  
 
 ParamTypeList[@name=ParamList] {
