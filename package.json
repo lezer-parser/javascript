@@ -19,7 +19,8 @@
     "@rollup/plugin-node-resolve": "^9.0.0"
   },
   "dependencies": {
-    "@lezer/lr": "^0.15.0"
+    "@lezer/lr": "^0.15.0",
+    "@lezer/highlight": "^0.15.0"
   },
   "repository": {
     "type": "git",

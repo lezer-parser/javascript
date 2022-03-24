@@ -646,4 +646,6 @@ questionOp[@name=LogicOp] { "?" }
 
 @external tokens insertSemicolon from "./tokens" { insertSemi }
 
+@external propSource jsHighlight from "./highlight"
+
 @detectDelim
