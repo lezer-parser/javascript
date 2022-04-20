@@ -1,3 +1,19 @@
+## 0.16.0 (2022-04-20)
+
+### Breaking changes
+
+Move to 0.16 serialized parser format.
+
+### Bug fixes
+
+Allow commas as separators in TypeScript object type syntax.
+
+### New features
+
+Add `CatchClause` and `FinallyClause` nodes wrapping parts of `TryStatement`.
+
+The parser now includes syntax highlighting information in its node types.
+
 ## 0.15.3 (2022-01-26)
 
 ### Bug fixes
