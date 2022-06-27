@@ -380,7 +380,7 @@ type[@isGroup=Type] {
   ImportType { kw<"import"> "(" String ")" } |
   InferredType { tskw<"infer"> TypeName } |
   ParenthesizedType { "(" type ")" } |
-  FunctionSignature { ParamTypeList "=>" type } |
+  FunctionSignature { TypeParamList? ParamTypeList "=>" type } |
   NewSignature { kw<"new"> ParamTypeList "=>" type } |
   IndexedType |
   TupleType { "[" commaSep<(Label ":")? type | "..." type> "]" } |

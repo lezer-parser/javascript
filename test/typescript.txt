@@ -184,3 +184,13 @@ type X<T> = T extends E ? number : A
 Script(
   TypeAliasDeclaration(type,TypeDefinition,TypeParamList(TypeDefinition),Equals,
     ConditionalType(TypeName,extends,TypeName,LogicOp,TypeName,LogicOp,TypeName)))
+
+# Generic Function Type {"dialect": "ts"}
+
+let f: <T>() => T
+
+==>
+
+Script(
+  VariableDeclaration(let,VariableDefinition,TypeAnnotation(
+    FunctionSignature(TypeParamList(TypeDefinition),ParamList,Arrow,TypeName))))
