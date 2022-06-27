@@ -174,3 +174,13 @@ Script(
   TypeAliasDeclaration(type,TypeDefinition,Equals,ObjectType(
     PropertyType(PropertyDefinition,TypeAnnotation(TypeName)),
     PropertyType(PropertyDefinition,TypeAnnotation(TypeName)))))
+
+# Conditional Type {"dialect": "ts"}
+
+type X<T> = T extends E ? number : A
+
+==>
+
+Script(
+  TypeAliasDeclaration(type,TypeDefinition,TypeParamList(TypeDefinition),Equals,
+    ConditionalType(TypeName,extends,TypeName,LogicOp,TypeName,LogicOp,TypeName)))

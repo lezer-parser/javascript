@@ -6,7 +6,7 @@
   typePrefix,
   intersection @left,
   union @left,
-  typeTernary @right,
+  typeExtends @right,
   else @right,
   member,
   readonly,
@@ -389,7 +389,7 @@ type[@isGroup=Type] {
   ObjectType |
   UnionType { type !union LogicOp { "|" } type } |
   IntersectionType { type !intersection LogicOp { "&" } type } |
-  ConditionalType { type !typeTernary questionOp ~arrow type LogicOp<":"> type } |
+  ConditionalType { type !typeExtends TSExtends type questionOp ~arrow type LogicOp<":"> type } |
   ParameterizedType { (TypeName | IndexedType) !typeargs TypeArgList } |
   TypeName
 }
@@ -541,7 +541,7 @@ questionOp[@name=LogicOp] { "?" }
 
 @context trackNewline from "./tokens.js"
 
-@external specialize { identifier } tsExtends from "./tokens" { TSExtends[@name=extends] }
+@external tokens tsExtends from "./tokens" { TSExtends[@name=extends] }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
 

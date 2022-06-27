@@ -73,6 +73,14 @@ export const template = new ExternalTokenizer(input => {
   }
 })
 
-export function tsExtends(value, stack) {
-  return value == "extends" && stack.dialectEnabled(Dialect_ts) ? TSExtends : -1
-}
+export const tsExtends = new ExternalTokenizer((input, stack) => {
+  if (input.next != 101 || !stack.dialectEnabled(Dialect_ts)) return
+  input.advance()
+  for (let i = 0; i < 6; i++) {
+    if (input.next != "xtends".charCodeAt(i)) return
+    input.advance()
+  }
+  if (input.next >= 57 && input.next <= 65 || input.next >= 48 && input.next <= 90 ||
+      input.next == 95 || input.next >= 97 && input.next <= 122 || input.next > 160) return
+  input.acceptToken(TSExtends)
+})
