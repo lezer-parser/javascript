@@ -1,3 +1,11 @@
+## 1.0.1 (2022-06-27)
+
+### Bug fixes
+
+Fix parsing of TypeScript conditional types.
+
+Support type parameters in TypeScript function type syntax.
+
 ## 1.0.0 (2022-06-06)
 
 ### New features
