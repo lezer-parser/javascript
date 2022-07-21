@@ -8,7 +8,7 @@ export const jsHighlight = styleTags({
   "import export from": t.moduleKeyword,
   "with debugger as new": t.keyword,
   TemplateString: t.special(t.string),
-  Super: t.atom,
+  super: t.atom,
   BooleanLiteral: t.bool,
   this: t.self,
   null: t.null,
