@@ -1,3 +1,9 @@
+## 1.0.2 (2022-07-21)
+
+### Bug fixes
+
+Properly assign a highlighting tag to the `super` keyword.
+
 ## 1.0.1 (2022-06-27)
 
 ### Bug fixes
