@@ -271,7 +271,7 @@ expressionNoComma {
   ConditionalExpression { expressionNoComma !ternary questionOp expressionNoComma LogicOp<":"> expressionNoComma } |
   AssignmentExpression |
   PostfixExpression { expressionNoComma !postfix (incdec | LogicOp<"!">) } |
-  CallExpression { expressionNoComma !call "?."? TypeArgList? ArgList } |
+  CallExpression { expressionNoComma !call TypeArgList? "?."? ArgList } |
   TaggedTemplateExpression { expressionNoComma !taggedTemplate TemplateString } |
   DynamicImport { kw<"import"> "(" expressionNoComma ")" } |
   ImportMeta { kw<"import"> "." PropertyName } |
@@ -340,7 +340,7 @@ AssignmentExpression {
 }
 
 MemberExpression {
-  expressionNoComma !member (("." | "?.") (PropertyName | PrivatePropertyName) | "[" expression "]")
+  expressionNoComma !member (("." | "?.") (PropertyName | PrivatePropertyName) | "?."? "[" expression "]")
 }
 
 ArgList {
