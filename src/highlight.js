@@ -54,5 +54,6 @@ export const jsHighlight = styleTags({
   JSXText: t.content,
   "JSXStartTag JSXStartCloseTag JSXSelfCloseEndTag JSXEndTag": t.angleBracket,
   "JSXIdentifier JSXNameSpacedName": t.tagName,
-  "JSXAttribute/JSXIdentifier JSXAttribute/JSXNameSpacedName": t.attributeName
+  "JSXAttribute/JSXIdentifier JSXAttribute/JSXNameSpacedName": t.attributeName,
+  "JSXBuiltin/JSXIdentifier": t.standard(t.tagName)
 })

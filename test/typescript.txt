@@ -100,9 +100,9 @@ Script(ExpressionStatement(PrefixCast(TypeName, VariableName)))
 ==>
 
 Script(ExpressionStatement(JSXElement(
-  JSXOpenTag(JSXStartTag, JSXIdentifier, JSXEndTag),
+  JSXOpenTag(JSXStartTag, JSXBuiltin(JSXIdentifier), JSXEndTag),
   JSXText,
-  JSXCloseTag(JSXStartCloseTag, JSXIdentifier, JSXEndTag))))
+  JSXCloseTag(JSXStartCloseTag, JSXBuiltin(JSXIdentifier), JSXEndTag))))
 
 # Class definition {"dialect": "ts"}
 

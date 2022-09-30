@@ -462,17 +462,18 @@ JSXCloseTag { JSXStartCloseTag jsxElementName? JSXEndTag }
 
 jsxElementName {
   JSXIdentifier |
+  JSXBuiltin { JSXLowerIdentifier } |
   JSXNamespacedName |
   JSXMemberExpression
 }
 
-JSXMemberExpression { (JSXMemberExpression | JSXIdentifier) "." JSXIdentifier }
+JSXMemberExpression { (JSXMemberExpression | JSXIdentifier | JSXLowerIdentifier) "." (JSXIdentifier | JSXLowerIdentifier) }
 
-JSXNamespacedName { (JSXIdentifier | JSXNamespacedName) ":" JSXIdentifier }
+JSXNamespacedName { (JSXIdentifier | JSXNamespacedName | JSXLowerIdentifier) ":" (JSXIdentifier | JSXLowerIdentifier) }
 
 jsxAttribute {
   JSXSpreadAttribute { "{" "..." expression "}" } |
-  JSXAttribute { (JSXIdentifier | JSXNamespacedName) ("=" jsxAttributeValue)? }
+  JSXAttribute { (JSXIdentifier | JSXNamespacedName | JSXLowerIdentifier) ("=" jsxAttributeValue)? }
 }
 
 jsxAttributeValue {
@@ -585,7 +586,7 @@ questionOp[@name=LogicOp] { "?" }
 
   @precedence { spaces, newline, identifier }
 
-  @precedence { spaces, newline, JSXIdentifier }
+  @precedence { spaces, newline, JSXIdentifier, JSXLowerIdentifier }
 
   @precedence { spaces, newline, word }
 
@@ -625,7 +626,8 @@ questionOp[@name=LogicOp] { "?" }
 
   "?." "." "," ";" ":"
 
-  JSXIdentifier { identifierChar (identifierChar | @digit | "-")* }
+  JSXIdentifier { $[A-Z_$\u{a1}-\u{10ffff}] (identifierChar | @digit | "-")* }
+  JSXLowerIdentifier[@name=JSXIdentifier] { $[a-z] (identifierChar | @digit | "-")* }
 
   JSXAttributeValue { '"' !["]* '"' | "'" ![']* "'" }
 

@@ -4,7 +4,7 @@
 
 ==>
 
-Script(ExpressionStatement(JSXElement(JSXSelfClosingTag(JSXStartTag,JSXIdentifier,JSXSelfCloseEndTag))))
+Script(ExpressionStatement(JSXElement(JSXSelfClosingTag(JSXStartTag,JSXBuiltin(JSXIdentifier),JSXSelfCloseEndTag))))
 
 # Regular element {"dialect": "jsx"}
 
@@ -53,7 +53,7 @@ Script(ExpressionStatement(JSXElement(
 ==>
 
 Script(ExpressionStatement(JSXElement(
-  JSXOpenTag(JSXStartTag, JSXIdentifier, JSXEndTag),
+  JSXOpenTag(JSXStartTag, JSXBuiltin(JSXIdentifier), JSXEndTag),
   JSXElement(
     JSXOpenTag(JSXStartTag, JSXMemberExpression(JSXIdentifier, JSXIdentifier), JSXEndTag),
     JSXText,
@@ -61,11 +61,11 @@ Script(ExpressionStatement(JSXElement(
   JSXEscape(VariableName),
   JSXText,
   JSXEscape(Spread, VariableName),
-  JSXCloseTag(JSXStartCloseTag, JSXIdentifier, JSXEndTag))))
+  JSXCloseTag(JSXStartCloseTag, JSXBuiltin(JSXIdentifier), JSXEndTag))))
 
 # Attributes {"dialect": "jsx"}
 
-<foo a="1" b {...attrs} c={c}></foo>
+<Foo a="1" b {...attrs} c={c}></Foo>
 
 ==>
 
