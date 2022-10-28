@@ -198,7 +198,7 @@ AmbientDeclaration {
           privacy? (pkwMod<"static"> | tsPkwMod<"abstract">)? pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)?
           (PropertyDefinition | PrivatePropertyDefinition) TypeParamList? ParamList (TypeAnnotation | TypePredicate) semi
         } |
-        PropertyDeclaration |        
+        PropertyDeclaration |
         IndexSignature
       )* "}" }
     } |
@@ -373,6 +373,7 @@ type[@isGroup=Type] {
    String
   } |
   TemplateType |
+  NullType { kw<"null"> } |
   VoidType { kw<"void"> } |
   TypeofType { kw<"typeof"> (VariableName | typeofMemberExpression) } |
   KeyofType { !typePrefix tskw<"keyof"> type } |
@@ -425,7 +426,7 @@ PropertyType {
   PropertyDefinition
   (ArithOp<"+" | "-">? Optional)?
   TypeAnnotation
-}  
+}
 
 ParamTypeList[@name=ParamList] {
   "(" commaSep<"..."? VariableDefinition ~arrow Optional? ~arrow TypeAnnotation?> ")"

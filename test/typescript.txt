@@ -1,3 +1,16 @@
+# Undefined and Null Type {"dialect": "ts"}
+
+let x: undefined
+let y: null
+
+==>
+
+Script(
+  VariableDeclaration(let,VariableDefinition,TypeAnnotation(
+    TypeName)),
+  VariableDeclaration(let,VariableDefinition,TypeAnnotation(
+    NullType(null))))
+
 # Type declaration {"dialect": "ts"}
 
 function foo(a: number, b: "literal" | Map<number, boolean>): RegExp[] {}
