@@ -321,3 +321,24 @@ function g() {}
 Script(
   FunctionDeclaration(function,VariableDefinition,ParamList,Block(ExpressionStatement(CallExpression(VariableName,ArgList(...))))),
   FunctionDeclaration(function,VariableDefinition,ParamList,Block))
+
+# Destructuring
+
+({x} = y);
+[u, v] = w;
+let [a,, b = 0] = c;
+let {x, y: z = 1} = d;
+let {[f]: m} = e;
+
+==>
+
+Script(
+  ExpressionStatement(ParenthesizedExpression(AssignmentExpression(
+    ObjectPattern(PatternProperty(PropertyName)),Equals,VariableName))),
+  ExpressionStatement(AssignmentExpression(ArrayPattern(VariableDefinition,VariableDefinition),Equals,VariableName)),
+  VariableDeclaration(let,ArrayPattern(VariableDefinition,VariableDefinition,Equals,Number),Equals,VariableName),
+  VariableDeclaration(let,ObjectPattern(
+    PatternProperty(PropertyName),
+    PatternProperty(PropertyName,VariableDefinition,Equals,Number)
+  ),Equals,VariableName),
+  VariableDeclaration(let,ObjectPattern(PatternProperty(VariableName,VariableDefinition)),Equals,VariableName))

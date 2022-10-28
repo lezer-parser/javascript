@@ -298,7 +298,8 @@ Property {
 
 PatternProperty {
   "..." patternAssign |
-  (PropertyName | Number | String) ~destructure (":" pattern)? ("=" expressionNoComma)?
+  ((PropertyName | Number | String) ~destructure (":" pattern)? |
+   ("[" expression "]" ~destructure ":" pattern)) ("=" expressionNoComma)?
 }
 
 ClassExpression {
