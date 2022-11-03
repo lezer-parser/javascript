@@ -154,7 +154,7 @@ StaticBlock[group=ClassItem] {
 PropertyDeclaration[group=ClassItem] {
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
-  pkwMod<"readonly">?
+  (tsPkwMod<"readonly"> | pkwMod<"accessor">)?
   (PropertyDefinition | PrivatePropertyDefinition)
   (Optional | LogicOp<"!">)?
   TypeAnnotation?
@@ -414,7 +414,7 @@ ObjectType {
 }
 
 IndexSignature {
-  pkwMod<"readonly">? "[" PropertyDefinition (TypeAnnotation | kw<"in"> type) "]" TypeAnnotation
+  tsPkwMod<"readonly">? "[" PropertyDefinition (TypeAnnotation | kw<"in"> type) "]" TypeAnnotation
 }
 
 MethodType {
@@ -425,7 +425,7 @@ MethodType {
 }
 
 PropertyType {
-  (ArithOp<"+" | "-">? pkwMod<"readonly">)?
+  (ArithOp<"+" | "-">? tsPkwMod<"readonly">)?
   PropertyDefinition
   (ArithOp<"+" | "-">? Optional)?
   TypeAnnotation
