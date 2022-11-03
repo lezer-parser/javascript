@@ -207,3 +207,11 @@ let f: <T>() => T
 Script(
   VariableDeclaration(let,VariableDefinition,TypeAnnotation(
     FunctionSignature(TypeParamList(TypeDefinition),ParamList,Arrow,TypeName))))
+
+# Satisfies operator {"dialect": "ts"}
+
+let x = 1 satisfies number
+
+==>
+
+Script(VariableDeclaration(let,VariableDefinition,Equals,BinaryExpression(Number,satisfies,TypeName)))

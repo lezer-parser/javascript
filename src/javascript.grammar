@@ -22,6 +22,7 @@
   shift @left,
   loop,
   rel @left,
+  satisfies,
   equal @left,
   bitOr @left,
   bitXor @left,
@@ -324,6 +325,7 @@ BinaryExpression {
   expressionNoComma !plus ArithOp<"+" | "-"> expressionNoComma |
   expressionNoComma !shift BitOp<">>" ">"? | "<<"> expressionNoComma |
   expressionNoComma !rel (LessThan | CompareOp<"<=" | ">" "="?> | kw<"instanceof">) expressionNoComma |
+  expressionNoComma !satisfies tskw<"satisfies"> type |
   (expressionNoComma | PrivatePropertyName) !rel kw<"in"> expressionNoComma |
   expressionNoComma !rel ckw<"as"> (kw<"const"> | type) |
   expressionNoComma !equal CompareOp<"==" "="? | "!=" "="?> expressionNoComma |
