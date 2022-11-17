@@ -1,3 +1,21 @@
+## 1.1.0 (2022-11-17)
+
+### Bug fixes
+
+Fix parsing of 'null' as type in TypeScript.
+
+Allow computed properties in object destructuring patterns.
+
+Add TypeScript 4.9's `satisfies` operator.
+
+Support `accessor` syntax on class properties.
+
+### New features
+
+Add support for  optional call syntax.
+
+Distinguish lower-case JSX element names syntactically, give them a `standard(tagName)` highlight tag.
+
 ## 1.0.2 (2022-07-21)
 
 ### Bug fixes
