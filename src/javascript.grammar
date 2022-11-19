@@ -142,7 +142,7 @@ MethodDeclaration[group=ClassItem] {
   tsPkwMod<"override">?
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
-  (PropertyDefinition | PrivatePropertyDefinition)
+  (propName | PrivatePropertyDefinition)
   functionSignature
   Block
 }
@@ -155,7 +155,7 @@ PropertyDeclaration[group=ClassItem] {
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   (tsPkwMod<"readonly"> | pkwMod<"accessor">)?
-  (PropertyDefinition | PrivatePropertyDefinition)
+  (propName | PrivatePropertyDefinition)
   (Optional | LogicOp<"!">)?
   TypeAnnotation?
   ("=" expressionNoComma)?
@@ -326,7 +326,7 @@ BinaryExpression {
   expressionNoComma !shift BitOp<">>" ">"? | "<<"> expressionNoComma |
   expressionNoComma !rel (LessThan | CompareOp<"<=" | ">" "="?> | kw<"instanceof">) expressionNoComma |
   expressionNoComma !satisfies tskw<"satisfies"> type |
-  (expressionNoComma | PrivatePropertyName) !rel kw<"in"> expressionNoComma |
+  (expressionNoComma | PrivatePropertyName) !rel ~tsIn kw<"in"> expressionNoComma |
   expressionNoComma !rel ckw<"as"> (kw<"const"> | type) |
   expressionNoComma !equal CompareOp<"==" "="? | "!=" "="?> expressionNoComma |
   expressionNoComma !bitOr BitOp { "|" } expressionNoComma |
@@ -414,7 +414,7 @@ ObjectType {
 }
 
 IndexSignature {
-  tsPkwMod<"readonly">? "[" PropertyDefinition (TypeAnnotation | kw<"in"> type) "]" TypeAnnotation
+  tsPkwMod<"readonly">? "[" PropertyDefinition { identifier } (TypeAnnotation | ~tsIn kw<"in"> type) "]" TypeAnnotation
 }
 
 MethodType {
@@ -602,6 +602,8 @@ questionOp[@name=LogicOp] { "?" }
     "0b" $[01_]+ "n"? |
     "0o" $[0-7_]+ "n"?
   }
+
+  @precedence { Number "." }
 
   String {
     '"' (![\\\n"] | "\\" _)* '"'? |

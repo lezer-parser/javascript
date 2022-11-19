@@ -217,6 +217,19 @@ Script(ClassDeclaration(class,VariableDefinition,ClassBody(
   PropertyDeclaration(PrivatePropertyDefinition),
   PropertyDeclaration(PrivatePropertyDefinition,Equals,Number))))
 
+# Computed properties
+
+class Foo {
+  [x] = 44;
+  [Symbol.iterator]() {}
+}
+
+==>
+
+Script(ClassDeclaration(class,VariableDefinition,ClassBody(
+  PropertyDeclaration(VariableName,Equals,Number),
+  MethodDeclaration(MemberExpression(VariableName,PropertyName),ParamList,Block))))
+
 # Imports
 
 import defaultMember from "module-name";
