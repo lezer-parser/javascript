@@ -1,3 +1,9 @@
+## 1.1.1 (2022-11-19)
+
+### Bug fixes
+
+Fix parsing of computed properties in class declarations.
+
 ## 1.1.0 (2022-11-17)
 
 ### Bug fixes
