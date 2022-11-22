@@ -38,6 +38,8 @@
 
 @top Script { statement+ }
 
+@top SingleExpression { expression }
+
 statement[@isGroup=Statement] {
   ExportDeclaration |
   ImportDeclaration |
