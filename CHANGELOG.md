@@ -1,3 +1,9 @@
+## 1.2.0 (2022-11-24)
+
+### New features
+
+The grammar now supports `top: "SingleExpression"` to parse an expression rather than a script.
+
 ## 1.1.1 (2022-11-19)
 
 ### Bug fixes
