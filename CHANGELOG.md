@@ -1,3 +1,9 @@
+## 1.3.0 (2022-11-28)
+
+### New features
+
+Add support for decorator syntax.
+
 ## 1.2.0 (2022-11-24)
 
 ### New features
