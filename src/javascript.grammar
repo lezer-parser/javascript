@@ -120,7 +120,7 @@ FunctionDeclaration {
 }
 
 ClassDeclaration {
-  !statement tskw<"abstract">? kw<"class"> VariableDefinition TypeParamList?
+  !statement Decorator* tskw<"abstract">? kw<"class"> VariableDefinition TypeParamList?
   (kw<"extends"> expression | TSExtends type)?
   (tskw<"implements"> commaSep1<type>)?
   ClassBody
@@ -139,6 +139,7 @@ privacyArg {
 }
 
 MethodDeclaration[group=ClassItem] {
+  Decorator*
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   tsPkwMod<"override">?
@@ -154,6 +155,7 @@ StaticBlock[group=ClassItem] {
 }
 
 PropertyDeclaration[group=ClassItem] {
+  Decorator*
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   (tsPkwMod<"readonly"> | pkwMod<"accessor">)?
@@ -211,6 +213,15 @@ AmbientDeclaration {
   )
 }
 
+decoratorExpression {
+  VariableName |
+  MemberExpression { decoratorExpression !member ("." | "?.") (PropertyName | PrivatePropertyName) } |
+  CallExpression { decoratorExpression !call TypeArgList? "?."? ArgList } |
+  ParenthesizedExpression
+}
+
+Decorator { "@" decoratorExpression }
+
 pattern { VariableDefinition | ArrayPattern | ObjectPattern }
 
 ArrayPattern { "[" commaSep<("..."? patternAssign)?> ~destructure "]" }
@@ -230,7 +241,7 @@ patternAssignTyped {
 }
 
 ParamList {
-  "(" commaSep<"..." patternAssignTyped | privacyArg? tskw<"readonly">? patternAssignTyped> ")"
+  "(" commaSep<"..." patternAssignTyped | Decorator* privacyArg? tskw<"readonly">? patternAssignTyped> ")"
 }
 
 Block {
@@ -621,6 +632,8 @@ questionOp[@name=LogicOp] { "?" }
   BitOp<expr> { expr }
   CompareOp<expr> { expr }
   UpdateOp<expr> { expr }
+
+  @precedence { "*", ArithOp }
 
   RegExp { "/" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ ("/" $[gimsuy]*)? }
 

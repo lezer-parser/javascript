@@ -43,6 +43,7 @@ export const jsHighlight = styleTags({
   "InterpolationStart InterpolationEnd": t.special(t.brace),
   ".": t.derefOperator,
   ", ;": t.separator,
+  "@": t.meta,
 
   TypeName: t.typeName,
   TypeDefinition: t.definition(t.typeName),
