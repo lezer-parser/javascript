@@ -1,3 +1,9 @@
+## 1.3.1 (2022-11-29)
+
+### Bug fixes
+
+Actually emit a tree node for the `@` characters in decorators.
+
 ## 1.3.0 (2022-11-28)
 
 ### New features
