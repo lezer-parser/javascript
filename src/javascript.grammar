@@ -645,7 +645,7 @@ questionOp[@name=LogicOp] { "?" }
 
   "(" ")" "[" "]" "{" "}" ">"
 
-  "?." "." "," ";" ":"
+  "?." "." "," ";" ":" "@"
 
   JSXIdentifier { $[A-Z_$\u{a1}-\u{10ffff}] (identifierChar | @digit | "-")* }
   JSXLowerIdentifier[@name=JSXIdentifier] { $[a-z] (identifierChar | @digit | "-")* }
