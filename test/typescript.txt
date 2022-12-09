@@ -215,3 +215,18 @@ let x = 1 satisfies number
 ==>
 
 Script(VariableDeclaration(let,VariableDefinition,Equals,BinaryExpression(Number,satisfies,TypeName)))
+
+# Override modifier on properties {"dialect": "ts"}
+
+class A {
+  override accessor a;
+  static override b = 1;
+  override c = 2;
+}
+
+==>
+
+Script(ClassDeclaration(class,VariableDefinition,ClassBody(
+  PropertyDeclaration(override,accessor,PropertyDefinition),
+  PropertyDeclaration(static,override,PropertyDefinition,Equals,Number),
+  PropertyDeclaration(override,PropertyDefinition,Equals,Number))))
