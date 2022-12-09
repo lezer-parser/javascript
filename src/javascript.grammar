@@ -158,6 +158,7 @@ PropertyDeclaration[group=ClassItem] {
   Decorator*
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
+  tsPkwMod<"override">?
   (tsPkwMod<"readonly"> | pkwMod<"accessor">)?
   (propName | PrivatePropertyDefinition)
   (Optional | LogicOp<"!">)?
