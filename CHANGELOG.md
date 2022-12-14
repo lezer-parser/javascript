@@ -1,3 +1,11 @@
+## 1.3.2 (2022-12-14)
+
+### Bug fixes
+
+Typescript allows `override` on all class elements, not just methods.
+
+Allow expressions in class extends clauses in TypeScript.
+
 ## 1.3.1 (2022-11-29)
 
 ### Bug fixes
