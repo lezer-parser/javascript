@@ -4,13 +4,14 @@
 import {ExternalTokenizer, ContextTracker} from "@lezer/lr"
 import {insertSemi, noSemi, incdec, incdecPrefix, templateContent, InterpolationStart, templateEnd,
         spaces, newline, BlockComment, LineComment,
-        TSExtends, Dialect_ts} from "./parser.terms.js"
+        Dialect_ts} from "./parser.terms.js"
 
 const space = [9, 10, 11, 12, 13, 32, 133, 160, 5760, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200,
                8201, 8202, 8232, 8233, 8239, 8287, 12288]
 
 const braceR = 125, braceL = 123, semicolon = 59, slash = 47, star = 42,
-      plus = 43, minus = 45, dollar = 36, backtick = 96, backslash = 92
+      plus = 43, minus = 45, dollar = 36, backtick = 96, backslash = 92,
+      angleL = 60, angleR = 62, period = 46
 
 export const trackNewline = new ContextTracker({
   start: false,
@@ -71,16 +72,4 @@ export const template = new ExternalTokenizer(input => {
     afterDollar = next == dollar
     input.advance()
   }
-})
-
-export const tsExtends = new ExternalTokenizer((input, stack) => {
-  if (input.next != 101 || !stack.dialectEnabled(Dialect_ts)) return
-  input.advance()
-  for (let i = 0; i < 6; i++) {
-    if (input.next != "xtends".charCodeAt(i)) return
-    input.advance()
-  }
-  if (input.next >= 57 && input.next <= 65 || input.next >= 48 && input.next <= 90 ||
-      input.next == 95 || input.next >= 97 && input.next <= 122 || input.next > 160) return
-  input.acceptToken(TSExtends)
 })

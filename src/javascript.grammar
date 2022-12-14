@@ -121,7 +121,7 @@ FunctionDeclaration {
 
 ClassDeclaration {
   !statement Decorator* tskw<"abstract">? kw<"class"> VariableDefinition TypeParamList?
-  (kw<"extends"> expression | TSExtends type)?
+  (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
   (tskw<"implements"> commaSep1<type>)?
   ClassBody
 }
@@ -176,7 +176,7 @@ TypeAliasDeclaration {
 }
 
 InterfaceDeclaration {
-  tskw<"interface"> TypeDefinition TypeParamList? (TSExtends type)? ObjectType
+  tskw<"interface"> TypeDefinition TypeParamList? (kw<"extends"> type)? ObjectType
 }
 
 EnumDeclaration {
@@ -197,7 +197,7 @@ AmbientDeclaration {
     GlobalDeclaration { tskw<"global"> Block } |
     ClassDeclaration {
       tskw<"abstract">? kw<"class"> VariableDefinition TypeParamList?
-      (kw<"extends"> expression | TSExtends type)?
+      (kw<"extends"> expression)?
       (tskw<"implements"> commaSep1<type>)?
       ClassBody { "{" (
         MethodDeclaration {
@@ -205,7 +205,7 @@ AmbientDeclaration {
           (PropertyDefinition | PrivatePropertyDefinition) TypeParamList? ParamList (TypeAnnotation | TypePredicate) semi
         } |
         PropertyDeclaration |
-        IndexSignature
+        IndexSignature semi
       )* "}" }
     } |
     AmbientFunctionDeclaration {
@@ -318,7 +318,7 @@ PatternProperty {
 }
 
 ClassExpression {
-  kw<"class"> VariableDefinition? (kw<"extends"> expression | TSExtends type)? ClassBody
+  kw<"class"> VariableDefinition? (kw<"extends"> expression)? ClassBody
 }
 
 functionSignature { TypeParamList? ParamList (TypeAnnotation | TypePredicate)? }
@@ -376,7 +376,7 @@ TypeParamList {
   "<" commaSep<typeParam> ">"
 }
 
-typeParam { TypeDefinition ~tsAngle (TSExtends type)? ("=" type)? }
+typeParam { TypeDefinition ~tsAngle (kw<"extends"> type)? ("=" type)? }
 
 typeofMemberExpression[@name=MemberExpression] {
   VariableName !member (("." | "?.") PropertyName | "[" expression "]")
@@ -407,7 +407,7 @@ type[@isGroup=Type] {
   ObjectType |
   UnionType { type !union LogicOp { "|" } type } |
   IntersectionType { type !intersection LogicOp { "&" } type } |
-  ConditionalType { type !typeExtends TSExtends type questionOp ~arrow type LogicOp<":"> type } |
+  ConditionalType { type !typeExtends kw<"extends"> type questionOp ~arrow type LogicOp<":"> type } |
   ParameterizedType { (TypeName | IndexedType) !typeargs TypeArgList } |
   TypeName
 }
@@ -559,8 +559,6 @@ questionOp[@name=LogicOp] { "?" }
 @skip { spaces | newline | LineComment | BlockComment }
 
 @context trackNewline from "./tokens.js"
-
-@external tokens tsExtends from "./tokens" { TSExtends[@name=extends] }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
 

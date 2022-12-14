@@ -130,7 +130,7 @@ class Foo<T> extends Bar<T> implements Stuff {
 
 Script(ClassDeclaration(
   class, VariableDefinition, TypeParamList(TypeDefinition),
-  extends ParameterizedType(TypeName, TypeArgList(TypeName)),
+  extends, VariableName, TypeArgList(TypeName),
   implements TypeName,
   ClassBody(
     PropertyDeclaration(PropertyDefinition, TypeAnnotation(TypeName)),
@@ -170,7 +170,7 @@ class Foo extends A.B<Param> {}
 ==>
 
 Script(ClassDeclaration(class, VariableDefinition,
-  extends, ParameterizedType(IndexedType(TypeName, TypeName), TypeArgList(TypeName)),
+  extends, MemberExpression(VariableName, PropertyName), TypeArgList(TypeName),
   ClassBody))
 
 # Object type {"dialect": "ts"}
@@ -230,3 +230,11 @@ Script(ClassDeclaration(class,VariableDefinition,ClassBody(
   PropertyDeclaration(override,accessor,PropertyDefinition),
   PropertyDeclaration(static,override,PropertyDefinition,Equals,Number),
   PropertyDeclaration(override,PropertyDefinition,Equals,Number))))
+
+# Class extending expression {"dialect": "ts"}
+
+class X extends class {} {}
+
+==>
+
+Script(ClassDeclaration(class,VariableDefinition,extends,ClassExpression(class,ClassBody),ClassBody))
