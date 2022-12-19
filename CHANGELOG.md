@@ -1,3 +1,9 @@
+## 1.4.0 (2022-12-19)
+
+### New features
+
+The new `"SingleClassItem"` top-level rule can be used to parse only a class item (method, property, or static block).
+
 ## 1.3.2 (2022-12-14)
 
 ### Bug fixes
