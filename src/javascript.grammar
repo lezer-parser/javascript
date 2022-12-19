@@ -40,6 +40,8 @@
 
 @top SingleExpression { expression }
 
+@top SingleMethodDefinition { methodDefinition<propName | PrivatePropertyName> }
+
 statement[@isGroup=Statement] {
   ExportDeclaration |
   ImportDeclaration |
@@ -138,16 +140,20 @@ privacyArg {
   @extend[@name=Privacy,@dialect=ts]<identifier, "public" | "private" | "protected">
 }
 
+methodDefinition<name> {
+  pkwMod<"async">?
+  (pkwMod<"get"> | pkwMod<"set"> | Star)?
+  name
+  functionSignature
+  Block
+}
+
 MethodDeclaration[group=ClassItem] {
   Decorator*
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   tsPkwMod<"override">?
-  pkwMod<"async">?
-  (pkwMod<"get"> | pkwMod<"set"> | Star)?
-  (propName | PrivatePropertyDefinition)
-  functionSignature
-  Block
+  methodDefinition<propName | PrivatePropertyDefinition>
 }
 
 StaticBlock[group=ClassItem] {
@@ -306,7 +312,7 @@ ArrayExpression {
 propName { PropertyDefinition | "[" expression "]" | Number | String }
 
 Property {
-  pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)? propName functionSignature Block |
+  methodDefinition<propName> |
   propName ~destructure (":" expressionNoComma)? |
   "..." expressionNoComma
 }
