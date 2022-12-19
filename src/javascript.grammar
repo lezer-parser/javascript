@@ -40,6 +40,8 @@
 
 @top SingleExpression { expression }
 
+@top SingleClassItem { classItem }
+
 statement[@isGroup=Statement] {
   ExportDeclaration |
   ImportDeclaration |
@@ -126,9 +128,9 @@ ClassDeclaration {
   ClassBody
 }
 
-ClassBody {
-  "{" (MethodDeclaration | PropertyDeclaration | StaticBlock | ";")* "}"
-}
+classItem { MethodDeclaration | PropertyDeclaration | StaticBlock | ";" }
+
+ClassBody { "{" classItem* "}" }
 
 privacy {
   @extend[@name=Privacy,@dialect=ts]<word, "public" | "private" | "protected">
