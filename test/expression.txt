@@ -293,12 +293,16 @@ Script(
 # Yield expressions
 
 yield db.users.where('[endpoint+email]');
+yield* a;
+yield [22];
 
 ==>
 
 Script(
-  ExpressionStatement(UnaryExpression(yield,
-    CallExpression(MemberExpression(MemberExpression(VariableName,PropertyName),PropertyName),ArgList(String)))))
+  ExpressionStatement(YieldExpression(yield,
+    CallExpression(MemberExpression(MemberExpression(VariableName,PropertyName),PropertyName),ArgList(String)))),
+  ExpressionStatement(YieldExpression(yield,Star,VariableName)),
+  ExpressionStatement(YieldExpression(yield,ArrayExpression(Number))))
 
 # Template strings
 
@@ -405,7 +409,7 @@ Script(ExpressionStatement(ParenthesizedExpression(ObjectExpression(
   Property(get,PropertyDefinition,ParamList,Block(ReturnStatement(return,VariableName))),
   Property(set,PropertyDefinition,ParamList(VariableDefinition),
     Block(ExpressionStatement(AssignmentExpression(VariableName,Equals,VariableName)))),
-  Property(Star,PropertyDefinition,ParamList,Block(ExpressionStatement(UnaryExpression(yield,VariableName)))),
+  Property(Star,PropertyDefinition,ParamList,Block(ExpressionStatement(YieldExpression(yield,VariableName)))),
   Property(PropertyDefinition,ParamList,Block(ReturnStatement(return,Number)))))))
 
 # Keyword property names
@@ -445,7 +449,7 @@ Script(ExpressionStatement(ArrayExpression(
   FunctionExpression(function,Star,ParamList,Block),
   FunctionExpression(function,Star,VariableDefinition,ParamList(VariableDefinition,VariableDefinition),Block(
     ExpressionStatement(VariableName),
-    ExpressionStatement(UnaryExpression(yield,VariableName)))))))
+    ExpressionStatement(YieldExpression(yield,VariableName)))))))
 
 # Member expressions
 
@@ -520,8 +524,8 @@ await asyncPromise;
 ==>
 
 Script(
-  ExpressionStatement(UnaryExpression(await,CallExpression(VariableName,ArgList))),
-  ExpressionStatement(UnaryExpression(await,VariableName)))
+  ExpressionStatement(AwaitExpression(await,CallExpression(VariableName,ArgList))),
+  ExpressionStatement(AwaitExpression(await,VariableName)))
 
 # Numeric operators
 
