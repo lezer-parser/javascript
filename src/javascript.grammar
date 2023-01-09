@@ -474,6 +474,8 @@ ParamTypeList[@name=ParamList] {
     '"' (stringContentDouble | Escape)* ('"' | "\n") |
     "'" (stringContentSingle | Escape)* ("'" | "\n")
   }
+
+  BlockComment { "/*" (blockCommentContent | blockCommentNewline)* blockCommentEnd }
 }
 
 templateExpr[@name=Interpolation] { InterpolationStart expression InterpolationEnd }
@@ -591,24 +593,23 @@ questionOp[@name=LogicOp] { "?" }
   @else templateContent
 }
 
+@local tokens {
+  blockCommentEnd { "*/" }
+  blockCommentNewline { "\n" }
+  @else blockCommentContent
+}
+
 @tokens {
   spaces[@export] { $[\u0009 \u000b\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]+ }
   newline[@export] { $[\r\n\u2028\u2029] }
 
   LineComment { "//" ![\n]* }
 
-  // FIXME split into multiple tokens
-  BlockComment { "/*" blockCommentRest }
-
-  blockCommentRest { ![*] blockCommentRest | "*" blockCommentAfterStar }
-
-  blockCommentAfterStar { "/" | "*" blockCommentAfterStar | ![/*] blockCommentRest }
-
   divide[@name=ArithOp] { "/" }
 
-  @precedence { BlockComment, LineComment, divide }
+  @precedence { "/*", LineComment, divide }
 
-  @precedence { BlockComment, LineComment, RegExp }
+  @precedence { "/*", LineComment, RegExp }
 
   identifierChar { @asciiLetter | $[_$\u{a1}-\u{10ffff}] }
 
