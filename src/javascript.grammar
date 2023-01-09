@@ -463,7 +463,7 @@ ParamTypeList[@name=ParamList] {
 
 @skip {} {
   TemplateString {
-    templateStart (templateContent | templateExpr)* templateEnd
+    templateStart (templateEscape | templateContent | templateExpr)* templateEnd
   }
 
   TemplateType {
@@ -579,10 +579,11 @@ questionOp[@name=LogicOp] { "?" }
  incdecPrefix[@name=ArithOp]
 }
 
-@external tokens template from "./tokens" {
-  templateContent,
-  InterpolationStart[closedBy=InterpolationEnd],
-  templateEnd
+@local tokens {
+  InterpolationStart[closedBy=InterpolationEnd] { "${" }
+  templateEnd { "`" }
+  templateEscape[@name=Escape] { Escape }
+  @else templateContent
 }
 
 @tokens {
@@ -618,20 +619,26 @@ questionOp[@name=LogicOp] { "?" }
 
   @precedence { spaces, newline, word }
 
+  hex { @digit | $[a-fA-F] }
+
   Number {
     (@digit ("_" | @digit)* ("." ("_" | @digit)*)? | "." @digit ("_" | @digit)*)
       (("e" | "E") ("+" | "-")? ("_" | @digit)+)? |
     @digit ("_" | @digit)* "n" |
-    "0x" (@digit | $[a-fA-F] | "_")+ "n"? |
+    "0x" (hex | "_")+ "n"? |
     "0b" $[01_]+ "n"? |
     "0o" $[0-7_]+ "n"?
   }
 
   @precedence { Number "." }
 
+  Escape {
+    "\\" ("x" hex hex | "u" ("{" hex+ "}" | hex hex hex hex) | ![xu])
+  }
+
   String {
-    '"' (![\\\n"] | "\\" _)* '"'? |
-    "'" (![\\\n'] | "\\" _)* "'"?
+    '"' (![\\\n"] | Escape)* '"'? |
+    "'" (![\\\n'] | Escape)* "'"?
   }
 
   templateStart { "`" }

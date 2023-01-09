@@ -29,6 +29,7 @@ export const jsHighlight = styleTags({
   BlockComment: t.blockComment,
   Number: t.number,
   String: t.string,
+  Escape: t.escape,
   ArithOp: t.arithmeticOperator,
   LogicOp: t.logicOperator,
   BitOp: t.bitwiseOperator,

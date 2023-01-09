@@ -320,7 +320,7 @@ Script(
 `$`;
 `$$$$${ async }`;
 
-`\\`;
+`\\\``;
 
 `one${`two${`three`}`}`;
 
@@ -337,7 +337,7 @@ Script(
   ExpressionStatement(TemplateString),
   ExpressionStatement(TemplateString),
   ExpressionStatement(TemplateString(Interpolation(InterpolationStart,VariableName,InterpolationEnd))),
-  ExpressionStatement(TemplateString),
+  ExpressionStatement(TemplateString(Escape,Escape)),
   ExpressionStatement(TemplateString(Interpolation(InterpolationStart,TemplateString(
     Interpolation(InterpolationStart,TemplateString,InterpolationEnd)),InterpolationEnd))),
   ExpressionStatement(TaggedTemplateExpression(VariableName,TemplateString(

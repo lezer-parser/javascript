@@ -2,15 +2,15 @@
    expressed by lezer's built-in tokenizer. */
 
 import {ExternalTokenizer, ContextTracker} from "@lezer/lr"
-import {insertSemi, noSemi, incdec, incdecPrefix, templateContent, InterpolationStart, templateEnd,
+import {insertSemi, noSemi, incdec, incdecPrefix,
         spaces, newline, BlockComment, LineComment,
         Dialect_ts} from "./parser.terms.js"
 
 const space = [9, 10, 11, 12, 13, 32, 133, 160, 5760, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200,
                8201, 8202, 8232, 8233, 8239, 8287, 12288]
 
-const braceR = 125, braceL = 123, semicolon = 59, slash = 47, star = 42,
-      plus = 43, minus = 45, dollar = 36, backtick = 96, backslash = 92,
+const braceR = 125, semicolon = 59, slash = 47, star = 42,
+      plus = 43, minus = 45, backslash = 92,
       angleL = 60, angleR = 62, period = 46
 
 export const trackNewline = new ContextTracker({
@@ -46,30 +46,3 @@ export const incdecToken = new ExternalTokenizer((input, stack) => {
     }
   }
 }, {contextual: true})
-
-export const template = new ExternalTokenizer(input => {
-  for (let afterDollar = false, i = 0;; i++) {
-    let {next} = input
-    if (next < 0) {
-      if (i) input.acceptToken(templateContent)
-      break
-    } else if (next == backtick) {
-      if (i) input.acceptToken(templateContent)
-      else input.acceptToken(templateEnd, 1)
-      break
-    } else if (next == braceL && afterDollar) {
-      if (i == 1) input.acceptToken(InterpolationStart, 1)
-      else input.acceptToken(templateContent, -1)
-      break
-    } else if (next == 10 /* "\n" */ && i) {
-      // Break up template strings on lines, to avoid huge tokens
-      input.advance()
-      input.acceptToken(templateContent)
-      break
-    } else if (next == backslash) {
-      input.advance()
-    }
-    afterDollar = next == dollar
-    input.advance()
-  }
-})
