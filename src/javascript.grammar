@@ -469,6 +469,11 @@ ParamTypeList[@name=ParamList] {
   TemplateType {
     templateStart (templateContent | templateType)* templateEnd
   }
+
+  String {
+    '"' (stringContentDouble | Escape)* ('"' | "\n") |
+    "'" (stringContentSingle | Escape)* ("'" | "\n")
+  }
 }
 
 templateExpr[@name=Interpolation] { InterpolationStart expression InterpolationEnd }
@@ -636,10 +641,9 @@ questionOp[@name=LogicOp] { "?" }
     "\\" ("x" hex hex | "u" ("{" hex+ "}" | hex hex hex hex) | ![xu])
   }
 
-  String {
-    '"' (![\\\n"] | Escape)* '"'? |
-    "'" (![\\\n'] | Escape)* "'"?
-  }
+  stringContentSingle { ![\\\n']+ }
+
+  stringContentDouble { ![\\\n"]+ }
 
   templateStart { "`" }
 

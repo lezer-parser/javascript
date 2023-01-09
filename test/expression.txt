@@ -18,11 +18,11 @@ line';
 
 ==>
 
-Script(ExpressionStatement(String),
-       ExpressionStatement(String),
-       ExpressionStatement(String),
-       ExpressionStatement(String),
-       ExpressionStatement(String))
+Script(ExpressionStatement(String(Escape,Escape)),
+       ExpressionStatement(String(Escape,Escape)),
+       ExpressionStatement(String(Escape)),
+       ExpressionStatement(String(Escape)),
+       ExpressionStatement(String(Escape)))
 
 # Numbers
 
