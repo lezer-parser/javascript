@@ -1,3 +1,13 @@
+## 1.4.1 (2023-01-09)
+
+### Bug fixes
+
+Fix a bug where something like `yield [1]` (or `await`) was parsed as a member expression.
+
+Add support for `yield*` syntax.
+
+Escapes in strings are now parsed as their own tokens (and styled with the `escape` tag).
+
 ## 1.4.0 (2022-12-19)
 
 ### New features
