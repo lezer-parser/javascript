@@ -118,7 +118,7 @@ declaration {
 }
 
 FunctionDeclaration {
-  async? !statement kw<"function"> Star? VariableDefinition? functionSignature Block
+  async? !statement kw<"function"> Star? VariableDefinition? functionSignature (Block | semi)
 }
 
 ClassDeclaration {
@@ -142,6 +142,7 @@ privacyArg {
 
 MethodDeclaration[group=ClassItem] {
   Decorator*
+  tsPkwMod<"declare">?
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   tsPkwMod<"override">?
@@ -149,7 +150,7 @@ MethodDeclaration[group=ClassItem] {
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   (propName | PrivatePropertyDefinition)
   functionSignature
-  Block
+  (Block | semi)
 }
 
 StaticBlock[group=ClassItem] {
@@ -158,6 +159,7 @@ StaticBlock[group=ClassItem] {
 
 PropertyDeclaration[group=ClassItem] {
   Decorator*
+  tsPkwMod<"declare">?
   privacy?
   (pkwMod<"static"> | tsPkwMod<"abstract">)?
   tsPkwMod<"override">?
@@ -204,7 +206,7 @@ AmbientDeclaration {
       ClassBody { "{" (
         MethodDeclaration {
           privacy? (pkwMod<"static"> | tsPkwMod<"abstract">)? pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)?
-          (PropertyDefinition | PrivatePropertyDefinition) TypeParamList? ParamList (TypeAnnotation | TypePredicate) semi
+          (PropertyDefinition | PrivatePropertyDefinition) TypeParamList? ParamList (TypeAnnotation | TypePredicate)? semi
         } |
         PropertyDeclaration |
         IndexSignature semi
