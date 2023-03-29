@@ -1,3 +1,9 @@
+## 1.4.2 (2023-03-29)
+
+### Bug fixes
+
+Properly parse `declare` in front of class properties and methods in TypeScript.
+
 ## 1.4.1 (2023-01-09)
 
 ### Bug fixes
