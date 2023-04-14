@@ -355,3 +355,22 @@ Script(
     PatternProperty(PropertyName,VariableDefinition,Equals,Number)
   ),Equals,VariableName),
   VariableDeclaration(let,ObjectPattern(PatternProperty(VariableName,VariableDefinition)),Equals,VariableName))
+
+# Generators
+
+function* foo() { yield 1 }
+
+class B {
+  *method() {}
+}
+
+({*x() {}})
+
+==>
+
+Script(
+  FunctionDeclaration(function,Star,VariableDefinition,ParamList,Block(
+    ExpressionStatement(YieldExpression(yield,Number)))),
+  ClassDeclaration(class,VariableDefinition,ClassBody(
+    MethodDeclaration(Star,PropertyDefinition,ParamList,Block))),
+  ExpressionStatement(ParenthesizedExpression(ObjectExpression(Property(Star,PropertyDefinition,ParamList,Block)))))
