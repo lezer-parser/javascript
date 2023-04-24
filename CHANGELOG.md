@@ -1,3 +1,9 @@
+## 1.4.3 (2023-04-24)
+
+### Bug fixes
+
+Properly parse `this: Type` within parameter lists for TypeScript.
+
 ## 1.4.2 (2023-03-29)
 
 ### Bug fixes
