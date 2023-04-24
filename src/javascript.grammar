@@ -246,7 +246,7 @@ patternAssignTyped {
 }
 
 ParamList {
-  "(" commaSep<"..." patternAssignTyped | Decorator* privacyArg? tskw<"readonly">? patternAssignTyped> ")"
+  "(" commaSep<"..." patternAssignTyped | Decorator* privacyArg? tskw<"readonly">? patternAssignTyped | kw<"this"> TypeAnnotation> ")"
 }
 
 Block {
