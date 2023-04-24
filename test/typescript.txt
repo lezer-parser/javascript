@@ -276,3 +276,11 @@ Script(
   ClassDeclaration(class,VariableDefinition,ClassBody(
     MethodDeclaration(declare,PropertyDefinition,ParamList),
     PropertyDeclaration(declare,PropertyDefinition,TypeAnnotation(TypeName)))))
+
+# Declare this in a Function {"dialect": "ts"}
+
+function foo(this: User) {}
+
+==>
+
+Script(FunctionDeclaration(function,VariableDefinition,ParamList(this,TypeAnnotation(TypeName)),Block))
