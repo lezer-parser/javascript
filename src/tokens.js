@@ -20,7 +20,7 @@ export const trackNewline = new ContextTracker({
 
 export const insertSemicolon = new ExternalTokenizer((input, stack) => {
   let {next} = input
-  if ((next == braceR || next == -1 || stack.context) && stack.canShift(insertSemi))
+  if (next == braceR || next == -1 || stack.context)
     input.acceptToken(insertSemi)
 }, {contextual: true, fallback: true})
 
@@ -28,7 +28,7 @@ export const noSemicolon = new ExternalTokenizer((input, stack) => {
   let {next} = input, after
   if (space.indexOf(next) > -1) return
   if (next == slash && ((after = input.peek(1)) == slash || after == star)) return
-  if (next != braceR && next != semicolon && next != -1 && !stack.context && stack.canShift(noSemi))
+  if (next != braceR && next != semicolon && next != -1 && !stack.context)
     input.acceptToken(noSemi)
 }, {contextual: true})
 
