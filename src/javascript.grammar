@@ -98,7 +98,7 @@ ForSpec {
 
 forXSpec<op> {
   "("
-  ((kw<"let"> | kw<"var"> | kw<"const">) pattern | VariableName | MemberExpression | ArrayPattern | ObjectPattern)
+  (variableDeclarationKeyword pattern | VariableName | MemberExpression | ArrayPattern | ObjectPattern)
   !loop op expression
   ")"
 }
@@ -172,8 +172,12 @@ PropertyDeclaration[group=ClassItem] {
   semi
 }
 
+variableDeclarationKeyword {
+  kw<"let"> | kw<"var"> | kw<"const"> | ckw<"await">? ckw<"using">
+}
+
 VariableDeclaration {
-  (kw<"let"> | kw<"var"> | kw<"const">) commaSep1<patternAssignTyped> semi
+  variableDeclarationKeyword commaSep1<patternAssignTyped> semi
 }
 
 TypeAliasDeclaration {
