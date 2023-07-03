@@ -1,3 +1,11 @@
+## 1.4.4 (2023-07-03)
+
+### Bug fixes
+
+Add support for `using` syntax.
+
+Make the package work with new TS resolution styles.
+
 ## 1.4.3 (2023-04-24)
 
 ### Bug fixes
