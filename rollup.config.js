@@ -7,7 +7,7 @@ export default {
     file: "./dist/index.cjs"
   }, {
     format: "es",
-    file: "./dist/index.es.js"
+    file: "./dist/index.js"
   }],
   external(id) { return !/^[\.\/]/.test(id) },
   plugins: [
