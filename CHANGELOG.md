@@ -1,3 +1,9 @@
+## 1.4.5 (2023-07-25)
+
+### Bug fixes
+
+Allow the index in a TypeScript indexed type to be any kind of type.
+
 ## 1.4.4 (2023-07-03)
 
 ### Bug fixes
