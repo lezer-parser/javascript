@@ -92,7 +92,7 @@ let f: (x: number) => boolean
 Script(
   VariableDeclaration(let, VariableDefinition, TypeAnnotation(
     UnionType(UnionType(TypeofType(typeof, MemberExpression(VariableName, PropertyName)), LogicOp,
-                        IntersectionType(KeyofType(keyof, TypeName), LogicOp, IndexedType(TypeName, String))),
+                        IntersectionType(KeyofType(keyof, TypeName), LogicOp, IndexedType(TypeName, LiteralType(String)))),
               LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName))))),
   VariableDeclaration(let, VariableDefinition, TypeAnnotation(TupleType(TypeName, TypeName))),
   VariableDeclaration(let, VariableDefinition, TypeAnnotation(FunctionSignature(

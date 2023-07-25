@@ -429,7 +429,7 @@ type[@isGroup=Type] {
 }
 
 IndexedType {
-  type !typeMember ("." TypeName | "[" (String | Number) "]")+
+  type !typeMember ("." TypeName | "[" type "]")+
 }
 
 ObjectType {
