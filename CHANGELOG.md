@@ -1,3 +1,9 @@
+## 1.4.6 (2023-08-22)
+
+### Bug fixes
+
+Make sure that, in TypeScript, type argument lists are prefered over comparison operators when both produce valid parses.
+
 ## 1.4.5 (2023-07-25)
 
 ### Bug fixes
