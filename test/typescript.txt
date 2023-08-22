@@ -261,7 +261,6 @@ class X {
 
 ==>
 
-
 Script(
   AmbientDeclaration(declare,NamespaceDeclaration(namespace,VariableDefinition,Block(
     FunctionDeclaration(function,VariableDefinition,ParamList(VariableDefinition,TypeAnnotation(TypeName)),
@@ -284,3 +283,15 @@ function foo(this: User) {}
 ==>
 
 Script(FunctionDeclaration(function,VariableDefinition,ParamList(this,TypeAnnotation(TypeName)),Block))
+
+# Prefers type parameters to comparison operators {"dialect": "ts jsx"}
+
+let a = useState<string>(1)
+return 2
+
+==>
+
+Script(
+  VariableDeclaration(let,VariableDefinition,Equals,
+    CallExpression(VariableName,TypeArgList(TypeName),ArgList(Number))),
+  ReturnStatement(return,Number))

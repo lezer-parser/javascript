@@ -384,7 +384,7 @@ ArrowFunction {
   async? (ParamList { VariableDefinition } | ParamList TypeAnnotation?) "=>" (Block | expressionNoComma)
 }
 
-TypeArgList {
+TypeArgList[@dynamicPrecedence=1] {
   @extend[@dialect=ts,@name="<"]<LessThan, "<"> commaSep<type> ">"
 }
 
