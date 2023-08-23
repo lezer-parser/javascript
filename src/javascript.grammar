@@ -36,7 +36,7 @@
   predicate
 }
 
-@top Script { statement+ }
+@top Script { Hashbang? statement+ }
 
 @top SingleExpression { expression }
 
@@ -608,6 +608,8 @@ questionOp[@name=LogicOp] { "?" }
   newline[@export] { $[\r\n\u2028\u2029] }
 
   LineComment { "//" ![\n]* }
+
+  Hashbang { "#!" ![\n]* }
 
   divide[@name=ArithOp] { "/" }
 

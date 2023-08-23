@@ -374,3 +374,12 @@ Script(
   ClassDeclaration(class,VariableDefinition,ClassBody(
     MethodDeclaration(Star,PropertyDefinition,ParamList,Block))),
   ExpressionStatement(ParenthesizedExpression(ObjectExpression(Property(Star,PropertyDefinition,ParamList,Block)))))
+
+# Hashbang
+
+#!/bin/env node
+foo()
+
+==>
+
+Script(Hashbang,ExpressionStatement(CallExpression(VariableName,ArgList)))
