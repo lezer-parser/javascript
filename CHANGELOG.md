@@ -1,3 +1,9 @@
+## 1.4.7 (2023-08-23)
+
+### Bug fixes
+
+Properly parse hashbang comments.
+
 ## 1.4.6 (2023-08-22)
 
 ### Bug fixes
