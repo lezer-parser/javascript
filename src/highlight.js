@@ -4,7 +4,7 @@ export const jsHighlight = styleTags({
   "get set async static": t.modifier,
   "for while do if else switch try catch finally return throw break continue default case": t.controlKeyword,
   "in of await yield void typeof delete instanceof": t.operatorKeyword,
-  "let var const function class extends": t.definitionKeyword,
+  "let var const using function class extends": t.definitionKeyword,
   "import export from": t.moduleKeyword,
   "with debugger as new": t.keyword,
   TemplateString: t.special(t.string),
