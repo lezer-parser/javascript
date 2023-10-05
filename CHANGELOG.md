@@ -1,3 +1,9 @@
+## 1.4.8 (2023-10-05)
+
+### Bug fixes
+
+Properly highlight `using` as a keyword.
+
 ## 1.4.7 (2023-08-23)
 
 ### Bug fixes
