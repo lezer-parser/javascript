@@ -1,3 +1,9 @@
+## 1.4.9 (2023-10-30)
+
+### Bug fixes
+
+Allow `default` to be used in `import`/`export` binding sets.
+
 ## 1.4.8 (2023-10-05)
 
 ### Bug fixes
