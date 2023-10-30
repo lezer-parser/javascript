@@ -77,7 +77,7 @@ ExportDeclaration {
 }
 
 ExportGroup {
-  "{" commaSep<VariableName (ckw<"as"> (VariableName { word } | String))?> "}"
+  "{" commaSep<(VariableName | String | kw<"default">) (ckw<"as"> (VariableName { word } | String | kw<"default">))?> "}"
 }
 
 ImportDeclaration {
@@ -87,7 +87,7 @@ ImportDeclaration {
 }
 
 ImportGroup {
-  "{" commaSep<tskw<"type">? (VariableDefinition | (VariableName | String) ckw<"as"> VariableDefinition)> "}"
+  "{" commaSep<tskw<"type">? (VariableDefinition | (VariableName | String | kw<"default">) ckw<"as"> VariableDefinition)> "}"
 }
 
 ForSpec {
