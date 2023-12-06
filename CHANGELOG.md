@@ -1,3 +1,9 @@
+## 1.4.10 (2023-12-06)
+
+### Bug fixes
+
+Support `|` and `&` as prefixes in TypeScript types.
+
 ## 1.4.9 (2023-10-30)
 
 ### Bug fixes
