@@ -4,7 +4,9 @@
   typeargs,
   typeMember,
   typePrefix,
+  intersectionPrefixed @left,
   intersection @left,
+  unionPrefixed @left,
   union @left,
   typeExtends @right,
   else @right,
@@ -421,8 +423,14 @@ type[@isGroup=Type] {
   ArrayType { type "[" "]" | type "[" "]" } |
   ReadonlyType { tskw<"readonly"> !readonly type } |
   ObjectType |
-  UnionType { type !union LogicOp { "|" } type } |
-  IntersectionType { type !intersection LogicOp { "&" } type } |
+  UnionType {
+    type (!union unionOp type)+ |
+    unionOp type (!unionPrefixed unionOp type)*
+  } |
+  IntersectionType {
+    type (!intersection intersectionOp type)+ |
+    intersectionOp type (!intersectionPrefixed intersectionOp type)*
+  } |
   ConditionalType { type !typeExtends kw<"extends"> type questionOp ~arrow type LogicOp<":"> type } |
   ParameterizedType { (TypeName | IndexedType) !typeargs TypeArgList } |
   TypeName
@@ -578,6 +586,10 @@ PrivatePropertyDefinition { privateIdentifier }
 Optional { "?" }
 
 questionOp[@name=LogicOp] { "?" }
+
+unionOp[@name=LogicOp] { "|" }
+
+intersectionOp[@name=LogicOp] { "&" }
 
 @skip { spaces | newline | LineComment | BlockComment }
 

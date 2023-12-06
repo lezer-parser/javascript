@@ -91,12 +91,28 @@ let f: (x: number) => boolean
 
 Script(
   VariableDeclaration(let, VariableDefinition, TypeAnnotation(
-    UnionType(UnionType(TypeofType(typeof, MemberExpression(VariableName, PropertyName)), LogicOp,
-                        IntersectionType(KeyofType(keyof, TypeName), LogicOp, IndexedType(TypeName, LiteralType(String)))),
+    UnionType(TypeofType(typeof, MemberExpression(VariableName, PropertyName)), LogicOp,
+              IntersectionType(KeyofType(keyof, TypeName), LogicOp, IndexedType(TypeName, LiteralType(String))),
               LogicOp, ParameterizedType(TypeName, TypeArgList(TypeName))))),
   VariableDeclaration(let, VariableDefinition, TypeAnnotation(TupleType(TypeName, TypeName))),
   VariableDeclaration(let, VariableDefinition, TypeAnnotation(FunctionSignature(
     ParamList(VariableDefinition, TypeAnnotation(TypeName)), Arrow, TypeName))))
+
+# Prefix union/intersection
+
+let x:
+  | A
+  | B
+  | C
+let y: & RegExp & (& Date)
+
+==>
+
+Script(
+  VariableDeclaration(let,VariableDefinition,TypeAnnotation(
+    UnionType(LogicOp,TypeName,LogicOp,TypeName,LogicOp,TypeName))),
+  VariableDeclaration(let,VariableDefinition,TypeAnnotation(
+    IntersectionType(LogicOp,TypeName,LogicOp,ParenthesizedType(IntersectionType(LogicOp,TypeName))))))
 
 # Prefix cast {"dialect": "ts"}
 
