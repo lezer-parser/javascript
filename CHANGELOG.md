@@ -1,3 +1,9 @@
+## 1.4.11 (2023-12-18)
+
+### Bug fixes
+
+In TSX mode, parse `<T,>` or `<T extends U>` as type parameters, not JSX tags.
+
 ## 1.4.10 (2023-12-06)
 
 ### Bug fixes
