@@ -311,3 +311,16 @@ Script(
   VariableDeclaration(let,VariableDefinition,Equals,
     CallExpression(VariableName,TypeArgList(TypeName),ArgList(Number))),
   ReturnStatement(return,Number))
+
+# Type parameters vs JSX {"dialect": "jsx ts"}
+
+let a = <T extends any>(f) => null
+let b = <T,>() => 1
+
+==>
+
+Script(
+  VariableDeclaration(let,VariableDefinition,Equals,ArrowFunction(
+    TypeParamList(TypeDefinition,extends,TypeName),ParamList(VariableDefinition),Arrow,null)),
+  VariableDeclaration(let,VariableDefinition,Equals,ArrowFunction(
+    TypeParamList(TypeDefinition),ParamList,Arrow,Number)))

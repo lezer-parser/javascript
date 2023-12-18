@@ -602,6 +602,8 @@ intersectionOp[@name=LogicOp] { "&" }
  incdecPrefix[@name=ArithOp]
 }
 
+@external tokens jsx from "./tokens" { JSXStartTag }
+
 @local tokens {
   InterpolationStart[closedBy=InterpolationEnd] { "${" }
   templateEnd { "`" }
@@ -693,8 +695,6 @@ intersectionOp[@name=LogicOp] { "&" }
 
   JSXAttributeValue { '"' !["]* '"' | "'" ![']* "'" }
 
-  JSXStartTag[@dialect=jsx] { "<" }
-
   JSXStartCloseTag { "</" }
 
   JSXEndTag { ">" }
@@ -704,8 +704,6 @@ intersectionOp[@name=LogicOp] { "&" }
   JSXText { ![<{]+ }
 
   tsAngleOpen[@dialect=ts] { "<" }
-
-  @precedence { JSXStartTag, tsAngleOpen }
 }
 
 @external tokens insertSemicolon from "./tokens" { insertSemi }

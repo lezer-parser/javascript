@@ -3,12 +3,13 @@
 
 import {ExternalTokenizer, ContextTracker} from "@lezer/lr"
 import {insertSemi, noSemi, incdec, incdecPrefix,
-        spaces, newline, BlockComment, LineComment} from "./parser.terms.js"
+        spaces, newline, BlockComment, LineComment,
+        JSXStartTag, Dialect_jsx} from "./parser.terms.js"
 
 const space = [9, 10, 11, 12, 13, 32, 133, 160, 5760, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200,
                8201, 8202, 8232, 8233, 8239, 8287, 12288]
 
-const braceR = 125, semicolon = 59, slash = 47, star = 42, plus = 43, minus = 45
+const braceR = 125, semicolon = 59, slash = 47, star = 42, plus = 43, minus = 45, lt = 60, comma = 44
 
 export const trackNewline = new ContextTracker({
   start: false,
@@ -43,3 +44,35 @@ export const incdecToken = new ExternalTokenizer((input, stack) => {
     }
   }
 }, {contextual: true})
+
+function identifierChar(ch, start) {
+  return ch >= 65 && ch <= 90 || ch >= 97 && ch <= 122 || ch == 95 || ch >= 192 ||
+    !start && ch >= 48 && ch <= 57
+}
+
+export const jsx = new ExternalTokenizer((input, stack) => {
+  if (input.next != lt || !stack.dialectEnabled(Dialect_jsx)) return
+  input.advance()
+  if (input.next == slash) return
+  // Scan for an identifier followed by a comma or 'extends', don't
+  // treat this as a start tag if present.
+  let back = 0
+  while (space.indexOf(input.next) > -1) { input.advance(); back++ }
+  if (identifierChar(input.next, true)) {
+    input.advance()
+    back++
+    while (identifierChar(input.next, false)) { input.advance(); back++ }
+    while (space.indexOf(input.next) > -1) { input.advance(); back++ }
+    if (input.next == comma) return
+    for (let i = 0;; i++) {
+      if (i == 7) {
+        if (!identifierChar(input.next, true)) return
+        break
+      }
+      if (input.next != "extends".charCodeAt(i)) break
+      input.advance()
+      back++
+    }
+  }
+  input.acceptToken(JSXStartTag, -back)
+})
