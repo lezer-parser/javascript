@@ -474,25 +474,25 @@ ParamTypeList[@name=ParamList] {
 }
 
 @skip {} {
-  TemplateString {
+  TemplateString[isolate] {
     templateStart (templateEscape | templateContent | templateExpr)* templateEnd
   }
 
-  TemplateType {
+  TemplateType[isolate] {
     templateStart (templateContent | templateType)* templateEnd
   }
 
-  String {
+  String[isolate] {
     '"' (stringContentDouble | Escape)* ('"' | "\n") |
     "'" (stringContentSingle | Escape)* ("'" | "\n")
   }
 
-  BlockComment { "/*" (blockCommentContent | blockCommentNewline)* blockCommentEnd }
+  BlockComment[isolate] { "/*" (blockCommentContent | blockCommentNewline)* blockCommentEnd }
 }
 
-templateExpr[@name=Interpolation] { InterpolationStart expression InterpolationEnd }
+templateExpr[@name=Interpolation,isolate] { InterpolationStart expression InterpolationEnd }
 
-templateType[@name=Interpolation] { InterpolationStart type InterpolationEnd }
+templateType[@name=Interpolation,isolate] { InterpolationStart type InterpolationEnd }
 
 @skip {} {
   JSXElement {
@@ -621,7 +621,7 @@ intersectionOp[@name=LogicOp] { "&" }
   spaces[@export] { $[\u0009 \u000b\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]+ }
   newline[@export] { $[\r\n\u2028\u2029] }
 
-  LineComment { "//" ![\n]* }
+  LineComment[isolate] { "//" ![\n]* }
 
   Hashbang { "#!" ![\n]* }
 
@@ -678,7 +678,7 @@ intersectionOp[@name=LogicOp] { "&" }
 
   @precedence { "*", ArithOp }
 
-  RegExp { "/" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ ("/" $[gimsuy]*)? }
+  RegExp[isolate] { "/" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ ("/" $[gimsuy]*)? }
 
   LessThan[@name=CompareOp] { "<" }
 
