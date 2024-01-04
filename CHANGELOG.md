@@ -1,3 +1,9 @@
+## 1.4.12 (2024-01-04)
+
+### Bug fixes
+
+Mark strings, comments, and interpolations as isolating for bidirectional text.
+
 ## 1.4.11 (2023-12-18)
 
 ### Bug fixes
