@@ -1,3 +1,11 @@
+## 1.4.13 (2024-01-16)
+
+### Bug fixes
+
+Fix inverted relative precedence of `&`, `|`, and `^` bitwise operators.
+
+Add an explicit dependency on @lezer/common ^1.2.0.
+
 ## 1.4.12 (2024-01-04)
 
 ### Bug fixes
