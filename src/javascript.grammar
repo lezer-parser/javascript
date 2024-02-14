@@ -151,11 +151,13 @@ propModifier {
   tsPkwMod<"override">
 }
 
+classPropName { propName | PrivatePropertyDefinition }
+
 MethodDeclaration[group=ClassItem] {
   propModifier*
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
-  (propName | PrivatePropertyDefinition)
+  classPropName
   functionSignature
   (Block | semi)
 }
@@ -167,7 +169,7 @@ StaticBlock[group=ClassItem] {
 PropertyDeclaration[group=ClassItem] {
   propModifier*
   (tsPkwMod<"readonly"> | pkwMod<"accessor">)?
-  (propName | PrivatePropertyDefinition)
+  classPropName
   (Optional | LogicOp<"!">)?
   TypeAnnotation?
   ("=" expressionNoComma)?
