@@ -680,7 +680,7 @@ intersectionOp[@name=LogicOp] { "&" }
 
   @precedence { "*", ArithOp }
 
-  RegExp[isolate] { "/" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ ("/" $[dgimsuvy]*)? }
+  RegExp[isolate] { "/" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ "/" $[dgimsuvy]* }
 
   LessThan[@name=CompareOp] { "<" }
 
