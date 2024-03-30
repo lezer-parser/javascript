@@ -324,3 +324,14 @@ Script(
     TypeParamList(TypeDefinition,extends,TypeName),ParamList(VariableDefinition),Arrow,null)),
   VariableDeclaration(let,VariableDefinition,Equals,ArrowFunction(
     TypeParamList(TypeDefinition),ParamList,Arrow,Number)))
+
+# Destructured parameters in function signature {"dialect": "ts"}
+
+type F = ([a, b]: [number, number]) => void
+
+==>
+
+Script(TypeAliasDeclaration(type,TypeDefinition,Equals,FunctionSignature(
+  ParamList(ArrayPattern(VariableDefinition,VariableDefinition),TypeAnnotation(TupleType(TypeName,TypeName))),
+  Arrow,
+  VoidType(void))))

@@ -421,7 +421,7 @@ type[@isGroup=Type] {
   FunctionSignature { TypeParamList? ParamTypeList "=>" type } |
   NewSignature { kw<"new"> ParamTypeList "=>" type } |
   IndexedType |
-  TupleType { "[" commaSep<(Label ":")? type | "..." type> "]" } |
+  TupleType { "[" commaSep<(Label ":")? type | "..." type> ~destructure "]" } |
   ArrayType { type "[" "]" | type "[" "]" } |
   ReadonlyType { tskw<"readonly"> !readonly type } |
   ObjectType |
@@ -450,7 +450,7 @@ ObjectType {
      CallSignature { ParamTypeList (TypeAnnotation | TypePredicate) } |
      NewSignature[@dynamicPrecedence=1] { @extend[@name=new]<word, "new"> ParamTypeList TypeAnnotation })
     ("," | semi)
-  )* "}"
+  )* ~destructure "}"
 }
 
 IndexSignature {
@@ -472,7 +472,7 @@ PropertyType {
 }
 
 ParamTypeList[@name=ParamList] {
-  "(" commaSep<"..."? VariableDefinition ~arrow Optional? ~arrow TypeAnnotation?> ")"
+  "(" commaSep<"..."? pattern ~arrow Optional? ~arrow TypeAnnotation?> ")"
 }
 
 @skip {} {
@@ -577,9 +577,9 @@ TypeName { identifier ~arrow }
 
 Label { identifier }
 
-PropertyName { word }
+PropertyName { word ~propName }
 
-PropertyDefinition { word }
+PropertyDefinition { word ~propName }
 
 PrivatePropertyName { privateIdentifier }
 
