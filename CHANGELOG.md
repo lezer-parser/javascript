@@ -1,3 +1,11 @@
+## 1.4.14 (2024-03-30)
+
+### Bug fixes
+
+Recognize the `d` and `v` RegExp flags. Support destructured parameters in function types
+
+Allow destructured parameters in function signature types.
+
 ## 1.4.13 (2024-01-16)
 
 ### Bug fixes
