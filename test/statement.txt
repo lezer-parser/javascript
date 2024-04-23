@@ -383,3 +383,18 @@ foo()
 ==>
 
 Script(Hashbang,ExpressionStatement(CallExpression(VariableName,ArgList)))
+
+# new.target
+
+function MyObj() {
+  if (!new.target) {
+    throw new Error('Must construct MyObj with new');
+  }
+}
+
+==>
+
+Script(
+  FunctionDeclaration(function,VariableDefinition,ParamList,Block(
+    IfStatement(if,ParenthesizedExpression(UnaryExpression(LogicOp,NewTarget(new,PropertyName))), Block(
+      ThrowStatement(throw,NewExpression(new,VariableName,ArgList(String))))))))
