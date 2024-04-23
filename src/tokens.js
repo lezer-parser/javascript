@@ -2,14 +2,15 @@
    expressed by lezer's built-in tokenizer. */
 
 import {ExternalTokenizer, ContextTracker} from "@lezer/lr"
-import {insertSemi, noSemi, incdec, incdecPrefix,
+import {insertSemi, noSemi, incdec, incdecPrefix, questionDot,
         spaces, newline, BlockComment, LineComment,
         JSXStartTag, Dialect_jsx} from "./parser.terms.js"
 
 const space = [9, 10, 11, 12, 13, 32, 133, 160, 5760, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199, 8200,
                8201, 8202, 8232, 8233, 8239, 8287, 12288]
 
-const braceR = 125, semicolon = 59, slash = 47, star = 42, plus = 43, minus = 45, lt = 60, comma = 44
+const braceR = 125, semicolon = 59, slash = 47, star = 42, plus = 43, minus = 45, lt = 60, comma = 44,
+      question = 63, dot = 46
 
 export const trackNewline = new ContextTracker({
   start: false,
@@ -33,7 +34,7 @@ export const noSemicolon = new ExternalTokenizer((input, stack) => {
     input.acceptToken(noSemi)
 }, {contextual: true})
 
-export const incdecToken = new ExternalTokenizer((input, stack) => {
+export const operatorToken = new ExternalTokenizer((input, stack) => {
   let {next} = input
   if (next == plus || next == minus) {
     input.advance()
@@ -42,6 +43,10 @@ export const incdecToken = new ExternalTokenizer((input, stack) => {
       let mayPostfix = !stack.context && stack.canShift(incdec)
       input.acceptToken(mayPostfix ? incdec : incdecPrefix)
     }
+  } else if (next == question && input.peek(1) == dot) {
+    input.advance(); input.advance()
+    if (input.next < 48 || input.next > 57) // No digit after
+      input.acceptToken(questionDot)
   }
 }, {contextual: true})
 

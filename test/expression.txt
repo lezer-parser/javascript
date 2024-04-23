@@ -676,3 +676,11 @@ Script(ExpressionStatement(ConditionalExpression(Number,LogicOp,Number,⚠)))
 ==>
 
 Script(ExpressionStatement(TemplateString(⚠)))
+
+# Ternary with leading-dot number
+
+a?.2:.3
+
+==>
+
+Script(ExpressionStatement(ConditionalExpression(VariableName,LogicOp,Number,LogicOp,Number)))

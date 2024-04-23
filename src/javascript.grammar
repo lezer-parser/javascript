@@ -226,8 +226,8 @@ AmbientDeclaration {
 
 decoratorExpression {
   VariableName |
-  MemberExpression { decoratorExpression !member ("." | "?.") (PropertyName | PrivatePropertyName) } |
-  CallExpression { decoratorExpression !call TypeArgList? "?."? ArgList } |
+  MemberExpression { decoratorExpression !member ("." | questionDot) (PropertyName | PrivatePropertyName) } |
+  CallExpression { decoratorExpression !call TypeArgList? questionDot? ArgList } |
   ParenthesizedExpression
 }
 
@@ -299,7 +299,7 @@ expressionNoComma {
   ConditionalExpression { expressionNoComma !ternary questionOp expressionNoComma LogicOp<":"> expressionNoComma } |
   AssignmentExpression |
   PostfixExpression { expressionNoComma !postfix (incdec | LogicOp<"!">) } |
-  CallExpression { expressionNoComma !call TypeArgList? "?."? ArgList } |
+  CallExpression { expressionNoComma !call TypeArgList? questionDot? ArgList } |
   TaggedTemplateExpression { expressionNoComma !taggedTemplate TemplateString } |
   DynamicImport { kw<"import"> "(" expressionNoComma ")" } |
   ImportMeta { kw<"import"> "." PropertyName } |
@@ -378,7 +378,7 @@ AssignmentExpression {
 }
 
 MemberExpression {
-  expressionNoComma !member (("." | "?.") (PropertyName | PrivatePropertyName) | "?."? "[" expression "]")
+  expressionNoComma !member (("." | questionDot) (PropertyName | PrivatePropertyName) | questionDot? "[" expression "]")
 }
 
 ArgList {
@@ -400,7 +400,7 @@ TypeParamList {
 typeParam { TypeDefinition ~tsAngle (kw<"extends"> type)? ("=" type)? }
 
 typeofMemberExpression[@name=MemberExpression] {
-  VariableName !member (("." | "?.") PropertyName | "[" expression "]")
+  VariableName !member (("." | questionDot) PropertyName | "[" expression "]")
 }
 
 type[@isGroup=Type] {
@@ -600,9 +600,10 @@ intersectionOp[@name=LogicOp] { "&" }
 
 @external tokens noSemicolon from "./tokens" { noSemi }
 
-@external tokens incdecToken from "./tokens" {
+@external tokens operatorToken from "./tokens" {
  incdec[@name=ArithOp],
  incdecPrefix[@name=ArithOp]
+ questionDot[@name="?."]
 }
 
 @external tokens jsx from "./tokens" { JSXStartTag }
@@ -691,7 +692,7 @@ intersectionOp[@name=LogicOp] { "&" }
 
   "(" ")" "[" "]" "{" "}" "<" ">"
 
-  "?." "." "," ";" ":" "@"
+  "." "," ";" ":" "@"
 
   JSXIdentifier { $[A-Z_$\u{a1}-\u{10ffff}] (identifierChar | @digit | "-")* }
   JSXLowerIdentifier[@name=JSXIdentifier] { $[a-z] (identifierChar | @digit | "-")* }
