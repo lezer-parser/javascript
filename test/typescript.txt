@@ -76,9 +76,9 @@ x < 10 > 5
 
 Script(
   ExpressionStatement(BinaryExpression(
-    CallExpression(VariableName, TypeArgList(TypeName, TypeName), ArgList),
+    CallExpression(InstantiationExpression(VariableName, TypeArgList(TypeName, TypeName)), ArgList),
     ArithOp,
-    NewExpression(new, VariableName, TypeArgList(LiteralType(Number)), ArgList))),
+    NewExpression(new, InstantiationExpression(VariableName, TypeArgList(LiteralType(Number))), ArgList))),
   ExpressionStatement(BinaryExpression(BinaryExpression(VariableName, CompareOp, Number), CompareOp, Number)))
 
 # Advanced types {"dialect": "ts"}
@@ -309,7 +309,7 @@ return 2
 
 Script(
   VariableDeclaration(let,VariableDefinition,Equals,
-    CallExpression(VariableName,TypeArgList(TypeName),ArgList(Number))),
+    CallExpression(InstantiationExpression(VariableName,TypeArgList(TypeName)),ArgList(Number))),
   ReturnStatement(return,Number))
 
 # Type parameters vs JSX {"dialect": "jsx ts"}
@@ -335,3 +335,26 @@ Script(TypeAliasDeclaration(type,TypeDefinition,Equals,FunctionSignature(
   ParamList(ArrayPattern(VariableDefinition,VariableDefinition),TypeAnnotation(TupleType(TypeName,TypeName))),
   Arrow,
   VoidType(void))))
+
+# Instantiated expression {"dialect": "ts"}
+
+let x = a<b>;
+
+type Foo = Bar<typeof baz<Bug<Quux>>>;
+
+==>
+
+Script(
+  VariableDeclaration(let,VariableDefinition,Equals,InstantiationExpression(VariableName,TypeArgList(TypeName))),
+  TypeAliasDeclaration(type,TypeDefinition,Equals,ParameterizedType(TypeName,TypeArgList(
+    TypeofType(typeof,InstantiationExpression(VariableName,TypeArgList(
+      ParameterizedType(TypeName,TypeArgList(TypeName)))))))))
+
+# Not instantiated {"dialect": "ts"}
+
+let x = a<b>c
+
+==>
+
+Script(VariableDeclaration(let,VariableDefinition,Equals,BinaryExpression(
+  BinaryExpression(VariableName,CompareOp,VariableName),CompareOp,VariableName)))
