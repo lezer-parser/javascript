@@ -1,3 +1,11 @@
+## 1.4.16 (2024-05-04)
+
+### Bug fixes
+
+Don't consume `?.` tokens when followed by a digit.
+
+Support type arguments on non-call expressions.
+
 ## 1.4.15 (2024-04-23)
 
 ### Bug fixes
