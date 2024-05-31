@@ -598,7 +598,7 @@ unionOp[@name=LogicOp] { "|" }
 
 intersectionOp[@name=LogicOp] { "&" }
 
-@skip { spaces | newline | LineComment | BlockComment }
+@skip { Spaces | Newline | LineComment | BlockComment }
 
 @context trackNewline from "./tokens.js"
 
@@ -626,8 +626,8 @@ intersectionOp[@name=LogicOp] { "&" }
 }
 
 @tokens {
-  spaces[@export] { $[\u0009 \u000b\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]+ }
-  newline[@export] { $[\r\n\u2028\u2029] }
+  Spaces[@export] { $[\u0009 \u000b\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]+ }
+  Newline[@export] { $[\r\n\u2028\u2029] }
 
   LineComment[isolate] { "//" ![\n]* }
 
@@ -647,11 +647,11 @@ intersectionOp[@name=LogicOp] { "&" }
 
   privateIdentifier { "#" word }
 
-  @precedence { spaces, newline, identifier }
+  @precedence { Spaces, Newline, identifier }
 
-  @precedence { spaces, newline, JSXIdentifier, JSXLowerIdentifier }
+  @precedence { Spaces, Newline, JSXIdentifier, JSXLowerIdentifier }
 
-  @precedence { spaces, newline, word }
+  @precedence { Spaces, Newline, word }
 
   hex { @digit | $[a-fA-F] }
 
