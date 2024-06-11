@@ -352,14 +352,14 @@ AwaitExpression[@dynamicPrecedence=1] {
 
 UnaryExpression {
   !prefix (kw<"void"> | kw<"typeof"> | kw<"delete"> |
-           LogicOp<"!"> | BitOp<"~"> | incdec | incdecPrefix | ArithOp<"+" | "-">)
+           LogicOp<"!"> | BitOp<"~"> | incdec | incdecPrefix | plusMin)
   expressionNoComma
 }
 
 BinaryExpression {
   expressionNoComma !exp ArithOp<"**"> expressionNoComma |
   expressionNoComma !times (divide | ArithOp<"%"> | ArithOp<"*">) expressionNoComma |
-  expressionNoComma !plus ArithOp<"+" | "-"> expressionNoComma |
+  expressionNoComma !plus plusMin expressionNoComma |
   expressionNoComma !shift BitOp<">>" ">"? | "<<"> expressionNoComma |
   expressionNoComma !rel (LessThan | CompareOp<"<=" | ">" "="?> | kw<"instanceof">) expressionNoComma |
   expressionNoComma !satisfies tskw<"satisfies"> type |
@@ -410,7 +410,7 @@ typeofExpression {
 type[@isGroup=Type] {
   ThisType { kw<"this"> } |
   LiteralType {
-   ArithOp<"+" | "-">? Number |
+   plusMin? Number |
    boolean |
    String
   } |
@@ -459,7 +459,10 @@ ObjectType {
 }
 
 IndexSignature {
-  tsPkwMod<"readonly">? "[" PropertyDefinition { identifier } (TypeAnnotation | ~tsIn kw<"in"> type) "]" TypeAnnotation
+  (plusMin? tsPkwMod<"readonly">)?
+  "[" PropertyDefinition { identifier } (TypeAnnotation | ~tsIn kw<"in"> type) "]"
+  (plusMin? Optional)?
+  TypeAnnotation
 }
 
 MethodType {
@@ -470,9 +473,9 @@ MethodType {
 }
 
 PropertyType {
-  (ArithOp<"+" | "-">? tsPkwMod<"readonly">)?
+  (plusMin? tsPkwMod<"readonly">)?
   PropertyDefinition
-  (ArithOp<"+" | "-">? Optional)?
+  (plusMin? Optional)?
   TypeAnnotation
 }
 
@@ -595,6 +598,8 @@ Optional { "?" }
 questionOp[@name=LogicOp] { "?" }
 
 unionOp[@name=LogicOp] { "|" }
+
+plusMin { ArithOp<"+" | "-"> }
 
 intersectionOp[@name=LogicOp] { "&" }
 
