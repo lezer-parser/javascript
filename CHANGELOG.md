@@ -1,3 +1,9 @@
+## 1.4.17 (2024-06-11)
+
+### Bug fixes
+
+Add support for `{-readonly [K in T]-?: U}` TypeScript syntax.
+
 ## 1.4.16 (2024-05-04)
 
 ### Bug fixes
