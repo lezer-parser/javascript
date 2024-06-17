@@ -460,7 +460,7 @@ ObjectType {
 
 IndexSignature {
   (plusMin? tsPkwMod<"readonly">)?
-  "[" PropertyDefinition { identifier } (TypeAnnotation | ~tsIn kw<"in"> type) "]"
+  "[" PropertyDefinition { identifier } (TypeAnnotation | ~tsIn kw<"in"> type (ckw<"as"> type)?) "]"
   (plusMin? Optional)?
   TypeAnnotation
 }
