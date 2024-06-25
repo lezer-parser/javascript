@@ -39,7 +39,7 @@
   predicate
 }
 
-@top Script { Hashbang? statement+ }
+@top Script { Hashbang? statement* }
 
 @top SingleExpression { expression }
 
