@@ -500,9 +500,9 @@ ParamTypeList[@name=ParamList] {
   BlockComment[isolate] { "/*" (blockCommentContent | blockCommentNewline)* blockCommentEnd }
 }
 
-templateExpr[@name=Interpolation,isolate] { InterpolationStart expression InterpolationEnd }
+templateExpr[@name=Interpolation,isolate] { InterpolationStart expression? InterpolationEnd }
 
-templateType[@name=Interpolation,isolate] { InterpolationStart type InterpolationEnd }
+templateType[@name=Interpolation,isolate] { InterpolationStart type? InterpolationEnd }
 
 @skip {} {
   JSXElement {
