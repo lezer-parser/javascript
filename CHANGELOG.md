@@ -1,3 +1,11 @@
+## 1.4.18 (2024-09-17)
+
+### Bug fixes
+
+Support `as` syntax in mapped object types.
+
+Make sure the parser doesn't get confused when a template interpolation is missing its expression.
+
 ## 1.4.17 (2024-06-11)
 
 ### Bug fixes
