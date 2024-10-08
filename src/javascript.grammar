@@ -469,6 +469,7 @@ MethodType {
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
   PropertyDefinition
+  (plusMin? Optional)?
   functionSignature
 }
 
