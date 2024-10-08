@@ -190,7 +190,7 @@ TypeAliasDeclaration {
 }
 
 InterfaceDeclaration {
-  tskw<"interface"> TypeDefinition TypeParamList? (kw<"extends"> type)? ObjectType
+  tskw<"interface"> TypeDefinition TypeParamList? (kw<"extends"> commaSep1<type>)? ObjectType
 }
 
 EnumDeclaration {
