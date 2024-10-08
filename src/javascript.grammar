@@ -318,7 +318,7 @@ ArrayExpression {
   "[" commaSep1<"..."? expressionNoComma | ""> ~destructure "]"
 }
 
-propName { PropertyDefinition | "[" expression "]" | Number | String }
+propName { PropertyDefinition | "[" expression "]" ~destructure | Number ~destructure | String ~destructure }
 
 Property {
   pkwMod<"async">? (pkwMod<"get"> | pkwMod<"set"> | Star)? propName functionSignature Block |
@@ -427,7 +427,7 @@ type[@isGroup=Type] {
   NewSignature { kw<"new"> ParamTypeList "=>" type } |
   IndexedType |
   TupleType { "[" commaSep<(Label ":")? type | "..." type> ~destructure "]" } |
-  ArrayType { type "[" "]" | type "[" "]" } |
+  ArrayType { type noSemiType "[" "]" } |
   ReadonlyType { tskw<"readonly"> !readonly type } |
   ObjectType |
   UnionType {
@@ -444,7 +444,7 @@ type[@isGroup=Type] {
 }
 
 IndexedType {
-  type !typeMember ("." TypeName | "[" type "]")+
+  type !typeMember ("." TypeName | noSemiType "[" type "]")+
 }
 
 ObjectType {
@@ -468,14 +468,14 @@ IndexSignature {
 MethodType {
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
-  PropertyDefinition
+  propName
   (plusMin? Optional)?
   functionSignature
 }
 
 PropertyType {
   (plusMin? tsPkwMod<"readonly">)?
-  PropertyDefinition
+  propName
   (plusMin? Optional)?
   TypeAnnotation
 }
@@ -609,6 +609,8 @@ intersectionOp[@name=LogicOp] { "&" }
 @context trackNewline from "./tokens.js"
 
 @external tokens noSemicolon from "./tokens" { noSemi }
+
+@external tokens noSemicolonType from "./tokens" { noSemiType }
 
 @external tokens operatorToken from "./tokens" {
  incdec[@name=ArithOp],
