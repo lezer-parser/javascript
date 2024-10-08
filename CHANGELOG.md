@@ -1,3 +1,13 @@
+## 1.4.19 (2024-10-08)
+
+### Bug fixes
+
+Support question marks after method names in TypeScript object type notation.
+
+Support bracketed property names in TypeScript object types.
+
+Allow TypeScript interface declarations to extend multiple types.
+
 ## 1.4.18 (2024-09-17)
 
 ### Bug fixes
