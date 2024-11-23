@@ -22,6 +22,7 @@ export const jsHighlight = styleTags({
   "CallExpression/MemberExpression/PropertyName": t.function(t.propertyName),
   "FunctionDeclaration/VariableDefinition": t.function(t.definition(t.variableName)),
   "ClassDeclaration/VariableDefinition": t.definition(t.className),
+  "NewExpression/VariableName": t.className,
   PropertyDefinition: t.definition(t.propertyName),
   PrivatePropertyDefinition: t.definition(t.special(t.propertyName)),
   UpdateOp: t.updateOperator,
