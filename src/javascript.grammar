@@ -246,7 +246,7 @@ patternAssign {
 
 TypeAnnotation { ":" type }
 
-TypePredicate { ":" (VariableName | kw<"this">) !predicate tskw<"is"> type }
+TypePredicate { ":" tskw<"asserts">? (VariableName | kw<"this">) !predicate tskw<"is"> type }
 
 patternAssignTyped {
   pattern Optional? TypeAnnotation? ("=" expressionNoComma)?

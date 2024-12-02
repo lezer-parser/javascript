@@ -26,11 +26,17 @@ Script(FunctionDeclaration(function, VariableDefinition, ParamList(
 
 function isFoo(foo: any): foo is Foo { return true }
 
+function assertFoo(foo: any): asserts foo is "string" { return true }
+
 ==>
 
-Script(FunctionDeclaration(function, VariableDefinition, ParamList(
-  VariableDefinition, TypeAnnotation(TypeName)
-), TypePredicate(VariableName, is, TypeName), Block(ReturnStatement(return, BooleanLiteral))))
+Script(
+  FunctionDeclaration(function, VariableDefinition, ParamList(
+    VariableDefinition, TypeAnnotation(TypeName)
+  ), TypePredicate(VariableName, is, TypeName), Block(ReturnStatement(return, BooleanLiteral))),
+  FunctionDeclaration(function,VariableDefinition,ParamList(
+    VariableDefinition,TypeAnnotation(TypeName)
+  ),TypePredicate(asserts,VariableName,is,LiteralType(String)),Block(ReturnStatement(return,BooleanLiteral))))
 
 # Type alias {"dialect": "ts"}
 
