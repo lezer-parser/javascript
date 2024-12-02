@@ -1,3 +1,11 @@
+## 1.4.20 (2024-12-02)
+
+### Bug fixes
+
+Use the `className` style tag for variable names used as constructors with `new`.
+
+Add support for `asserts` syntax in function return types.
+
 ## 1.4.19 (2024-10-08)
 
 ### Bug fixes
