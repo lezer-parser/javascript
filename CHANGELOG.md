@@ -1,3 +1,13 @@
+## 1.4.21 (2024-12-03)
+
+### Bug fixes
+
+Add support for `const` modifiers on TypeScript type parameters.
+
+Allow TypeScript  syntax, where the condition is just a variable.
+
+Fix a bug where some TypeScript `<` tokens didn't appear in the syntax tree.
+
 ## 1.4.20 (2024-12-02)
 
 ### Bug fixes
