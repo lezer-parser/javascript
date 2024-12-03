@@ -724,7 +724,7 @@ intersectionOp[@name=LogicOp] { "&" }
 
   JSXText { ![<{]+ }
 
-  tsAngleOpen[@dialect=ts] { "<" }
+  tsAngleOpen[@dialect=ts,@name="<"] { "<" }
 }
 
 @external tokens insertSemicolon from "./tokens" { insertSemi }
