@@ -248,7 +248,7 @@ TypeAnnotation { ":" type }
 
 TypePredicate {
   ":" (
-     tskw<"asserts">? (VariableName | kw<"this">) !predicate (tskw<"is"> type)? |
+     tskw<"asserts"> (VariableName | kw<"this">) !predicate (tskw<"is"> type)? |
      (VariableName | kw<"this">) !predicate tskw<"is"> type
   )
 }
