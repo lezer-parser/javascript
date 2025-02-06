@@ -404,7 +404,7 @@ TypeParamList {
   "<" commaSep<typeParam> ">"
 }
 
-typeParam { kw<"const">? TypeDefinition ~tsAngle (kw<"extends"> type)? ("=" type)? }
+typeParam { (kw<"in"> | tskw<"out"> | kw<"const">)? TypeDefinition ~tsAngle (kw<"extends"> type)? ("=" type)? }
 
 typeofExpression {
   MemberExpression { typeofExpression !member (("." | questionDot) PropertyName | "[" expression "]") } |
