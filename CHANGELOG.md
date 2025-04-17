@@ -1,3 +1,13 @@
+## 1.5.0 (2025-04-17)
+
+### Bug fixes
+
+Support `in`/`out` modifiers on TypeScript type parameters.
+
+### New features
+
+Support the TypeScript `satisfies` operator.
+
 ## 1.4.21 (2024-12-03)
 
 ### Bug fixes

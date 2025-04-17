@@ -1,6 +1,6 @@
 {
   "name": "@lezer/javascript",
-  "version": "1.4.21",
+  "version": "1.5.0",
   "description": "lezer-based JavaScript grammar",
   "main": "dist/index.cjs",
   "type": "module",
