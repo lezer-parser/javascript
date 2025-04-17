@@ -378,3 +378,13 @@ Script(InterfaceDeclaration(interface,TypeDefinition,ObjectType(
   MethodType(MemberExpression(VariableName,PropertyName),ParamList,
     TypeAnnotation(ParameterizedType(TypeName,TypeArgList(TypeName)))),
   PropertyType(Number,TypeAnnotation(TypeName)))))
+
+# Binary type operators {"dialect": "ts"}
+
+log(foo as number, {} satisfies AbstractObjectFactory<ParticleEmitter>)
+
+==>
+
+Script(ExpressionStatement(CallExpression(VariableName,ArgList(
+  BinaryExpression(VariableName,as,TypeName),
+  BinaryExpression(ObjectExpression,satisfies,ParameterizedType(TypeName,TypeArgList(TypeName)))))))

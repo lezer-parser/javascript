@@ -370,6 +370,7 @@ BinaryExpression {
   expressionNoComma !satisfies tskw<"satisfies"> type |
   (expressionNoComma | PrivatePropertyName) !rel ~tsIn kw<"in"> expressionNoComma |
   expressionNoComma !rel ckw<"as"> (kw<"const"> | type) |
+  expressionNoComma !rel tskw<"satisfies"> type |
   expressionNoComma !equal CompareOp<"==" "="? | "!=" "="?> expressionNoComma |
   expressionNoComma !bitOr BitOp { "|" } expressionNoComma |
   expressionNoComma !bitXor BitOp<"^"> expressionNoComma |
