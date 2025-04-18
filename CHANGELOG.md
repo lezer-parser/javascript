@@ -1,3 +1,9 @@
+## 1.5.1 (2025-04-18)
+
+### Bug fixes
+
+Properly highlight `satisfies` as a keyword.
+
 ## 1.5.0 (2025-04-17)
 
 ### Bug fixes
