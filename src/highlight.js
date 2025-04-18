@@ -3,10 +3,10 @@ import {styleTags, tags as t} from "@lezer/highlight"
 export const jsHighlight = styleTags({
   "get set async static": t.modifier,
   "for while do if else switch try catch finally return throw break continue default case": t.controlKeyword,
-  "in of await yield void typeof delete instanceof": t.operatorKeyword,
+  "in of await yield void typeof delete instanceof as satisfies": t.operatorKeyword,
   "let var const using function class extends": t.definitionKeyword,
   "import export from": t.moduleKeyword,
-  "with debugger as new": t.keyword,
+  "with debugger new": t.keyword,
   TemplateString: t.special(t.string),
   super: t.atom,
   BooleanLiteral: t.bool,
