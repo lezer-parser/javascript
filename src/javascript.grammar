@@ -311,7 +311,7 @@ expressionNoComma {
   DynamicImport { kw<"import"> "(" expressionNoComma ")" } |
   ImportMeta { kw<"import"> "." PropertyName } |
   JSXElement |
-  PrefixCast { tsAngleOpen type ~tsAngle ">" expressionNoComma } |
+  PrefixCast { tsAngleOpen (type | kw<"const">) ~tsAngle ">" expressionNoComma } |
   ArrowFunction[@dynamicPrecedence=1] {
     TypeParamList { tsAngleOpen commaSep<typeParam> ">" } ParamList TypeAnnotation? "=>" (Block | expressionNoComma)
   }
