@@ -84,9 +84,9 @@ ExportGroup {
 }
 
 ImportDeclaration {
-  kw<"import"> tskw<"type">? (Star ckw<"as"> VariableDefinition | commaSep<VariableDefinition | ImportGroup>)
+  kw<"import"> ckw<"defer">? tskw<"type">? (Star ckw<"as"> VariableDefinition | commaSep<VariableDefinition | ImportGroup>)
     ckw<"from"> String semi |
-  kw<"import"> String semi
+  kw<"import"> ckw<"defer">? String semi
 }
 
 ImportGroup {

@@ -238,6 +238,8 @@ import { member } from "module-name";
 import { member1, member2 as alias2 } from "module-name";
 import defaultMember, { member1, member2 as alias2, } from "module-name";
 import "module-name";
+import defer x from "y";
+import defer from "y";
 
 ==>
 
@@ -247,7 +249,9 @@ Script(
   ImportDeclaration(import,ImportGroup(VariableDefinition),from,String),
   ImportDeclaration(import,ImportGroup(VariableDefinition,VariableName,as,VariableDefinition),from,String),
   ImportDeclaration(import,VariableDefinition,ImportGroup(VariableDefinition,VariableName,as,VariableDefinition),from,String),
-  ImportDeclaration(import,String))
+  ImportDeclaration(import,String),
+  ImportDeclaration(import,defer,VariableDefinition,from,String),
+  ImportDeclaration(import,VariableDefinition,from,String))
 
 # Exports
 
