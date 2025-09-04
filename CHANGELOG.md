@@ -1,3 +1,11 @@
+## 1.5.2 (2025-09-04)
+
+### Bug fixes
+
+Allow `const` casts with old angle-bracket cast syntax.
+
+Add support for `import defer` syntax.
+
 ## 1.5.1 (2025-04-18)
 
 ### Bug fixes
