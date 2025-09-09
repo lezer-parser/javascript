@@ -1,3 +1,9 @@
+## 1.5.3 (2025-09-09)
+
+### Bug fixes
+
+Fix missing highlight tag for `defer` contextual keyword.
+
 ## 1.5.2 (2025-09-04)
 
 ### Bug fixes
