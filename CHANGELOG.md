@@ -1,3 +1,9 @@
+## 1.5.4 (2025-09-18)
+
+### Bug fixes
+
+Support `this` parameters in function types.
+
 ## 1.5.3 (2025-09-09)
 
 ### Bug fixes
