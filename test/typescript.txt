@@ -388,3 +388,14 @@ log(foo as number, {} satisfies AbstractObjectFactory<ParticleEmitter>)
 Script(ExpressionStatement(CallExpression(VariableName,ArgList(
   BinaryExpression(VariableName,as,TypeName),
   BinaryExpression(ObjectExpression,satisfies,ParameterizedType(TypeName,TypeArgList(TypeName)))))))
+
+# Allows this parameters in function types {"dialect": "ts"}
+
+let x: (this: X, expression: string) => Promise<T[]>
+
+==>
+
+Script(VariableDeclaration(let,VariableDefinition,TypeAnnotation(FunctionSignature(
+  ParamList(this,TypeAnnotation(TypeName),VariableDefinition,TypeAnnotation(TypeName)),
+  Arrow,
+  ParameterizedType(TypeName,TypeArgList(ArrayType(TypeName)))))))

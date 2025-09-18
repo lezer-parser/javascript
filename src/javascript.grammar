@@ -487,7 +487,7 @@ PropertyType {
 }
 
 ParamTypeList[@name=ParamList] {
-  "(" commaSep<"..."? pattern ~arrow Optional? ~arrow TypeAnnotation?> ")"
+  "(" commaSep<"..."? pattern ~arrow Optional? ~arrow TypeAnnotation? | kw<"this"> TypeAnnotation> ")"
 }
 
 @skip {} {
