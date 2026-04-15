@@ -1,3 +1,5 @@
+**This repository has moved to https://code.haverbeke.berlin/lezer/javascript**
+
 # @lezer/javascript
 
 This is a JavaScript grammar for the
